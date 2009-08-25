@@ -101,12 +101,12 @@ ActionMailer::Base.smtp_settings = {
 require 'fastercsv'
 
 #daily notifications using rufus-scheduler gem
-require 'rufus/scheduler'
-scheduler = Rufus::Scheduler.start_new
-
-scheduler.schedule("0 15 * * *") do
-  Event.daily_notify
-end
+# require 'rufus/scheduler'
+# scheduler = Rufus::Scheduler.start_new
+# 
+# scheduler.schedule("0 15 * * *") do
+#   Event.daily_notify
+# end
 
 
 
