@@ -14,7 +14,7 @@ class AddTides < ActiveRecord::Migration
       t.column :first_mark_falling, :time
       t.column :second_mark_falling, :time
     end
-    Tide.import_tide_csv("#{RAILS_ROOT}/lib/csv_flatfiles/tides2.csv")
+    Tide.import_tide_csv("#{RAILS_ROOT}/lib/csv_flatfiles/tides2.csv") if File.exist?("#{RAILS_ROOT}/lib/csv_flatfiles/tides2.csv")
   end
 
   def self.down
