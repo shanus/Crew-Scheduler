@@ -12,8 +12,6 @@ class ApplicationController < ActionController::Base
   before_filter :login_required, :except => [:login, :activate, :signup, :logout, :reset]
   before_filter :ensure_domain
   
-  TheDomain = 'scheduler.yarmouth-rowing.org'
-  
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_scheduler_session_id'
   
@@ -24,8 +22,8 @@ class ApplicationController < ActionController::Base
   #   end
   
   def ensure_domain
-    if request.env['HTTP_HOST'] != TheDomain && RAILS_ENV == "production"
-      redirect_to TheDomain
+    if request.env['HTTP_HOST'] != 'scheduler.yarmouth-rowing.org' && RAILS_ENV == "production"
+      redirect_to 'http://scheduler.yarmouth-rowing.org'
     end
   end
   

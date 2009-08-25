@@ -9,7 +9,7 @@ xml.rss(:version=>"2.0"){
     for bulletin in @bulletins
       xml.item do
         xml.title(h(bulletin.title))
-        xml.category()
+        xml.category 
         xml.description(h(bulletin.body))
         xml.pubDate(bulletin.created_at.strftime("%a, %d %b %Y %H:%M:%S %z"))
         xml.link("http://#{YOURSITE}/bulletins/" + bulletin.id.to_s)

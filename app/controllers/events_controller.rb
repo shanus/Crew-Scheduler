@@ -57,7 +57,7 @@ class EventsController < ApplicationController
       flash[:notice] = 'Rowing time was successfully created.'
       redirect_to(team_summary_url(:id => @event.team))
     else
-      @tides = Tide.find :all, :conditions=> [ "day >= ?", @event.event_on - 2.day ], :limit => 5
+      @tides = Tide.find(:all, :conditions=> [ "day >= ?", @event.event_on - 2.day ], :limit => 5)
       render :action => 'new'
     end
   end
