@@ -1,0 +1,40 @@
+<% javascript 'swfobject' %>
+<div id="left_sidebar">
+	<h3>Quick Reports</h3>
+	<ul id="quickreports">
+		<li><%= link_to_remote "Crew History", :url => { :controller => 'reports', :action => 'crew_history' },
+		 																				:update => 'report',
+																						:loading => "$('report').update('');Element.show('report_indicator')",
+																						:complete => "Element.hide('report_indicator')" %></li>
+		<li><%= link_to_remote "Boat Utilization", :url => { :controller => 'reports', :action => 'boat_utilization' },
+		 																				:update => 'report',
+																						:loading => "$('report').update('');Element.show('report_indicator')",
+																						:complete => "Element.hide('report_indicator')" %></li>
+		<li><%= link_to_remote "Rower History", :url => { :controller => 'reports', :action => 'rower_history' },
+																						:update => 'report',
+																						:loading => "$('report').update('');Element.show('report_indicator')",
+																						:complete => "Element.hide('report_indicator')" %></li>
+		<li><%= link_to_remote "Boats by Crew", :url => { :controller => 'reports', :action => 'boat_usage_by_crew' },
+																						:update => 'report',
+																						:loading => "$('report').update('');Element.show('report_indicator')",
+																						:complete => "Element.hide('report_indicator')" %></li>
+		<li><%= link_to_remote "Crews by Boat", :url => { :controller => 'reports', :action => 'crew_usage_of_boats' },
+																						:update => 'report',
+																						:loading => "$('report').update('');Element.show('report_indicator')",
+																						:complete => "Element.hide('report_indicator')" %></li>
+	</ul>
+	<h3><%= link_to_remote "My Rowing", :url => { :controller => 'reports', :action => 'my_rowing_breakdown' },
+	 																		:update => 'report',
+																			:loading => "$('report').update('');Element.show('report_indicator')",
+																			:complete => "Element.hide('report_indicator')" %></h3>
+</div>
+<div id="content" class="reportpage">
+	<div class="indicator">
+		<p id="report_indicator" style="display:none;">
+		  <%= image_tag "indicator.gif" %> Loading...
+		</p>
+	</div>
+	<div id="report">
+		<p style="margin-top:4em;font-weight:bold;text-align:center;">Choose a Report from the menu on the left to view</p>
+	</div>
+</div>

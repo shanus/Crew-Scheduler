@@ -1,0 +1,8 @@
+<% javascript "sorttable" -%>
+<% add_link("boat") -%>
+<%= render :partial => 'shared/add_link' %>
+<h1>Boats</h1>
+<%= render :partial => 'shared/list_boats' %>
+
+<%= will_paginate @boats %> 
+

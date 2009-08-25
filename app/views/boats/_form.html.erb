@@ -1,0 +1,33 @@
+<% javascript 'boats','colour_picker', :cache => true %>
+<%= error_messages_for 'boat' %>
+
+<table>
+	<tr>
+		<td valign="top">
+			<p><label for="boat_name">Name</label><br/>
+			<%= text_field 'boat', 'name'  %></p>
+
+			<p><label for="boat_hull_type">Boat Type</label><br/>
+			<select name="boat[hull_type]" id="boat_hull_type" onChange="updateBoatIcon(this, '<%= @boat.dom_id %>')">
+			<%= option_groups_from_collection_for_select(HULL_OPTIONS,
+																										:options, :type_name,
+																										:value, :name,
+																										@boat.hull_type)  %>
+			</select></p>
+			
+			<p><label for="boat_usage">Usage</label><br/>
+			<%= select :boat, :boat_usage_id, @BoatUsages.map {|u| [u.name,u.id]} %></p>
+			
+			<p><label for="boat_weight">Crew Weight</label><br/>
+			<%= select :boat, :boat_weight_id, @BoatWeights.map {|w| [w.name,w.id]} %></p>
+			
+			<p><label for="boat_color">Report Color</label><br/>
+			<%= color_field :boat, :color, { :use_swatch_icon => true }, {:value => 'Choose...' } %></p>
+		</td>
+		<td width="200px" valign="middle">
+			<div id="<%= @boat.dom_id %>">
+				<%= boat_icon(@boat) %>
+			</div>
+		</td>
+	</tr>
+</table><br /><br />

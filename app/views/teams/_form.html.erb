@@ -1,0 +1,20 @@
+<% javascript 'colour_picker', :cache => true %>
+<%= error_messages_for 'team' %>
+
+<!--[form:team]-->
+<p><label for="team_name">Name</label><br/>
+<%= text_field 'team', 'name'  %></p>
+
+<p><label for="team_require_cox">Coxswain Required</label> 
+<%= check_box 'team', 'require_cox'  %></p>
+
+<p><label for="team_require_coach">Coach Required</label> 
+<%= check_box 'team', 'require_coach'  %></p>
+
+<p><label for="team_color">Report Color</label><br/>
+<%= color_field :team, :color, { :use_swatch_icon => true }, {:value => 'Choose...' } %></p>
+
+<p><label for="team_active">Active?</label> 
+<%= check_box 'team', 'active'  %></p>
+<!--[eoform:team]-->
+

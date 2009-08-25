@@ -1,0 +1,10 @@
+<div class="editform">
+	<% form_tag do -%>
+	<p><label for="activation_code">Activation Code</label><br/>
+	<%= text_field_tag('activation_code', @code, :size=>50 ) %>
+	</p>
+	<p><%= submit_tag 'Activate', :class => "signupbutton right"  %></p>
+	<% end -%>
+	
+	<%= link_to 'cancel', login_url %>
+</div>

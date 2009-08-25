@@ -1,0 +1,8 @@
+<% javascript "sorttable" -%>
+
+<% add_link("user", "rower") -%>
+<%= render :partial => 'shared/add_link' %>
+<h1>Rowers</h1>
+<%= render :partial => 'shared/list_users' %>
+
+<%= will_paginate @users %>

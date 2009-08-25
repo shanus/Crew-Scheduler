@@ -1,0 +1,6 @@
+<% add_link("team", "crew") -%>
+<%= render :partial => 'shared/add_link' %>
+<h1>Crews</h1>
+<%= render :partial => 'shared/list_crews' %>
+
+<%= will_paginate @teams %>

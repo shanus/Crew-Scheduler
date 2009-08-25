@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+single:
+  id: 1
+  name: Pokey
+  hull_type: 1x
+pair:
+  id: 2
+  name: Meany
+  hull_type: 1x
+double:
+  id: 3
+  name: Grayling
+  hull_type: 2x
+four:
+  id: 4
+  name: Mighty Mouse
+  hull_type: 4-
+quad:
+  id: 5
+  name: Ludicrous Speed
+  hull_type: 4x
+eight:
+  id: 6
+  name: Speedy
+  hull_type: 8+

@@ -1,0 +1,28 @@
+<table width="50%" cellspacing="0" class="list_items">
+	<tr class="header_row">
+		<th colspan="3">&nbsp;</th>
+		<th colspan="2" style="text-align: center">Required</th>
+  </tr>
+  <tr class="header_row">
+		<th width="40px"></th>
+		<th width="40px"></th>
+		<th>Name</th>
+		<th>Coxswain</th>
+		<th>Coach</th>
+  </tr>
+<% for team in @teams %>
+  <tr class="<%= cycle("even", "odd") %>">
+    <td>
+    	<% destroy_link("team", team) -%>
+			<%= render :partial => 'shared/destroy_link' %>
+    </td>
+    <td>
+    	<% edit_link("team", team) -%>
+			<%= render :partial => 'shared/edit_link' %>
+    </td>
+		<td><span<%= underline(team) %><%= (team.active) ? '' : ' class="inactive"' %>><%= h team.name %></span></td>
+		<td class="center"><%= (team.require_cox) ? image_tag("check_24.png") : ' ' %></td>
+		<td class="center"><%= (team.require_coach) ? image_tag("check_24.png") : ' ' %></td>
+  </tr>
+<% end %>
+</table>

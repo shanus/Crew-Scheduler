@@ -1,0 +1,7 @@
+#container {margin: 5px auto;}
+#header {clear:both;}
+#left_sidebar {float: left;width: 200px;padding: 5px 10px;background: #EEE;margin: 15px 4px;}
+#content {margin: 0 20px 0 232px;padding: 0 10px 10px 10px;}
+#right_sidebar {float: right;width: 200px;padding: 5px 10px;background: #EEE;margin: 15px 4px;}
+#footer {margin-top: 50px;text-align:center;font-size: 0.65em;color:#003366;clear:both;}
+#right_sidebar h3 { margin: 0;padding: 0;}

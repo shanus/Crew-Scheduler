@@ -1,0 +1,46 @@
+<% add_link("bulletin") -%>
+<%= render :partial => 'shared/add_link' if logged_in? %>
+<h1><%= link_to (image_tag "feed-icon-large.png", :alt => "RSS feed", :title => "Click to Subscribe...", :border => 0), rss_url('bulletins') %>Bulletins</h1>
+
+<table width="95%" cellspacing="0" class="list_items">
+  <tr class="header_row">
+		<th width="40px"></th><th width="40px"></th>
+		<th>Display Until</th>
+		<th>Title</th>
+		<th>Posted By</th>
+		<th>Created</th>
+		<th width="40px"></th>
+  </tr>
+
+<% for bulletin in @bulletins %>
+  <tr class="<%= cycle("even", "odd") %>">
+    <td>
+			<small>
+				<% if bulletin.user == current_user %>
+				<%= link_to image_tag("trash.png", :alt => "delete", :border => 0, :title => "delete"), bulletin, :confirm => 'Are you sure?', :method => :delete %>
+				<% end %>
+			</small>
+		</td>
+    <td>
+			<small>
+				<% if bulletin.user == current_user %>
+				<%= link_to image_tag("edit.png", :alt => "edit", :border => 0, :title => "edit"), edit_bulletin_path(bulletin) %>
+				<% end %>
+			</small>
+		</td>
+		<td><%= human_date(bulletin.display_until) %></td>
+		<td><%= h bulletin.title %></td>
+		<td><%= h bulletin.user.login %></td>
+		<td>
+			<%= human_date(bulletin.created_at) %>
+		</td>
+    <td>
+			<small><%= link_to image_tag("show.png", :alt => "show details", :border => 0, :title => "show details"), bulletin %></small>
+		</td>
+  </tr>
+<% end %>
+</table>
+<br />
+<%= will_paginate @bulletins %>
+
+

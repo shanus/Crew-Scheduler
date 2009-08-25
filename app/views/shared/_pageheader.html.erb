@@ -1,0 +1,15 @@
+<div id="headermenu">
+	<% if logged_in? -%>
+	<% sparkline_color = current_user.color || "#003366" -%>
+	<span class="header_user">
+		username: <span style="color:<%= h sparkline_color %>"><%= current_user.login %></span> 
+		<%= render :partial => 'users/sparkline', :locals => { :color => sparkline_color, :sparkline_data => sparkline_data } %>
+	</span>
+	<span class="header_date"><%= (Time.now - TIMEOFFSET).strftime("%a %x %X") %></span>
+	<%= link_to_unless_current "settings", :controller => 'account', :action =>'index' %> 
+	<%= link_to "logout", logout_url %>
+	<% else -%>
+	<span class="header_signup"><%= link_to_unless_current "signup", signup_url %></span>
+	<%= link_to_unless_current "login", login_url %>
+	<% end -%>
+</div><div class="clear"></div>

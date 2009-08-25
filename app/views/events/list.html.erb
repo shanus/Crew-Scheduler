@@ -1,0 +1,10 @@
+<% javascript "sorttable" -%>
+
+<% add_link("event") -%>
+<%= render :partial => 'shared/add_link' %>
+<h1>Rowing Events List</h1>
+<%= render :partial => 'shared/list_events' %>
+
+<%= will_paginate @events %>
+
+<br />

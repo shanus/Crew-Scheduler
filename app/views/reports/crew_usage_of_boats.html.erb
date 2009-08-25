@@ -1,0 +1,5 @@
+<% javascript 'swfobject' %>
+<h2>Crew Use of Boats</h2>
+<% unless @boat_breakdown.blank? -%>
+	<%= render :partial=> "crew_usage", :collection => @crews %>
+<% end -%>

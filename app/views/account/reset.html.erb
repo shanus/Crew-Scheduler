@@ -1,0 +1,14 @@
+<div class="editform">
+	<% form_tag do -%>
+	<p><label for="email">Email Address</label><br/>
+	<%= text_field_tag 'email', nil, :size => 30 %></p>
+
+	<p><label for="recaptcha" class="required">Are You Human?</label><br />
+	<%= recaptcha_tags :display => {:theme => 'clean'} %><br /></p>
+
+	<p><%= submit_tag 'Reset My Password', :class => "right signupbutton" %></p>
+	<% end -%>
+
+	<%= link_to 'cancel', login_url  %>
+
+</div>

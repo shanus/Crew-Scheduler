@@ -1,0 +1,24 @@
+<%  
+	tide_events = Array.new
+	for column in Tide.content_columns
+		tide_events << { :event_name => column.name, :time => tide.send(column.name) || Time.at(0) } unless (column.name == "day") 
+	end
+	unless show_date
+		tday = short_human_date(tide.day)
+	else
+		tday = human_date(tide.day, "%m/%d")
+	end
+-%>
+<li class="tday"><%= tday %>
+	<ul class="tide_events">
+		<% tide_events.sort_by { |tide_event| tide_event[:time] }.each do |tide_event| -%>
+		<li class="<%= 
+			if tide_event[:time] == Time.at(0) 
+				"no_event"
+			else
+				h tide_event[:event_name] 
+			end
+		%>"><nobr><%= h tide_event[:time].strftime("%I:%M %p") unless tide_event[:time] == Time.at(0) %></nobr></li>
+		<% end -%>
+	</ul>	
+</li>

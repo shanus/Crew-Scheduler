@@ -1,0 +1,4 @@
+<div id="add_item">
+	<%= link_to image_tag("add.png",:alt => "add #{@visible_name}", :border => 0, :title => "add #{@visible_name}"), :controller=> @class_to_add.pluralize, :action => 'new' %>
+	<%= link_to "Add #{@visible_name.capitalize}...", :controller=> @class_to_add.pluralize, :action => 'new' %>
+</div>

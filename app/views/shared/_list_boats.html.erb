@@ -1,0 +1,21 @@
+<table width="50%" cellspacing="0" class="list_items sortable">
+  <tr class="header_row">
+		<th width="40px"></th><th width="40px"></th>
+		<th>Boat Name</th>
+		<th>Boat Type</th>
+  </tr>
+<% for boat in @boats -%>
+	<tr class="<%= cycle("even", "odd") %>">
+		<td>
+    	<% destroy_link("boat", boat) -%>
+			<%= render :partial => 'shared/destroy_link' %>
+    </td>
+		<td>
+    	<% edit_link("boat", boat) -%>
+			<%= render :partial => 'shared/edit_link' %>
+		</td>
+		<td><span<%= underline(boat) %>><%=h boat.name %></span></td>
+		<td class="center"><img src="/images/<%=h (boat.hull_type.sub(/[\+]/,"%2b")) %>_24.gif" alt="<%=h (boat.human_type) %>" /><span class="tiny"><br /><%=h (boat.human_type) %></span></td>
+  </tr>
+<% end -%>
+</table>

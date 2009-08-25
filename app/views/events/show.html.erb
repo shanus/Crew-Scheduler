@@ -1,0 +1,26 @@
+<div class="view">
+	<p><b>When:</b> <%= human_date @event.event_on, "%A, %B %e, %Y" %>, <%= human_time @event.start_time %> - <%= human_time @event.end_time %></p>
+
+	<p><b>Boat:</b> <%= h @event.boat.name.capitalize %></p>
+
+	<p><%= boat_icon(@event.boat) %></p>
+
+	<p><b>Crew:</b> <%= h @event.team.name.capitalize %></p>
+
+	<p><b>Coach:</b> <%= h @event.coach_name %></p>
+
+	<p><b>Coxswain:</b> <%= h @event.coxswain_name %></p>
+
+	<p><b>Rowers:</b><br />
+		<%= render :partial => 'rower_email_list' %>
+	</p>
+
+	<p><b>Last Updated at:</b> <%= h timestamps(@event.updated_at) %></p>
+
+	<p><b>Created at:</b> <%= h timestamps(@event.created_at) %></p>
+	
+	<div class="right">
+	<%= link_to 'Edit', :action => 'edit', :id => @event %> |
+	<%= link_to 'List All', :action => 'list' %>
+	</div>
+</div>

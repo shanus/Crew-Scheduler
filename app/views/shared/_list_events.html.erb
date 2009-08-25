@@ -1,0 +1,59 @@
+<table width="95%" cellspacing="0" class="list_items sortable">
+  <tr class="header_row">
+		<th width="40px"></th><th width="40px"></th><th width="12px"></th>
+		<th>Date</th>
+		<th>Time</th>
+		<th>Boat</th>
+		<th>Crew</th>
+		<th>Rowers</th>
+		<th>Coxswain</th>
+		<th>Coach</th>
+		<th width="40px"></th>
+  </tr>
+  
+<% for event in @events %>
+  <tr class="<%= cycle("even", "odd") %>">
+    <td>
+    	<% destroy_link("event", event) -%>
+			<%= render :partial => 'shared/destroy_link' %>
+    </td>
+    <td>
+    	<% edit_link("event", event) -%>
+			<%= render :partial => 'shared/edit_link' %>
+    </td>
+		<td><%= event_status(event) %></td>
+		<td><%= human_date(event.event_on, "%a %m-%d-%y") %></td>
+		<td><%= human_time event.start_time %> - <%= human_time event.end_time %></td>
+		<td><%= h event.boat.name %></td>
+		<td><%= link_to event.team_name, team_summary_url(:id => event.team, :time => "all") unless event.team.nil? %></td>
+		<td class="nobreak">
+			<small>
+				<% rowers = event.rowers %>
+				<% 1.upto(event.boat.max_number_of_rowers) { |i|
+					seat = "seat_#{i}"
+					if (event.boat.max_number_of_rowers==1)
+						seat = "single"
+					elsif (i==event.boat.max_number_of_rowers)
+						seat = "stroke"
+					elsif (i==1)
+						seat = "bow"
+					end 
+				-%>
+					<div class="seat" id="<%= seat %>">
+						<%= h event.rowers[i] %>
+					</div>
+					<% if i == 4 # places break on eights for room -%>
+					<br />
+					<% end -%>
+				<% } -%>
+			</small>
+		</td>
+		<td><%= h event.coxswain_name %></td>
+		<td><%= h event.coach_name %></td>
+		<td>
+    	<% show_link("event", event) -%>
+			<%= render :partial => 'shared/show_link' %>
+		</td>
+  </tr>
+<% end %>
+</table>

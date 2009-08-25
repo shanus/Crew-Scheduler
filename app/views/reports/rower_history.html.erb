@@ -1,0 +1,9 @@
+<% javascript 'swfobject' %>
+<h2>Rower History Report</h2>
+<%= render :partial => 'rower', :collection => @rowers %>
+<br /><br />
+<hr />
+<h3>Public Information Not Available for:</h3>
+<% @not_available.each do |rower| -%>
+	<%= h rower.name %><br />
+<% end -%>

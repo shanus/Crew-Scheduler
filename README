@@ -1,0 +1,13 @@
+README for Application
+
+-cannot fill the boats unless there are at least 24 hours before the row is scheduled to occur
+-autofills the rowers based upon side, includes ambi rowers in both sides
+-to use google calendars it must have the googlecalendar gem installed
+
+To send reminders to users set up a cron task that runs every day (it looks for events on the next day) that calls
+
+#{RAILS_ROOT}script/runner -e production "User.email_reminders"
+ 
+TODO
+- Would like to change to have tides optional as a config variable
+- Create README

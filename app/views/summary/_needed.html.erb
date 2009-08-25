@@ -1,0 +1,3 @@
+<li>
+	The <%= h needed.team.name.capitalize %> Crew needs <small><%= seats_needed(needed) %></small> in the <%= h needed.boat.name %> for <%= human_date(needed.event_on, "%A, %m/%d") %> from <%= human_time needed.start_time %> to <%= human_time needed.end_time %> [<%= link_to "view", team_summary_url(:id => needed.team) %>]
+</li>

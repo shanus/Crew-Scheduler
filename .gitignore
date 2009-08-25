@@ -1,0 +1,8 @@
+.DS_Store
+.svn
+original\ art/**
+log/*.log
+tmp/**/*
+config/database.yml
+db/*.sqlite3
+db/data.yml

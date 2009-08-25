@@ -1,0 +1,18 @@
+<ul>
+<% 1.upto(@event.boat.max_number_of_rowers) { |i|
+	u = (@event.users.find_by_login(@event.rowers[i]))
+	seat = "#{i} seat"
+	if (@event.boat.max_number_of_rowers==1)
+		seat = "single"
+	elsif (i==@event.boat.max_number_of_rowers)
+		seat = "stroke"
+	elsif (i==1)
+		seat = "bow"
+	end 
+	unless u.nil? -%>
+	<li><%= seat %>: <%= mail_to u.email,  @event.rowers[i], :encode => "hex" %></li>
+	<% else -%>
+	<li><%= seat %>: <%= h @event.rowers[i] %></li>
+	<% end -%>
+<% } -%>
+</ul>

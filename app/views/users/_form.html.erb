@@ -1,0 +1,35 @@
+<% javascript 'colour_picker', :cache => true %>
+
+<p><label for="user_email">Email</label><br/>
+<%= text_field 'user', :email  %></p>
+
+<label for="user_side">Side</label><br/>
+<div class="radiogroup">
+	<%= image_tag("port.png", :size => "35x35", :title=>"port") %> <%= radio_button("user", "side", "port") %>
+	<%= image_tag("stbd.png", :size => "35x35", :title=>"starboard") %> <%= radio_button("user", "side", "stbd") %>
+	<%= image_tag("ambi.png", :size => "35x35", :title=>"either") %> <%= radio_button("user", "side", "ambi") %>
+</div>
+
+<p><label for="user_will_cox">Willing to be a coxswain</label> 
+<%= check_box 'user', 'will_cox'  %></p>
+
+<p><label for="user_will_coach">Willing to Coach</label> 
+<%= check_box 'user', 'will_coach'  %></p>
+
+<p><label for="user_password">Password</label><br/>
+<%= password_field 'user', :password %></p>
+
+<p><label for="user_password_confirmation">Confirm Password</label><br/>
+<%= password_field 'user', :password_confirmation %></p>
+
+<p><%= label('user', :send_reminders) %> 
+<%= check_box('user', :send_reminders, :title => "Send reminder emails the day before you row") %></p>
+
+<p><%= label('user', :public_rowing_history) %> 
+<%= check_box('user', :public_rowing_history, :title => "Make my rowing history public") %></p>
+
+<p><%= label('user', :color) %><br/>
+<%= color_field :user, :color, { :use_swatch_icon => true }, {:value => 'Choose...' } %></p>
+
+<p><label for="user_team">Crew</label><br/>
+<%= select("user", "team_id", Team.find(:all).collect {|t| [ t.name, t.id ] }, {:include_blank => 'None'}) %></p>

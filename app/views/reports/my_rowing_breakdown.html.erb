@@ -1,0 +1,72 @@
+<% javascript 'swfobject' %>
+<h2>Rowing Breakdown for <%= h @user.login %></h2>
+<h3>On the water <%= pluralize(@events.size, 'time') %> since <%= history_start %></h3>
+<br />
+<h3>By Crew</h3>
+<% unless @crew_breakdown.blank? -%>
+<div id="crew_chart_<%= @user.id %>" class='chart'>
+	<h3><%= h @user.name %></h3>
+	<%= build_table_from_hash(@crew_breakdown) %>
+	<%= flash_warning %>
+</div>
+<br />
+<script type="text/javascript">
+  // <![CDATA[    
+  var so = new SWFObject("/chart/ampie.swf", "crew_chart_<%= @user.id %>", "70%", "350", "8");
+  so.addVariable("path", "/chart/");
+  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
+  so.addVariable("data_file", escape("<%= @my_rowing_breakdown_data_link %>?by=crew"));
+  so.addVariable("additional_chart_settings", "<settings><pie><%= pie_colors(@crew_breakdown, 'crew') %></pie></settings>");
+  so.addVariable("preloader_color", "#000000");
+  so.write("crew_chart_<%= @user.id %>");
+  // ]]>
+</script>
+<% else -%>
+	<p class='chart'>No data<br /></p>
+<% end -%>
+
+<h3>By Boat</h3>
+<% unless @boating_breakdown.blank? -%>
+<div id="boat_chart_<%= @user.id %>" class='chart'>
+	<h3><%= h @user.name %></h3>
+	<%= build_table_from_hash(@boating_breakdown) %>
+	<%= flash_warning %>
+</div>
+<br />
+<script type="text/javascript">
+  // <![CDATA[    
+  var so = new SWFObject("/chart/ampie.swf", "boat_chart_<%= @user.id %>", "70%", "350", "8");
+  so.addVariable("path", "/chart/");
+  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
+  so.addVariable("data_file", escape("<%= @my_rowing_breakdown_data_link %>?by=boat"));
+  so.addVariable("additional_chart_settings", "<settings><pie><%= pie_colors(@boating_breakdown, 'boat') %></pie></settings>");
+  so.addVariable("preloader_color", "#000000");
+  so.write("boat_chart_<%= @user.id %>");
+  // ]]>
+</script>
+<% else -%>
+	<p class='chart'>No data<br /></p>
+<% end -%>
+
+<h3>By Seat</h3>
+<% unless @seating_breakdown.blank? -%>
+<div id="seat_chart_<%= @user.id %>" class='chart'>
+	<h3><%= h @user.name %></h3>
+	<%= build_table_from_hash(@seating_breakdown) %>
+	<%= flash_warning %>
+</div>
+<br />
+<script type="text/javascript">
+  // <![CDATA[    
+  var so = new SWFObject("/chart/ampie.swf", "seat_chart_<%= @user.id %>", "70%", "350", "8");
+  so.addVariable("path", "/chart/");
+  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
+  so.addVariable("data_file", escape("<%= @my_rowing_breakdown_data_link %>?by=seat"));
+  so.addVariable("additional_chart_settings", "<settings><pie><base_color>#333333</base_color></pie></settings>");
+  so.addVariable("preloader_color", "#000000");
+  so.write("seat_chart_<%= @user.id %>");
+  // ]]>
+</script>
+<% else -%>
+	<p class='chart'>No data<br /></p>
+<% end -%>

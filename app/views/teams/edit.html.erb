@@ -1,0 +1,10 @@
+<div class="editform">
+	<h1>Editing "<%= @team.name %>" Crew</h1>
+
+	<% form_tag :action => 'update', :id => @team do %>
+	  <%= render :partial => 'form' %>
+	  <%= submit_tag 'Save', :class => "eventbutton" %>
+	<% end %>
+
+	<%= link_to 'cancel', admin_url %>
+</div>

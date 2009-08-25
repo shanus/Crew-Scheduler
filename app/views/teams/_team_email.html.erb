@@ -1,0 +1,2 @@
+<%= mail_to team_email(@current_team), 
+		image_tag("mail.gif", :title => "Send email to all team members", :alt => "Mail team", :border => "0"), :encode => "hex" unless @current_team.members.size <= 1 %>

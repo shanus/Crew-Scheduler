@@ -1,0 +1,66 @@
+<% javascript 'events', 'prototypeUtils', :cache => true %>
+
+<%= error_messages_for 'event' %>
+
+<div id="right_sidebar" style="width: 440px;">
+	<h4>Tides</h4>
+	<ul id="tide_summary">
+		<%= render :partial => 'shared/tide', :collection => @tides, :locals => {:show_date => true} %>
+	</ul>
+	<%= render :partial => 'shared/tide_calendar' %>
+</div>
+
+
+<p><label for="event_event_on">Day</label><br/>
+<%= date_select 'event', :event_on, :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.years_since(2).year %></p>
+<%= observe_field 'event_event_on_1i', :update => 'tide_summary', 
+									:with => "'date='+$F('event_event_on_2i')+'-'+$F('event_event_on_3i')+'-'+$F('event_event_on_1i')", 
+									:url => { :controller => "tides", :action => "summary", :number => 5} %>
+									
+<%= observe_field 'event_event_on_2i', :update => 'tide_summary',
+									:with => "'date='+$F('event_event_on_2i')+'-'+$F('event_event_on_3i')+'-'+$F('event_event_on_1i')", 
+									:url => { :controller => "tides", :action => "summary", :number => 5} %>
+
+<%= observe_field 'event_event_on_3i', :update => 'tide_summary',
+									:with => "'date='+$F('event_event_on_2i')+'-'+$F('event_event_on_3i')+'-'+$F('event_event_on_1i')", 
+									:url => { :controller => "tides", :action => "summary", :number => 5} %>
+
+
+<p><label for="event_start_time">Start at</label><br/>
+<%= time_select 'event', :start_time, {:minute_step => 15}  %></p>
+<%= observe_field 'event_start_time_4i', :function => "UpdateEndTime(element,value)" %>
+
+<p><label for="event_end_time">End at</label><br/>
+<%= time_select 'event', :end_time, { :minute_step => 15 }  %></p>
+
+<div class="form_space">
+	<div id="time_message" class="warning"> </div>
+</div>
+			
+<p><label for="event_boat">Boat</label><br/>
+<%= select("event", "boat_id", Boat.find(:all).collect {|b| [ b.name, b.id ] }, {:include_blank => 'None'}) %></p>
+
+<div class="form_space">
+	<div id="boat_message" class="warning"> </div>
+</div>
+
+<%= observe_field 'event_boat_id', :update => 'boat_message', 
+									:with => "'id='+$F('event_boat_id')+'&date='+$F('event_event_on_3i')+'-'+$F('event_event_on_2i')+'-'+$F('event_event_on_1i')+'&start='+$F('event_start_time_4i')+':'+$F('event_start_time_5i')+'&end='+$F('event_end_time_4i')+':'+$F('event_end_time_5i')",
+									:url => { :controller => "boats", :action => "check_availability" } %>
+
+<div id="boat_detail">
+<%= render :partial => 'boats/boat_detail' %>
+</div>
+
+<%= observe_field 'event_boat_id', :update => 'boat_detail',
+									:with => "'id='+$F('event_boat_id')",
+									:url => { :controller => "boats", :action => "details" } %>
+									
+<% fields = %w(event_event_on_1i event_event_on_2i event_event_on_3i event_start_time_4i event_start_time_5i event_end_time_4i event_end_time_5i)
+	fields.each do |f| -%>
+<%= observe_field f, 
+								:update => 'time_message', 
+								:complete => "$('time_message').setStyle({display: 'block',opacity: '1.0'});Effect.Fade('time_message', {delay: 6.0, duration: 3.0})",
+								:with => "'date='+$F('event_event_on_3i')+'-'+$F('event_event_on_2i')+'-'+$F('event_event_on_1i')+'&start='+$F('event_start_time_4i')+':'+$F('event_start_time_5i')+'&end='+$F('event_end_time_4i')+':'+$F('event_end_time_5i')",
+								:url => { :controller => "tides", :action => "check_time"} %>
+<% end -%>

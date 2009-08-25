@@ -1,0 +1,1 @@
+<li><%= h today.team.name.capitalize %> Crew in the <%= h today.boat.name %> from <%= human_time today.start_time %> to <%= human_time today.end_time %> [<%= link_to "view", {:controller => "events", :action => "show", :id => today} %>]</li>

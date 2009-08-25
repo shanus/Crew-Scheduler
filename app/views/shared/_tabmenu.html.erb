@@ -1,0 +1,45 @@
+<% if logged_in? -%>
+<div id="tabmenu">
+<ul>
+	<% 
+		summary_class = 'inactive'
+		admin_class = 'active'
+		report_class = 'inactive'
+		if current_page? root_url
+			summary_class = 'active'
+			admin_class = 'inactive'
+		elsif current_page? summary_url 
+			summary_class = 'active'
+			admin_class = 'inactive'
+		elsif current_page? login_url
+			summary_class = 'active'
+			admin_class = 'inactive'
+		elsif current_page? :controller => 'admin', :action => 'index'
+			admin_class = 'active'
+		elsif current_page? :controller => 'reports', :action => 'index'
+			admin_class = 'inactive'
+			report_class = 'active'
+		end
+	-%>
+	<li><%= link_to "Summary", summary_url, :class => summary_class %></li>
+	<%
+		@tabs = Team.find :all, :conditions => {:active => true}, :order => "id DESC"
+		if @tabs
+			for team in @tabs
+				team_class = 'inactive'
+				#if current_page? :controller => 'teams', :action => 'summary'
+				if !@current_team.nil?
+					if @current_team.id == team.id
+						team_class = 'active'
+						admin_class = 'inactive'
+					end
+				end
+	-%>
+	<li><%= link_to team.name.titleize, {:controller => 'teams', :action => 'summary', :id => team.id}, :class => team_class %></li>
+	<% 	end 
+		end -%>
+	<li><%= link_to "Reports", { :controller => 'reports', :action => 'index' }, :class => report_class %></li>
+	<li><%= link_to "Admin", { :controller => 'admin', :action => 'index' }, :class => admin_class %></li>
+</ul>
+</div><div class="clear"></div>
+<% end -%>

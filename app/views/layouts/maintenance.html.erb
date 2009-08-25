@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Application Maintenance</title>
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+	<style type="text/css">
+		body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
+		div.dialog {
+			width: 25em;
+			padding: 0 4em;
+			margin: 4em auto 0 auto;
+			border: 1px solid #ccc;
+			border-right-color: #999;
+			border-bottom-color: #999;
+		}
+		h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
+	</style>
+	<meta name="author" content="Shaun Meredith">
+</head>
+<body>
+	<a href="/"><img src="http://clients.infobridge.net/yrc/images/background.gif" alt="scheduler logo" border="0" /></a>
+	<div class="dialog">
+		<h1>
+		  We're currently down for <%= reason ? reason : "maintenance" %>
+		  as of <%= Time.now.strftime("%H:%M %Z") %>.
+		</h1>
+		<p>
+		  Sorry for the inconvenience. We'll be back 
+		  <%= deadline ? "by #{deadline}" : "shortly" %>.
+		</p>
+	</div>
+</body>
+</html>
+
+

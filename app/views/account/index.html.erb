@@ -1,0 +1,12 @@
+<div class="editform">
+	<h1>Account Settings <%= link_to (image_tag "feed-icon-large.png", :alt => "RSS feed", :title => "Click to Subscribe...", :border => 0), user_rss_url(:login => current_user.login) %></h1>
+
+	<%= error_messages_for :user %>
+
+	<% form_tag :controller => "users", :action => 'update', :id => @user do -%>
+	  <%= render :partial => 'users/form' %>
+	  <%= submit_tag 'Save', :class => "right signupbutton" %>
+	<% end -%>
+
+	<%= link_to 'cancel', summary_url %>
+</div>

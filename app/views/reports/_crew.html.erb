@@ -1,0 +1,23 @@
+<% history = crew.rowing_history -%>
+<% unless history == Array.new(history.size, 0) -%>
+<div id="crew_chart_<%= crew.id %>" class='chart'>
+	<h3><%= h crew.name %></h3>
+	<%= build_table(history) %>
+	<%= flash_warning %>
+</div>
+<br />
+
+<script type="text/javascript">
+  // <![CDATA[    
+  var so = new SWFObject("/chart/amcolumn.swf", "crew_chart_<%= crew.id %>", "80%", "140", "8");
+  so.addVariable("path", "/chart/");
+  so.addVariable("settings_file", escape("/chart/history_settings.xml"));
+  so.addVariable("data_file", escape("<%= @crew_history_data_link %>?id=<%= crew.id %>"));
+  so.addVariable("additional_chart_settings", "<settings><labels><label><x>3</x><y>118</y><text_size>16</text_size><text><![CDATA[<b><%= h crew.name %></b>]]></text></label></labels></settings>");
+  so.addVariable("preloader_color", "#000000");
+  so.write("crew_chart_<%= crew.id %>");
+  // ]]>
+</script>
+<% else -%>
+	<p class='chart'>No data for <%= h crew.name %><br /></p>
+<% end -%>

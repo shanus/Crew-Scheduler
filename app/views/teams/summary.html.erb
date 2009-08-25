@@ -1,0 +1,104 @@
+<% users_javascript %>
+<h1><%= @current_team.name.capitalize %> Crew Schedule</h1>
+<%= link_to 'Add rowing time...', :controller => 'events', :action => 'new', :team => @current_team %><br />
+<div class="right" id="members">
+	<%= render :partial => "team_email" %>
+	<h3>Members: </h3>
+	<%= comma_list(@current_team) %>
+</div>
+<br />
+List: <%= link_to_unless_current 'Future', team_summary_url(:id =>  @current_team, :time => 'future') %>
+      <%= link_to_unless_current 'Past', team_summary_url(:id =>  @current_team, :time => 'past') %>
+      <%= link_to_unless_current 'All', team_summary_url(:id =>  @current_team, :time => 'all') %>
+<br/>
+
+<table width="95%" cellspacing="0" class="list_items">
+  <tr class="header_row">
+		<th width="12px"></th>
+		<th>Date</th>
+		<th>Time</th>
+		<th>Boat</th>
+		<th>Rowers</th>
+		<th>Coxswain</th>
+		<th>Coach</th>
+		<th width="40px"></th>
+  </tr>
+  
+<% for event in @events %>
+	<% (allow_input(event) == "disabled") ? status=true : status=false -%>
+	<% form_tag :controller => "events", :action => 'update_rowers', :id => event do -%>
+	  <tr class="<%= cycle("even", "odd") %>">
+			<td><%= event_status(event) %></td>
+			<td>
+				<%= 
+					if (allow_input(event) == "disabled")
+						human_date(event.event_on, "%a %m-%d-%y")
+					else
+						link_to human_date(event.event_on, "%a %m-%d-%y"), {:controller => 'events', :action => 'edit', :id => event}, :title => "click to edit"
+					end
+				%>
+			</td>
+			<td>
+				<%= 
+					if (status)
+						"#{human_time event.start_time} - #{human_time event.end_time}"
+					else
+						link_to "#{human_time event.start_time} - #{human_time event.end_time}", {:controller => 'events', :action => 'edit', :id => event}, :title => "click to edit"
+					end
+				%>
+			</td>
+			<td><%= h event.boat.name %></td>
+			<td class="nobreak">
+				<% rowers = event.rowers %>
+				<% 1.upto(event.boat.max_number_of_rowers) { |i|
+					seat = "seat_#{i}"
+					if (event.boat.max_number_of_rowers==1)
+						seat = "single"
+					elsif (i==event.boat.max_number_of_rowers)
+						seat = "stroke"
+					elsif (i==1)
+						seat = "bow"
+					end 
+				-%>
+					<div class="seat" id="<%= seat %>">
+						<input type="text" id="rower_lookup_<%= i %>" name="rowers[<%= i %>]" value="<%= h event.rowers[i] %>" size="12" class="small_text_field <%= allow_input(event) %>" <%= allow_input(event) %> />
+						<div class="auto_complete" id="rower_lookup_auto_complete_<%= i %>" style="display:none;">
+						</div>
+						<%= javascript_tag("new Autocompleter.Local(\"rower_lookup_#{i}\", \"rower_lookup_auto_complete_#{i}\", #{(i%2==0) ? 'ports' : 'starboards' }, {fullSearch:true, frequency:0, minChars:1});") %>
+					</div>
+					<% if i == 4 # places break on eights for room -%>
+					<br />
+					<% end -%>
+				<% } -%>
+			</td>
+			<td class="center">
+				<% 
+	        cox_class = ""
+	        (cox_class = " optional") unless (@current_team && @current_team.require_cox)
+	        coach_class = ""
+	        (coach_class = " optional") unless (@current_team && @current_team.require_coach)	
+				-%>
+				<% unless !event.boat.has_coxswain? -%>
+				<input type="text" id="coxswain_lookup" name="event[coxswain]" value="<%= h event.coxswain %>" size="12" class="small_text_field<%= cox_class %> <%= allow_input(event) %>" <%= allow_input(event) %> />
+				<div class="auto_complete" id="coxswain_lookup_auto_complete" style="display:none;">
+				</div>
+				<%= javascript_tag("new Autocompleter.Local('coxswain_lookup', 'coxswain_lookup_auto_complete', coxswains, {fullSearch:true, frequency:0, minChars:1});") %>
+				<% else -%>
+				none
+				<% end -%>
+			</td>
+			<td class="center">
+				<input type="text" id="coach_lookup" name="event[coach]" value="<%= h event.coach %>" size="12" class="small_text_field<%= coach_class %>  <%= allow_input(event) %>" <%= allow_input(event) %> />
+				<div class="auto_complete" id="coach_lookup_auto_complete" style="display:none;">
+				</div>
+				<%= javascript_tag("new Autocompleter.Local('coach_lookup', 'coach_lookup_auto_complete', coaches, {fullSearch:true, frequency:0, minChars:1});") %>
+			</td>
+			<td>
+	    	<%= status ? "&nbsp;" : (submit_tag 'Update') %>
+			</td>
+	  </tr>
+	<% end %>
+<% end %>
+</table>
+
+<%= will_paginate @events %>

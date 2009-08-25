@@ -1,0 +1,54 @@
+<table width="95%" cellspacing="0" class="list_items sortable">
+  <tr class="header_row">
+		<th width="40px"></th><th width="40px"></th>
+		<th>Username</th>
+		<th>Email</th>
+		<th>Side</th>
+		<th>Crew</th>
+		<th>Coxswain</th>
+		<th>Coach</th>
+		<th>Activated</th>
+		<th width="40px"></th>
+  </tr>
+<% for user in @users -%>
+  <tr class="<%=  cycle = cycle("even", "odd") %>">
+		<% background = ((cycle == "even") ? "#FFF" : "#EEE") -%>
+    <td>
+    	<% destroy_link("user", user) -%>
+			<%= render :partial => 'shared/destroy_link' %>
+    </td>
+    <td>
+    	<% edit_link("user", user) -%>
+			<%= render :partial => 'shared/edit_link' %>
+    </td>
+		<td><span<%= underline(user) %>><%= h (user.login) %></span> <%= render :partial => 'users/sparkline', :locals => { :sparkline_data => user.rowing_history(12), :bg_color => background, :color => "#333" } if user.public_rowing_history? %></td>
+		<td><small><%= h (user.email) %></small></td>
+		<td align="center"><img src="/images/<%= h (user.side) %>_flat_small.png" alt="<%= h (user.human_side) %>" /><span class="tiny"><br /><%= h (user.human_side) %></span></td>
+		<% t = user.team %>
+		<td>
+			<% if t.nil? -%>
+				--
+			<% else -%>
+				<%= h (t.name) %>
+			<% end -%>
+		</td>
+		<td class="center">
+			<%= (user.coxswain?) ? image_tag("check_24.png") : ' ' %>
+		</td>
+		<td class="center">
+			<%= (user.coach?) ? image_tag("check_24.png") : ' ' %>
+		</td>
+		<td><small>
+		<% if !user.activated_at.nil? -%>
+		<%= time_ago_in_words(user.activated_at) %> ago
+		<% else -%>
+		<%= link_to "(activate)", activate_url(:activation_code => user.activation_code) %>
+		<% end -%>
+		</small></td>
+		<td>
+    	<% show_link("user", user) -%>
+			<%= render :partial => 'shared/show_link' %>
+		</td>
+  </tr>
+<% end %>
+</table>

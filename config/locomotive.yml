@@ -1,0 +1,6 @@
+---
+mode: development
+runs_at_launch: 0
+identifier: scheduler
+port: 3001
+bundle: /Developer/Applications/Locomotive2/Bundles/usr_local.locobundle

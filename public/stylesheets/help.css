@@ -1,0 +1,149 @@
+a,
+a:link,
+a:visited{ color: #009; }
+a:hover,
+a:active{ color: #900; }
+a img{ border: 0; }
+
+body{ 
+	min-width: 600px; 
+	font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+}
+
+body h1,
+body h2,
+body h3,
+.title{ font-family: "Trebuchet MS", Verdana, sans-serif; }
+
+.fixed_width{ font-family: "Monaco", "Courier New", "Courier", monospace; }
+
+.clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+#copyright,
+#legal{ white-space: nowrap; }
+
+#plans_info td,
+#account_plans td,
+#info_content td{ white-space: normal; }
+
+dt{ font-weight: bold; }
+dd{ padding-bottom: 10px; }
+
+table th a{ text-decoration: none; }
+
+table.pretty { border: 1px solid #ccc; table-layout: fixed; border-collapse: collapse; width: 100%; }
+table.pretty th { border: 1px solid #ccc; padding: 3px; font-weight: bold; text-align: left; background-color: #ccc; color: #444; }
+table.pretty th a { text-decoration: none; color: #900; }
+table.pretty td { border: 1px solid #ddd; padding: 3px; color: #666; font-size: 8pt; }
+table.pretty td { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+.new_object{ background-color: #ffd; border: 1px solid #bb9; padding: 10px; margin: 10px; }
+.notice{ background-color: #efe; border: 1px solid #bdb; padding: 10px; margin: 10px; }
+.notice h3{ color: #585; }
+
+div.separator{ height: 1px; font-size: 0; background: none; visibility: hidden; padding: 10px; margin: 0; }
+
+
+div.note,
+td.note,
+table.pretty div.note,
+table.pretty td.note,
+table.invisible div.note,
+table.invisible td.note{ font-size: 9px; margin: 0; padding: 0; }
+p.note{ font-size: 9px; color: #555; margin: 0; padding: 0; }
+
+.row_0{ background: #ececec; }
+.row_1{ background: #fff; }
+
+img.cvv{ position: relative; top: 4px; margin-right: 5px; }
+
+.over{ color: #990000; font-weight: bold; }
+.under{  }
+
+
+/** Documentation **/
+
+.documentation_wrapper:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+* html .documentation_wrapper{ height: 1%; }
+
+div.code_wrapper { padding: 3px; border: 1px solid #aaa; background: #e6e6dd;}
+div.code_wrapper pre { margin: 0; }
+.documentation_wrapper pre{ border: 1px solid #ccc; padding: 10px; margin: 10px; background: #f8f8ee url(/images/code.bg.gif) 0 -5px repeat; }
+.documentation_wrapper div>pre{ overflow: auto; border: 1px solid #ccc; padding: 10px; }
+.documentation_wrapper pre code{ font-family: "Monaco", "Courier New", "Courier", monospace; font-size: 10px; line-height: 15px; }
+* html .documentation_wrapper pre{ overflow-x: auto; width: 95%; padding-bottom: 30px; padding-top: 8px; line-height: 15px; }
+* html .documentation_wrapper pre code{ font-size: 11px; }
+
+.documentation_wrapper h1{ border-bottom: 2px solid #333; position: relative; clear: left; margin-bottom: 2px;}
+.documentation_wrapper h2{ border-bottom: 2px solid #333; position: relative; clear: left; }
+.documentation_wrapper h3{ border-bottom: 1px solid #333; position: relative; clear: left; }
+
+/* has layout */
+* html .documentation_wrapper h1,
+* html .documentation_wrapper h2,
+* html .documentation_wrapper h3{ width: 100%; }
+
+.documentation_wrapper ul.documentation_index { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+.documentation_wrapper ul.documentation_index li { display: inline; white-space: nowrap; color: #666;}
+
+.documentation_wrapper dl:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+* html .documentation_wrapper dl{ height: 1%;}
+.documentation_wrapper dt{ float: left; clear: left; margin: 8px 0 5px 0; }
+.documentation_wrapper dd{ float: left; margin: 8px 0 5px 5px;}
+.documentation_wrapper dd.block{ clear: left; float: none; margin: 0; }
+.documentation_wrapper dd.api_url{ position: relative; clear: left; float: none; margin: 0 15px 0 15px; padding: 3px 0 3px 0; border-bottom: 1px dotted #999; }
+.documentation_wrapper dd.api_url div.actions{ position: absolute; right: 0px; bottom: 2px; margin-left: 15px; color: #900; }
+
+.documentation_wrapper dd.no_float,
+.documentation_wrapper dd.no_float dt{ float: none; clear: left; }
+.documentation_wrapper dd.no_float dd{ margin: 5px; }
+
+.documentation_wrapper dl dl{ margin: 0 0 0 12px; }
+.documentation_wrapper dl dl dt{ margin: 0; }
+.documentation_wrapper dl dl dd{ padding: 0; margin-left: 1em; }
+.documentation_wrapper dl dl dt{ margin-left: 0; }
+
+.documentation_wrapper .list_table{ }
+
+
+.documentation_wrapper .code_wrapper .tag_read_write{ color: #013; }
+.documentation_wrapper .code_wrapper .tag_read_write_tag{ color: #000; }
+.documentation_wrapper .code_wrapper .tag_read_write_quote{ color: #000; }
+
+.documentation_wrapper .code_wrapper .tag_read_only{ color: #922; }
+.documentation_wrapper .code_wrapper .tag_read_only_tag{ color: #844; }
+.documentation_wrapper .code_wrapper .tag_read_only_quote{ color: #844; }
+
+.documentation_wrapper .code_wrapper .tag_instruct{ color: #cf2e2e; }
+.documentation_wrapper .code_wrapper .tag_instruct_tag{ color: #bb2a2a; }
+.documentation_wrapper .code_wrapper .tag_instruct_quote{ color: #bb2a2a; }
+
+.documentation_wrapper .code_wrapper .tag_highlight{ color: #a28200; }
+.documentation_wrapper .code_wrapper .tag_comment{ color: #8d8d6c; }
+
+.documentation_wrapper h2 .documentation_link_top { position: absolute; bottom: 1px; right: 0px; font-size: 12px; font-weight: normal; }
+
+.documentation_contents h2,
+.documentation_contents h3{ margin-bottom: 3px; }
+.documentation_contents ul{ margin: 0; padding-left: 0; list-style-type: none; }
+.documentation_contents li{ margin-left: 0; padding-left: 10px; }
+
+.documentation_wrapper .notice .documentation_index li{ list-style-type: none; margin-left: 0; padding-left: 0; }
+.documentation_wrapper .notice h3{ border-bottom: 0; }
+.documentation_wrapper .notice h2{ border-bottom: 1px solid #333; color: #010; }
+.notice div.code_wrapper,
+#help_content table.pretty div.code_wrapper{ border: 1px solid #aaa; background: #ccc;}
+.documentation_wrapper .notice pre,
+#help_content.documentation_wrapper table.pretty pre{ background: #fff url(/images/code.notice.bg.gif) 0 -5px repeat; }
+
+#help_bar { position: fixed; top: 0; left: 0; z-index: 1000; text-align: right; background-color: #eee; border-bottom: 1px solid #ccc; width: 100%; height: 35px; }
+* html #help_bar{ position: absolute; }
+#help_bar .content { padding: 10px; }
+#help_content { padding: 35px 10px 10px 10px; min-height: 300px; border-bottom: 1px solid #ccc; }
+* html #help_content{ height: 300px; }
+#help_content h1{ font-size: 20px; }
+#help_content p{ font-size: 12px; line-height: 1.3; }
+#help_content table a{ position: relative; }
+#help_content table.pretty td { white-space: normal; overflow: auto; text-overflow: ellipsis; }

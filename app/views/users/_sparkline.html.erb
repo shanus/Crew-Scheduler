@@ -1,0 +1,6 @@
+<% color = 'grey' if color.blank? 
+	 bg_color = 'white' if bg_color.blank? -%>
+<%= sparkline_tag sparkline_data, :type => 'bar', 
+																	:below_color => color, 
+																	:background_color => bg_color, 
+																	:title => "Rowing history by week" %>

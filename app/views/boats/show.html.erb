@@ -1,0 +1,16 @@
+<div class="view">
+	<p><b>Name:</b> <%= h @boat.name.capitalize %></p>
+	
+	<p><b>Report Color:</b> <%= color_swatch(@boat) %></p>
+
+	<p><b>Boat Use:</b> <%= h @boat.boat_usage.name.capitalize %></p>
+
+	<p><b>Crew Weight:</b> <%= h human_weight(@boat) %></p>
+
+	<p><b>Boat Type:</b> <%= h human_boat_type(@boat) %> <%= boat_icon(@boat) %></p>
+
+	<div class="right">
+		<%= link_to 'Edit', :action => 'edit', :id => @boat %> |
+		<%= link_to 'List All', :action => 'list' %>
+	</div>
+</div>
