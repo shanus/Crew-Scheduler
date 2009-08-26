@@ -1,0 +1,8 @@
+<h4>Tides</h4>
+<ul id="tide_summary">
+	<%= render :partial => 'shared/tide', :collection => @tides, :locals => {:show_date => false} %>
+</ul>
+<div class="clear"> </div>
+<br />
+
+<center><%= will_paginate @tides %></center>
