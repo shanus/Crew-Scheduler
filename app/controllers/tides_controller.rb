@@ -1,4 +1,9 @@
 class TidesController < ApplicationController
+  
+  def index
+    @tides = Tide.paginate :all, :conditions=> [ "day >= ?", Date.yesterday ], :page => params[:page]
+  end
+  
   def summary
     limit = params[:number]
     center_date = Date.strptime(params[:date], "%m-%d-%Y")
