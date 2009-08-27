@@ -1,3 +1,3 @@
-task :cron => :envrionment do
+task :cron => :environment do
   Event.daily_notify
 end

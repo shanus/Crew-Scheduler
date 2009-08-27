@@ -87,7 +87,12 @@ class Event < ActiveRecord::Base
   def self.check_start(date, start_time)
     #date = time.strftime("%Y-%m-%d")
     #start = time.strftime("%H:%M")
-    events = Event.find :all, :conditions => ["event_on = ? AND start_time LIKE '%#{start_time}%'",date]
+    case ActiveRecord::Base.connection.adapter_name
+    when 'PostgreSQL'
+      events = Event.find :all, :conditions => ["event_on = ? AND CAST(start_time as TEXT) LIKE '%#{start_time}%'",date]
+    else
+      events = Event.find :all, :conditions => ["event_on = ? AND start_time LIKE '%#{start_time}%'",date]
+    end
     return [nil] unless events.size > 1
     ["#{events.size} crews are launching at the same time"]
   end
