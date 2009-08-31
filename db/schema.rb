@@ -1,5 +1,5 @@
 # This file is auto-generated from the current state of the database. Instead of editing this file, 
-# please use the migrations feature of ActiveRecord to incrementally modify your database, and
+# please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
 # Note that this schema.rb definition is the authoritative source for your database schema. If you need
@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 17) do
+ActiveRecord::Schema.define(:version => 20090831155420) do
 
   create_table "boat_usages", :force => true do |t|
     t.string   "name",       :limit => 20, :default => "recreation"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(:version => 17) do
     t.boolean  "send_reminders",                          :default => false
     t.boolean  "public_rowing_history",                   :default => false
     t.string   "color"
+    t.string   "time_zone"
   end
 
 end

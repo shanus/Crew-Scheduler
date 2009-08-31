@@ -1,5 +1,5 @@
 class BoatsController < ApplicationController
-  require_dependency "hull_type"
+  require "hull_type"
   
   def index
     list
@@ -67,7 +67,7 @@ class BoatsController < ApplicationController
   end
   
   def details
-    @boat = Boat.find(params[:id]) unless (params[:id].nil? || params[:id] == "")
+    @boat = Boat.find(params[:id]) unless (params[:id].blank?)
     render :partial => 'boats/boat_detail'
   end
   

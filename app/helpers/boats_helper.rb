@@ -1,6 +1,6 @@
 module BoatsHelper
   def boat_icon(boat)
-    "<img src=\"/images/#{boat.hull_type.sub(/[\+]/,'%2b')}_48.gif\" alt=\"#{boat.human_type}\" />"
+    "<img src=\"/images/#{boat.hull_type.sub(/[\+]/,'%2b')}_48.gif\" alt=\"#{boat.name}\" />"
   end
   
   def human_boat_type(boat)

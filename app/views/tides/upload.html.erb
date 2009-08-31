@@ -1,16 +1,20 @@
 <div id="content" style="margin: 1em 10em">
 	<h2>Upload a tide file</h2>
 
-	<p>Please upload a tide file of csv format <!-- or the text format produced by xtide -->.  Examples of the formats are available below.</p>
+	<p>Please upload a tide file of csv format or the text format produced by xtide.  Examples of the formats are available below.</p>
 
 	<ul>
 		<li><%= link_to "CSV Example", "/tide_files/tides.csv"  %></li>
-		<!-- <li><%= link_to "Text Example", "/tide_files/tides.txt" %></li> -->
+		<li><%= link_to "Text Example", "/tide_files/tides.txt" %></li>
 	</ul>
 	
 	<%= form_tag({:action => "import"}, {:multipart => true}) %>
+		<p><label for="time_zone">Time Zone used in file</label><br />
+		<%= time_zone_select :tide, :time_zone, ActiveSupport::TimeZone.us_zones %></p>
+		
 		<p>
 			<label for='tide'>Tide File</label><br />
-			<%= file_field_tag 'tide' %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= submit_tag "Upload" %>
+			<%= file_field_tag 'tide' %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= submit_tag "Upload", :onclick => "alert('This is not yet functional');return false;" %>
 		</p>
+		
 </div>

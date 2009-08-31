@@ -11,7 +11,7 @@ class HullType
 
 end
 
-HullOption = Struct.new(:value, :name )
+HullOption = Struct.new(:value, :name ) unless defined? HullOption
 
 scull   = HullType.new("Sculls")
 scull  << HullOption.new("1x", "Single (1x)")
@@ -24,4 +24,4 @@ sweep  << HullOption.new("4-", "Four,coxless (4-)")
 sweep  << HullOption.new("4+", "Four, coxed (4+)")
 sweep  << HullOption.new("8+", "Eight (8+)")
 
-HULL_OPTIONS = [ scull, sweep ]
+HULL_OPTIONS = [ scull, sweep ] unless defined? HULL_OPTIONS

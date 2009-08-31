@@ -22,6 +22,9 @@
 <p><label for="user_password_confirmation">Confirm Password</label><br/>
 <%= password_field 'user', :password_confirmation %></p>
 
+<p><label for="user_time_zone">Time Zone</label><br />
+<%= time_zone_select :user, :time_zone, ActiveSupport::TimeZone.us_zones %></p>
+
 <p><%= label('user', :send_reminders) %> 
 <%= check_box('user', :send_reminders, :title => "Send reminder emails the day before you row") %></p>
 

@@ -3,7 +3,7 @@ module ActionView
     module FormOptionsHelper
       
       def colour_field(object_name, method, options = {}, button_options = {})
-        InstanceTag.new(object_name, method, self, nil, options.delete(:object)).to_colour_picker_tag(options, button_options)
+        InstanceTag.new(object_name, method, self, nil).to_colour_picker_tag(options, button_options)
       end
       
       alias color_field colour_field

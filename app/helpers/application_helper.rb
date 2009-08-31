@@ -49,8 +49,7 @@ module ApplicationHelper
   end
   
   def timestamps(time)
-    ts = (time - TIMEOFFSET).strftime("%B %d, %Y %H:%M:%S")
-    "#{ts} #{TIMEZONE}"
+    (time).strftime("%B %d, %Y %H:%M:%S")
   end
   
   def human_time(time)

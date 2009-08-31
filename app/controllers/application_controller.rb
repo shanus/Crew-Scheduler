@@ -7,19 +7,26 @@ class ApplicationController < ActionController::Base
   require_dependency 'user'
   
   helper :all
-
+  before_filter :set_user_time_zone
   before_filter :login_from_cookie
   before_filter :login_required, :except => [:login, :activate, :signup, :logout, :reset]
   before_filter :ensure_domain
   
-  # Pick a unique cookie name to distinguish our session data from others'
-  session :session_key => '_scheduler_session_id'
+
   
   protected
   # Just used for production debugging
   # def local_request?
   #     false
   #   end
+  
+  def set_user_time_zone
+    if logged_in? && !current_user.time_zone.nil?
+      Time.zone = current_user.time_zone
+    else
+      Time.zone = 'Eastern Time (US & Canada)'
+    end
+  end
   
   def ensure_domain
     if request.env['HTTP_HOST'] != 'scheduler.yarmouth-rowing.org' && RAILS_ENV == "production"

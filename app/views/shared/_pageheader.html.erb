@@ -5,7 +5,7 @@
 		username: <span style="color:<%= h sparkline_color %>"><%= current_user.login %></span> 
 		<%= render :partial => 'users/sparkline', :locals => { :color => sparkline_color, :sparkline_data => sparkline_data } %>
 	</span>
-	<span class="header_date"><%= (Time.now - TIMEOFFSET).strftime("%a %x %X") %></span>
+	<span class="header_date"><%= (Time.now).strftime("%a %x %X") %></span>
 	<%= link_to_unless_current "settings", :controller => 'account', :action =>'index' %> 
 	<%= link_to "logout", logout_url %>
 	<% else -%>
