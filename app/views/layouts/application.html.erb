@@ -10,8 +10,10 @@
 	<title><%= page_title %></title>
 	<%= auto_discovery_link_tag(:rss, rss_url('bulletins')) %>
 	<%= auto_discovery_link_tag(:rss, "http://#{YOURSITE}/users/rss/#{current_user.login}") if logged_in? %>
-	<%= stylesheet_link_tag 'scaffold', 'columns', 'messages', 'pagination', :cache => true %>
-	<%= javascript_include_tag :defaults, :cache=> true %>
+	<%= stylesheet_link_tag 'scaffold', 'columns', 'messages', 'pagination', :cache => "main" %>
+	<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/prototype/1.6.1.0/prototype.js' %>
+	<%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/scriptaculous/1.8.2/scriptaculous.js' %>
+	<%= javascript_include_tag 'application' %>
 	<!--[if lt IE 7.]>
 	<%= javascript_include_tag 'pngfix' %>
 	<![endif]-->
