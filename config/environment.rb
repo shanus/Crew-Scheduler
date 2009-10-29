@@ -21,7 +21,7 @@ Rails::Initializer.run do |config|
   # Added for ActionMailer to work with Acts_as_authenticated
   config.active_record.observers = :user_observer, :event_observer
   
-  config.time_zone = 'Eastern Time (US & Canada)'
+  config.time_zone = 'UTC'
 end
 
 
