@@ -1,13 +1,13 @@
 class TidesController < ApplicationController
   
   def index
-    @tides = Tide.paginate :all, :conditions=> [ "day >= ?", Date.yesterday ], :page => params[:page]
+    @tides = Tide.paginate :all, :conditions=> [ "day >= ?", Date.yesterday ], :order => "day ASC", :page => params[:page]
   end
   
   def summary
     limit = params[:number]
     center_date = Date.strptime(params[:date], "%m-%d-%Y")
-    @tides = Tide.find :all, :conditions=> [ "day >= ?", center_date - (limit.to_i/2).day ], :limit => limit
+    @tides = Tide.find :all, :conditions=> [ "day >= ?", center_date - (limit.to_i/2).day ], :order => "day ASC", :limit => limit
     render :layout => false
   end
   

@@ -9,7 +9,7 @@
 		tday = human_date(tide.day, "%m/%d")
 	end
 -%>
-<li class="tday"><%= tday %>
+<li class="tday"><%= h tday %>
 	<ul class="tide_events">
 		<% tide_events.sort_by { |tide_event| tide_event[:time] }.each do |tide_event| -%>
 		<li class="<%= 
