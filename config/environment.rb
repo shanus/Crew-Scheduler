@@ -14,7 +14,7 @@ Rails::Initializer.run do |config|
   
   config.gem "fastercsv", :version => '>=1.4'
   config.gem 'mislav-will_paginate', :version => '~> 2.3.8', :lib => 'will_paginate', :source => 'http://gems.github.com'
-  
+  config.gem 'bluecloth'
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
   

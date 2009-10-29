@@ -1,3 +1,4 @@
 rufus-scheduler --version '>= 1.0'
 fastercsv --version '>= 1.4'
 mislav-will_paginate --version '~> 2.3.8' --source gems.github.com
+bluecloth
