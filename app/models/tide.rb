@@ -1,6 +1,6 @@
 class Tide < ActiveRecord::Base
   validates_presence_of :day
-  after_create :add_to_calendar
+  # after_create :add_to_calendar
   
   def self.import_tide_csv(csv_path, time_zone = nil)
     time_zone = "UTC" if time_zone.blank?
