@@ -84,7 +84,7 @@ class Tide < ActiveRecord::Base
   end
   
   def add_to_calendar
-    #if RAILS_ENV == "production"
+    if RAILS_ENV == "production"
       load 'googlecalendar.rb'
       g = GoogleCalendar::GData.new
       g.login(GMAIL, GMAILPASSWD)
@@ -100,7 +100,7 @@ class Tide < ActiveRecord::Base
       # second rowing window
       gcal_event = self.second_rowing_window_event
       g.new_event(gcal_event, TIDECALENDARNAME) unless gcal_event.nil?
-    #end
+    end
   end
   
   def self.today
