@@ -1,7 +1,7 @@
 <%  
 	tide_events = Array.new
 	for column in Tide.content_columns
-		tide_events << { :event_name => column.name, :time => tide.send(column.name) || Time.at(0) } unless (column.name == "day") 
+		tide_events << { :event_name => column.name, :time => (tide.send(column.name) || Time.at(0)) } unless (column.name == "day") 
 	end
 	unless show_date
 		tday = short_human_date(tide.day)

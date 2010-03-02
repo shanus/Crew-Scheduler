@@ -1,12 +1,13 @@
 class Tide < ActiveRecord::Base
   validates_presence_of :day
-  # after_create :add_to_calendar
+  after_create :add_to_calendar
   
-  def self.import_tide_csv(csv_path)
+  def self.import_tide_csv(csv_path, time_zone = nil)
+    time_zone = "UTC" if time_zone.blank?
     FasterCSV.foreach(csv_path) do |row|
       if (t = Tide.find :first, :conditions => ["day = ?", row[0]])
         #Need Update
-        event_time = "#{row[0]} #{row[1]}".to_time
+        event_time = Time.zone.parse("#{row[0]} #{row[1]}")
         case row[2]
           when /^[Ss]unrise.*/
             t.sunrise = event_time
@@ -40,7 +41,7 @@ class Tide < ActiveRecord::Base
         t.save
       else
         # Create New
-        event_time = "#{row[0]} #{row[1]}".to_time
+        event_time = Time.zone.parse("#{row[0]} #{row[1]}")
         case row[2]
           when /^[Ss]unrise.*/
             # puts "Creating -#{row[2]}- #{event_time}"
@@ -63,43 +64,43 @@ class Tide < ActiveRecord::Base
         end
       end
     end
+    File.delete(csv_path) if File.exists?(csv_path)
   end
   
   def self.create_tide_csv(text_file_path)
-    text_file = File.new(text_file_path,"r")
-    csv_file = File.new("/tmp/#{rand(10000)}_#{Time.now.strftime("%H%M_%d-%m-%Y")}.csv","w")
-    text_file.each do |line|
-      parts = line.split(" ")
-      date = parts[0]
-      time = "#{parts[1]} #{parts[2]}"
-      if parts.last.match(/^(S|s)un/)
-        desc = parts.last
-      else
-        desc = parts.last(2).join(" ")
+    csv_file = File.new("#{RAILS_ROOT}/tmp/#{rand(10000)}_#{Time.now.strftime("%H%M_%d-%m-%Y")}.csv","w")
+    FasterCSV.foreach(text_file_path, :col_sep => " ") do |row|
+      # ignore rows without events
+      if ["AM","PM"].include?(row[2].to_s.upcase)
+        desc = row.last
+        desc = row.last(2).join(' ') if desc.include?("ising") || desc.include?("alling") || desc.include?("ide")
+        # puts "#{row[0]},#{row[1]} #{row[2]},#{desc}"
+        csv_file.write("#{row[0]},#{row[1]} #{row[2]},#{desc}\n")
       end
-      csv_file.write("#{date},#{time},#{desc}\n")
     end
-    text_file.close
     csv_file.close
+    File.delete(text_file_path) if File.exists?(text_file_path)
     return csv_file
   end
   
   def add_to_calendar
-    load 'googlecalendar.rb'
-    g = GoogleCalendar::GData.new
-    g.login(GMAIL, GMAILPASSWD)
-    # sunrise
-    gcal_event = self.sunrise_event
-    g.new_event(gcal_event, TIDECALENDARNAME)
-    # sunset
-    gcal_event = self.sunset_event
-    g.new_event(gcal_event, TIDECALENDARNAME)
-    # first rowing window
-    gcal_event = self.first_rowing_window_event
-    g.new_event(gcal_event, TIDECALENDARNAME) unless gcal_event.nil?
-    # second rowing window
-    gcal_event = self.second_rowing_window_event
-    g.new_event(gcal_event, TIDECALENDARNAME) unless gcal_event.nil?
+    #if RAILS_ENV == "production"
+      load 'googlecalendar.rb'
+      g = GoogleCalendar::GData.new
+      g.login(GMAIL, GMAILPASSWD)
+      # sunrise
+      gcal_event = self.sunrise_event
+      g.new_event(gcal_event, TIDECALENDARNAME)
+      # sunset
+      gcal_event = self.sunset_event
+      g.new_event(gcal_event, TIDECALENDARNAME)
+      # first rowing window
+      gcal_event = self.first_rowing_window_event
+      g.new_event(gcal_event, TIDECALENDARNAME) unless gcal_event.nil?
+      # second rowing window
+      gcal_event = self.second_rowing_window_event
+      g.new_event(gcal_event, TIDECALENDARNAME) unless gcal_event.nil?
+    #end
   end
   
   def self.today

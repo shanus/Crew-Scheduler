@@ -7,6 +7,12 @@ README for Application
 To send reminders to users set up a cron task that runs every day (it looks for events on the next day) that calls
 
 #{RAILS_ROOT}script/runner -e production "User.email_reminders"
+
+Inputting tide files uses xtide files (http://www.flaterco.com/xtide/)
+
+An example is:
+
+tide -l "South Freeport, Casco Bay, Maine" -b "2009-01-01 00:00" -e "2009-12-31 23:59" -ml 2.05ft -o tides.txt
  
 TODO
 - Would like to change to have tides optional as a config variable

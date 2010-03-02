@@ -3,7 +3,7 @@
 # In the development environment your application's code is reloaded on
 # every request.  This slows down response time but is perfect for development
 # since you don't have to restart the webserver when you make code changes.
-config.cache_classes = true
+config.cache_classes = false
 # notice this is on to get "A copy of XX has been removed from the module tree but is still active!" errors
 # to stop showing up.  Now must restart server when models change  -slm 08/31/2009
 

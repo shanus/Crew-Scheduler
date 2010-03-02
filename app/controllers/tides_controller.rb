@@ -42,28 +42,30 @@ class TidesController < ApplicationController
       flash[:error] = "You must upload a tide file."
       render :action => "upload" and return
     end
+    time_zone = nil
+    time_zone = params[:tz][:time_zone] unless params[:tz].nil? || params[:tz][:time_zone].blank?
     filetype = params[:tide].original_filename.split(".").last
     if filetype == "csv"
       if params[:tide].class == "UploadedTempfile"
         Tide.import_tide_csv(params[:tide].local_path)
       else
-        temp_file = File.new("/tmp/#{rand(10000)}-#{params[:tide].original_filename}","w")
+        temp_file = File.new("#{RAILS_ROOT}/tmp/#{rand(10000)}-#{params[:tide].original_filename}","w")
         temp_file.write(params[:tide].read)
         temp_file.close
-        Tide.import_tide_csv(temp_file.path)
-        FileUtils.remove(temp_file.path)
+        Tide.import_tide_csv(temp_file.path, time_zone)
+        # FileUtils.remove(temp_file.path)
       end
     elsif filetype == "txt"
       if params[:tide].class == "UploadedTempfile"
         tide_file = Tide.create_tide_csv(params[:tide].local_path)
       else
-        temp_file = File.new("/tmp/#{rand(10000)}-#{params[:tide].original_filename}","w")
+        temp_file = File.new("#{RAILS_ROOT}/tmp/#{rand(10000)}-#{params[:tide].original_filename}","w")
         temp_file.write(params[:tide].read)
         temp_file.close
         tide_file = Tide.create_tide_csv(temp_file.path)
-        FileUtils.remove(temp_file.path)
+        # FileUtils.remove(temp_file.path)
       end
-      Tide.import_tide_csv(tide_file.path)
+      Tide.import_tide_csv(tide_file.path, time_zone)
       #FileUtils.remove(tide_file.path)
     else
       flash[:error] = "You must upload a tide file."
