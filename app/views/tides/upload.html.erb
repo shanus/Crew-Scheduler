@@ -8,7 +8,7 @@
 		<li><%= link_to "Text Example", "/tide_files/tides.txt" %></li>
 	</ul>
 	
-	<%= form_tag({:action => "import"}, {:multipart => true}) %>
+	<% form_tag({:action => "import"}, {:multipart => true}) do %>
 		<p><label for="time_zone">Time Zone used in file</label><br />
 		<%= time_zone_select :tz, :time_zone, ActiveSupport::TimeZone.us_zones %></p>
 		
@@ -16,5 +16,5 @@
 			<label for='tide'>Tide File</label><br />
 			<%= file_field_tag 'tide' %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= submit_tag "Upload", :onclick => "alert('This will take a while.');return true;" %>
 		</p>
-		
+	<% end %>
 </div>
