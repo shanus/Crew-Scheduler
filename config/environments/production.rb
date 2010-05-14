@@ -32,7 +32,7 @@ ADMINEMAIL = 'scheduler@yarmouth-rowing.org'
 
 # Google Calendar and email items
 EVENTCALENDAR = "http://www.google.com/calendar/embed?src=polarrowing%40gmail.com&ctz=America/New_York"
-TIDECALENDAR =  "http://www.google.com/calendar/hosted/yarmouth-rowing.org/embed?src=7k1mijisl3mjkdo8lu43sfo148%40group.calendar.google.com&ctz=America/New_York&color=%2328754E&mode=WEEK"
+TIDECALENDAR = "http://www.google.com/calendar/embed?src=7k1mijisl3mjkdo8lu43sfo148%40group.calendar.google.com&ctz=America/New_York&color=%2328754E&mode=WEEK"
 TIDECALENDARNAME = "Tides"
 GMAIL = "polarrowing@gmail.com"
 GMAILPASSWD = "nonesuch23river"
