@@ -29,9 +29,9 @@ class ApplicationController < ActionController::Base
   end
   
   def ensure_domain
-    if request.env['HTTP_HOST'] != 'scheduler.yarmouth-rowing.org' && RAILS_ENV == "production"
-      redirect_to 'http://scheduler.yarmouth-rowing.org'
-    end
+    # if request.env['HTTP_HOST'] != 'scheduler.yarmouth-rowing.org' && RAILS_ENV == "production"
+    #   redirect_to 'http://scheduler.yarmouth-rowing.org'
+    # end
   end
   
   def rescue_action_in_public(exception)
