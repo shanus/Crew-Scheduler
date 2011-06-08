@@ -192,6 +192,8 @@ div.auto_complete {
 	width: 12em;
 	background: #fff;
 	text-align: left;
+	margin-top: 8px;
+	margin-left: 8px;
 }
 div.auto_complete ul {
 	border:1px solid #888;

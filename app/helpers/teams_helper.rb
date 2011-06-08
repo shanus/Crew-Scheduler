@@ -17,21 +17,21 @@ module TeamsHelper
     #content_for(:head) { "<script src='/users/users_for_lookup' type='text/javascript'></script>" }
     script = ""
     script += "<script type='text/javascript'>\n"
-    script += "var starboards = new Array(#{@starboards.size})\n"
+    script += "var starboards = new Array(#{@starboards.size});\n"
     @starboards.each_with_index do |starboard, index|
-      script += "starboards[#{index}] = \"#{starboard.login}\"\n"
+      script += "starboards[#{index}] = \"#{starboard.login}\";\n"
     end
-    script += "var ports = new Array(#{@ports.size})\n"
+    script += "var ports = new Array(#{@ports.size});\n"
     @ports.each_with_index do |port, index|
-      script += "ports[#{index}] = \"#{port.login}\"\n"
+      script += "ports[#{index}] = \"#{port.login}\";\n"
     end
-    script += "var coaches = new Array(#{@coaches.size})\n"
+    script += "var coaches = new Array(#{@coaches.size});\n"
     @coaches.each_with_index do |coach, index|
-      script += "coaches[#{index}] = \"#{coach.login}\"\n"
+      script += "coaches[#{index}] = \"#{coach.login}\";\n"
     end
-    script += "var coxswains = new Array(#{@coxswains.size})\n"
+    script += "var coxswains = new Array(#{@coxswains.size});\n"
     @coxswains.each_with_index do |cox, index|
-      script += "coxswains[#{index}] = \"#{cox.login}\"\n"
+      script += "coxswains[#{index}] = \"#{cox.login}\";\n"
     end
     script += "</script>"
     content_for(:head) { "#{script}" }
