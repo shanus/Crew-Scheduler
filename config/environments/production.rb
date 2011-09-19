@@ -26,9 +26,9 @@ ENV['RECAPTCHA_PRIVATE_KEY'] = "6LeLLroSAAAAAIehUO7rtf6VSMoLehk98rmnj18a"
 
 
 # Include your application configuration below
-YOURSITE = 'polarrowing.heroku.com'
-SUPPORTEMAIL = 'polarrowing@yarmouth-rowing.org'
-ADMINEMAIL = 'scheduler@yarmouth-rowing.org'
+YOURSITE = 'scheduler.rowbrunswick.org'
+SUPPORTEMAIL = 'support@rowbrunswick.org'
+ADMINEMAIL = 'scheduler@rowbrunswick.org'
 
 # Google Calendar and email items
 EVENTCALENDAR = "http://www.google.com/calendar/embed?src=polarrowing%40gmail.com&ctz=America/New_York"
@@ -38,13 +38,13 @@ GMAIL = "polarrowing@gmail.com"
 GMAILPASSWD = "nonesuch23river"
 
 # RSS Items
-BULLETINRSSTITLE = "Polar Rowing Club Bulletins"
-BULLETINRSSDESC = "The latest bulletins and announcements from Polar Rowing Club."
+BULLETINRSSTITLE = "Merrymeeting Community Rowing Bulletins"
+BULLETINRSSDESC = "The latest bulletins and announcements from Merrymeeting Community Rowing."
 
 # Configure the exception notifier
-ExceptionNotifier.exception_recipients = %w(shaun+polarrowing@yarmouth-rowing.org)
+ExceptionNotifier.exception_recipients = %w(shaun+merrymeetingrowing@yarmouth-rowing.org)
 ExceptionNotifier.sender_address = %("Scheduler Error" <polarrowing@gmail.com>)
-ExceptionNotifier.email_prefix = "[Polar Rowing Scheduler ERROR] "  
+ExceptionNotifier.email_prefix = "[Rowbrunswick Scheduler ERROR] "  
 
 ActionMailer::Base.smtp_settings = {
  :user_name => GMAIL,

@@ -42,9 +42,9 @@ BULLETINRSSTITLE = "Yarmouth Rowing Club Bulletins" unless defined? BULLETINRSST
 BULLETINRSSDESC = "The latest bulletins and announcements from Yarmouth Rowing Club." unless defined? BULLETINRSSDESC
 
 # Configure the exception notifier
-ExceptionNotifier.exception_recipients = %w(shaun+polarrowing@yarmouth-rowing.org)
+ExceptionNotifier.exception_recipients = %w(shaun+merrymeetingrowing@yarmouth-rowing.org)
 ExceptionNotifier.sender_address = %("Scheduler Error" <polarrowing@gmail.com>)
-ExceptionNotifier.email_prefix = "[Polar Rowing Scheduler ERROR] "  
+ExceptionNotifier.email_prefix = "[Rowbrunswick Scheduler ERROR] "  
 
 ActionMailer::Base.smtp_settings = {
  :user_name => GMAIL,
