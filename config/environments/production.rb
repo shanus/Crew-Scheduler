@@ -27,14 +27,14 @@ ENV['RECAPTCHA_PRIVATE_KEY'] = "6LeLLroSAAAAAIehUO7rtf6VSMoLehk98rmnj18a"
 
 # Include your application configuration below
 YOURSITE = 'scheduler.rowbrunswick.org'
-SUPPORTEMAIL = 'support@rowbrunswick.org'
-ADMINEMAIL = 'scheduler@rowbrunswick.org'
+SUPPORTEMAIL = 'merrymeeting.rowing@gmail.com'
+ADMINEMAIL = 'merrymeeting.rowing@gmail.com'
 
 # Google Calendar and email items
 EVENTCALENDAR = "http://www.google.com/calendar/embed?src=polarrowing%40gmail.com&ctz=America/New_York"
 TIDECALENDAR = "http://www.google.com/calendar/embed?src=7k1mijisl3mjkdo8lu43sfo148%40group.calendar.google.com&ctz=America/New_York&color=%2328754E&mode=WEEK"
 TIDECALENDARNAME = "Tides"
-GMAIL = "polarrowing@gmail.com"
+GMAIL = "merrymeeting.rowing@gmail.com"
 GMAILPASSWD = "nonesuch23river"
 
 # RSS Items
@@ -43,7 +43,7 @@ BULLETINRSSDESC = "The latest bulletins and announcements from Merrymeeting Comm
 
 # Configure the exception notifier
 ExceptionNotifier.exception_recipients = %w(shaun+merrymeetingrowing@yarmouth-rowing.org)
-ExceptionNotifier.sender_address = %("Scheduler Error" <polarrowing@gmail.com>)
+ExceptionNotifier.sender_address = %("Scheduler Error" <merrymeeting.rowing@gmail.com>)
 ExceptionNotifier.email_prefix = "[Rowbrunswick Scheduler ERROR] "  
 
 ActionMailer::Base.smtp_settings = {

@@ -26,16 +26,16 @@ end
 
 
 # Include your application configuration below
-SUPPORTEMAIL = 'webmaster@yarmouth-rowing.org' unless defined? SUPPORTEMAIL
-ADMINEMAIL = 'scheduler@yarmouth-rowing.org' unless defined? ADMINEMAIL
-YOURSITE = 'scheduler.yarmouth-rowing.org' unless defined? YOURSITE
+SUPPORTEMAIL = 'merrymeeting.rowing@gmail.com' unless defined? SUPPORTEMAIL
+ADMINEMAIL = 'merrymeeting.rowing@gmail.com' unless defined? ADMINEMAIL
+YOURSITE = 'scheduler.rowbrunswick.org' unless defined? YOURSITE
 
 # Google Calendar and email items
 EVENTCALENDAR = "http://www.google.com/calendar/hosted/yarmouth-rowing.org/embed?src=scheduler%40yarmouth-rowing.org&ctz=America/New_York" unless defined? EVENTCALENDAR
 TIDECALENDAR = "http://www.google.com/calendar/hosted/yarmouth-rowing.org/embed?src=yarmouth-rowing.org_0ingqags0ib0vuutvegtjckopg%40group.calendar.google.com&ctz=America/New_York&color=%2328754E&mode=WEEK" unless defined? TIDECALENDAR
 TIDECALENDARNAME = "Tides" unless defined? TIDECALENDARNAME
-GMAIL = "scheduler@yarmouth-rowing.org" unless defined? GMAIL
-GMAILPASSWD = "L;prj510GT" unless defined? GMAILPASSWD
+GMAIL = "merrymeeting.rowing@gmail.com" unless defined? GMAIL
+GMAILPASSWD = "nonesuch23river" unless defined? GMAILPASSWD
 
 # RSS Items
 BULLETINRSSTITLE = "Yarmouth Rowing Club Bulletins" unless defined? BULLETINRSSTITLE
@@ -43,7 +43,7 @@ BULLETINRSSDESC = "The latest bulletins and announcements from Yarmouth Rowing C
 
 # Configure the exception notifier
 ExceptionNotifier.exception_recipients = %w(shaun+merrymeetingrowing@yarmouth-rowing.org)
-ExceptionNotifier.sender_address = %("Scheduler Error" <polarrowing@gmail.com>)
+ExceptionNotifier.sender_address = %("Scheduler Error" <merrymeeting.rowing@gmail.com>)
 ExceptionNotifier.email_prefix = "[Rowbrunswick Scheduler ERROR] "  
 
 ActionMailer::Base.smtp_settings = {
