@@ -1,8 +1,13 @@
-<% 1.upto(@event.boat.max_number_of_rowers) { |i|
+<% 
+	max_rowers = 1
+  if (@event.boat)
+    max_rowers = @event.boat.max_number_of_rowers
+  end
+	1.upto(max_rowers) { |i|
 	seat = "#{i} seat"
-	if (@event.boat.max_number_of_rowers==1)
+	if (max_rowers==1)
 		seat = "single"
-	elsif (i==@event.boat.max_number_of_rowers)
+	elsif (i==max_rowers)
 		seat = "stroke"
 	elsif (i==1)
 		seat = "bow"

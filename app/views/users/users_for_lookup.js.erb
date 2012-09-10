@@ -1,19 +1,19 @@
-var starboards = new Array(<%= @starboards.size %>)
+var starboards = new Array(<%= @starboards.size %>);
 <% @starboards.each_with_index do |starboard, index| -%>
-	starboards[<%= index %>] = "<%= starboard.login %>"
+	starboards[<%= index %>] = "<%= starboard.login %>";
 <% end -%>
 
-var ports = new Array(<%= @ports.size %>)
+var ports = new Array(<%= @ports.size %>);
 <% @ports.each_with_index do |port, index| -%>
-	ports[<%= index %>] = "<%= port.login %>"
+	ports[<%= index %>] = "<%= port.login %>";
 <% end -%>
 
-var coaches = new Array(<%= @coaches.size %>)
+var coaches = new Array(<%= @coaches.size %>);
 <% @coaches.each_with_index do |coach, index| -%>
-	coaches[<%= index %>] = "<%= coach.login %>"
+	coaches[<%= index %>] = "<%= coach.login %>";
 <% end -%>
 
-var coxswains = new Array(<%= @coxswains.size %>)
+var coxswains = new Array(<%= @coxswains.size %>);
 <% @coxswains.each_with_index do |cox, index| -%>
-	coxswains[<%= index %>] = "<%= cox.login %>"
+	coxswains[<%= index %>] = "<%= cox.login %>";
 <% end -%>

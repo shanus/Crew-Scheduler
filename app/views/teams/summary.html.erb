@@ -50,21 +50,26 @@ List: <%= link_to_unless_current 'Future', team_summary_url(:id =>  @current_tea
 			<td><%= h event.boat.name %></td>
 			<td class="nobreak">
 				<% rowers = event.rowers %>
-				<% 1.upto(event.boat.max_number_of_rowers) { |i|
+				<% 
+					max_rowers = 1
+		      if (event.boat)
+		        max_rowers = event.boat.max_number_of_rowers
+		      end
+					1.upto(max_rowers) { |i|
 					seat = "seat_#{i}"
-					if (event.boat.max_number_of_rowers==1)
+					if (max_rowers==1)
 						seat = "single"
-					elsif (i==event.boat.max_number_of_rowers)
+					elsif (i==max_rowers)
 						seat = "stroke"
 					elsif (i==1)
 						seat = "bow"
 					end 
 				-%>
 					<div class="seat" id="<%= seat %>">
-						<input type="text" id="rower_lookup_<%= i %>" name="rowers[<%= i %>]" value="<%= h event.rowers[i] %>" size="12" class="small_text_field <%= allow_input(event) %>" <%= allow_input(event) %> />
-						<div class="auto_complete" id="rower_lookup_auto_complete_<%= i %>" style="display:none;">
+						<input type="text" id="rower_lookup_<%= i %>_<%= h event.id %>" name="rowers[<%= i %>]" value="<%= h event.rowers[i] %>" size="12" class="small_text_field <%= allow_input(event) %>" <%= allow_input(event) %> />
+						<div class="auto_complete" id="rower_lookup_auto_complete_<%= i %>_<%= h event.id %>" style="display:none;">
 						</div>
-						<%= javascript_tag("new Autocompleter.Local(\"rower_lookup_#{i}\", \"rower_lookup_auto_complete_#{i}\", #{(i%2==0) ? 'ports' : 'starboards' }, {fullSearch:true, frequency:0, minChars:1});") %>
+						<%= javascript_tag("new Autocompleter.Local(\"rower_lookup_#{i}_#{h event.id}\", \"rower_lookup_auto_complete_#{i}_#{h event.id}\", #{(i%2==0) ? 'ports' : 'starboards' }, {fullSearch:true, frequency:0, minChars:1});") %>
 					</div>
 					<% if i == 4 # places break on eights for room -%>
 					<br />
@@ -79,19 +84,19 @@ List: <%= link_to_unless_current 'Future', team_summary_url(:id =>  @current_tea
 	        (coach_class = " optional") unless (@current_team && @current_team.require_coach)	
 				-%>
 				<% unless !event.boat.has_coxswain? -%>
-				<input type="text" id="coxswain_lookup" name="event[coxswain]" value="<%= h event.coxswain %>" size="12" class="small_text_field<%= cox_class %> <%= allow_input(event) %>" <%= allow_input(event) %> />
-				<div class="auto_complete" id="coxswain_lookup_auto_complete" style="display:none;">
+				<input type="text" id="coxswain_lookup_<%= h event.id %>" name="event[coxswain]" value="<%= h event.coxswain %>" size="12" class="small_text_field<%= cox_class %> <%= allow_input(event) %>" <%= allow_input(event) %> />
+				<div class="auto_complete" id="coxswain_lookup_auto_complete_<%= h event.id %>" style="display:none;">
 				</div>
-				<%= javascript_tag("new Autocompleter.Local('coxswain_lookup', 'coxswain_lookup_auto_complete', coxswains, {fullSearch:true, frequency:0, minChars:1});") %>
+				<%= javascript_tag("new Autocompleter.Local('coxswain_lookup_#{h event.id}', 'coxswain_lookup_auto_complete_#{h event.id}', coxswains, {fullSearch:true, frequency:0, minChars:1});") %>
 				<% else -%>
 				none
 				<% end -%>
 			</td>
 			<td class="center">
-				<input type="text" id="coach_lookup" name="event[coach]" value="<%= h event.coach %>" size="12" class="small_text_field<%= coach_class %>  <%= allow_input(event) %>" <%= allow_input(event) %> />
-				<div class="auto_complete" id="coach_lookup_auto_complete" style="display:none;">
+				<input type="text" id="coach_lookup_<%= h event.id %>" name="event[coach]" value="<%= h event.coach %>" size="12" class="small_text_field<%= coach_class %>  <%= allow_input(event) %>" <%= allow_input(event) %> />
+				<div class="auto_complete" id="coach_lookup_auto_complete_<%= h event.id %>" style="display:none;">
 				</div>
-				<%= javascript_tag("new Autocompleter.Local('coach_lookup', 'coach_lookup_auto_complete', coaches, {fullSearch:true, frequency:0, minChars:1});") %>
+				<%= javascript_tag("new Autocompleter.Local('coach_lookup_#{h event.id}', 'coach_lookup_auto_complete_#{h event.id}', coaches, {fullSearch:true, frequency:0, minChars:1});") %>
 			</td>
 			<td>
 	    	<%= status ? "&nbsp;" : (submit_tag 'Update') %>

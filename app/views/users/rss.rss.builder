@@ -16,11 +16,15 @@ xml.rss(:version=>"2.0"){
       body += "Coach: #{upcoming.coach_name}<br />\n"
       body += "Coxswain: #{upcoming.coxswain_name}<br />\n<br />\n"
       body += "Rowers:<br />\n"
-      1.upto(upcoming.boat.max_number_of_rowers) { |i|
+      max_rowers = 1
+      if (event.boat)
+        max_rowers = upcoming.boat.max_number_of_rowers
+      end
+      1.upto(max_rowers) { |i|
         seat = "#{i} seat"
-        if (upcoming.boat.max_number_of_rowers==1)
+        if (max_rowers==1)
           seat = "single"
-        elsif (i==upcoming.boat.max_number_of_rowers)
+        elsif (i==max_rowers)
           seat = "stroke"
         elsif (i==1)
           seat = "bow"

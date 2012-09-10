@@ -53,7 +53,7 @@ tr.odd {background:#EEE}
 #add_item {float:right;margin-right:10px}
 div.radiogroup img {vertical-align:middle}
 div.radiogroup input {margin:0 15px 0 0}
-div.auto_complete {width:12em;background:#fff;text-align:left}
+div.auto_complete {width:12em;background:#fff;text-align:left;margin-top:8px;margin-left:8px;}
 div.auto_complete ul {border:1px solid #888;margin:0;padding:0;width:100%;list-style-type:none}
 div.auto_complete ul li {margin:0;padding:3px}
 div.auto_complete ul li.selected {background-color:#d3f4ff}
