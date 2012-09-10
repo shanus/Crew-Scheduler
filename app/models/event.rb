@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :boat_id
   
   def is_on?
+    return false unless self.boat && !self.users.blank?
     rowers = (self.users.count >= self.boat.max_number_of_rowers)
     # coxswain required then coxswain must be filled
     coxswain = !self.needs_coxswain?
