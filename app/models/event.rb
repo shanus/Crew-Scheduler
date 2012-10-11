@@ -102,7 +102,13 @@ class Event < ActiveRecord::Base
   end
   
   def team_name
-    self.team.name unless team.nil?
+    return self.team.name unless team.nil?
+    "Unknown"
+  end
+  
+  def boat_name
+    return self.boat.name unless boat.nil?
+    "Unknown"
   end
   
   def rowers
