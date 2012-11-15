@@ -12,6 +12,7 @@
 }
 .side-select .controls .radio.inline {
 	margin-right: 12px;
+	margin-left: 0;
 }
 .side-select .controls .radio.inline .radio_buttons {
 	margin-top:18px;
