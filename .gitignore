@@ -32,7 +32,7 @@ db/*.sqlite3
 /coverage.data
 /coverage/
 /db/*.javadb/
-/db/*.sqlite3
+/db/*.sqlite3-journal
 /doc/api/
 /doc/app/
 /doc/features.html

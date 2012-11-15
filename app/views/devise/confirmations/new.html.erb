@@ -1,0 +1,14 @@
+<h2>Resend confirmation instructions</h2>
+
+<%= simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => {:class => 'form-horizontal', :method => :post }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="inputs">
+    <%= f.input :email, :required => true, :autofocus => true %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, :value => "Resend confirmation instructions", :class => 'btn-warning' %>
+  </div>
+<% end %>
+
+<%= render "links" %>

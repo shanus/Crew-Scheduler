@@ -41,6 +41,7 @@ Crew::Application.configure do
 
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
+  config.cache_store = :dalli_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -61,7 +62,7 @@ Crew::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.default_url_options = { :host => 'scheduler.yarmouth-rowing.org' }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
@@ -72,16 +73,17 @@ Crew::Application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
-    domain: "example.com",
+    domain: "yarmouth-rowing.org",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: ENV["GMAIL_USERNAME"],
-    password: ENV["GMAIL_PASSWORD"]
+    user_name: "scheduler@yarmouth-rowing.org",
+    password: "L;prj510GT"
   }
 
-
-
-  # Log the query plan for queries taking more than this (works
-  # with SQLite, MySQL, and PostgreSQL)
-  # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  config.middleware.use ExceptionNotifier,
+      :email_prefix => "[Crew Scheduler ERROR] ",
+      :sender_address => %{"Crew Scheduler Error" <server@iwalkthrough.org>},
+      :exception_recipients => %w{support+yrc@infobridge.net},
+      :ignore_exceptions => %w{::ActiveRecord::RecordNotUnique ::ActionView::MissingTemplate} + ExceptionNotifier.default_ignore_exceptions,
+      :ignore_crawlers => %w{Googlebot bingbot}
 end

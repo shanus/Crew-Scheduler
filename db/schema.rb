@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114230925) do
+ActiveRecord::Schema.define(:version => 20121114235453) do
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(:version => 20121114230925) do
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",                           :null => false
+    t.string   "encrypted_password",     :default => "",                           :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -35,9 +35,23 @@ ActiveRecord::Schema.define(:version => 20121114230925) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                                       :null => false
+    t.datetime "updated_at",                                                       :null => false
     t.string   "name"
+    t.string   "authentication_token"
+    t.string   "confirmation_token"
+    t.string   "unconfirmed_email"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "side"
+    t.boolean  "will_cox"
+    t.boolean  "will_coach"
+    t.boolean  "send_reminders"
+    t.boolean  "public_rowing_history"
+    t.string   "color"
+    t.string   "time_zone",              :default => "Eastern Time (US & Canada)"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

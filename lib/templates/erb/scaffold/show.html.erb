@@ -1,0 +1,18 @@
+<%% title(t '.title', :default => "<%= singular_table_name.titleize %>" ) %>
+
+<dl class="dl-horizontal">
+<%- attributes.each do |attribute| -%>
+	<dt><strong><%= attribute.human_name %>:</strong></dt>
+	<dd><%%= @<%= singular_table_name %>.<%= attribute.name %> %></dd>
+<%- end -%>
+</dl>
+
+<div class="form-actions">
+	<%%= link_to t('.back', :default => t("helpers.links.back")), <%= index_helper %>_path, :class => 'btn'  %>
+  <%%= link_to t('.edit', :default => t("helpers.links.edit")), edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), :class => 'btn' %>
+  <%%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+								@<%= singular_table_name %>,
+								:method => 'delete',
+								:data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+								:class => 'btn btn-danger' %>
+</div>

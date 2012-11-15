@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Crew" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Crew" %>">
-    <%= stylesheet_link_tag "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
-    <%= csrf_meta_tags %>
-    <%= yield(:head) %>
-  </head>
-  <body class="<%= controller_name %> <%= action_name %>">
-    <header class="navbar navbar-fixed-top">
-      <nav class="navbar-inner">
-        <div class="container">
-          <%= render 'layouts/navigation' %>
-        </div>
-      </nav>
-    </header>
-    <div id="main" role="main">
-      <div class="container">
-        <div class="content">
-           <div class="row">
-            <div class="span12">
-              <%= render 'layouts/messages' %>
-              <%= yield %>
-            </div>
-          </div>
-          <footer>
-          </footer>
-        </div>
-      </div> <!--! end of .container -->
-    </div> <!--! end of #main -->
-  </body>
+<head>
+  <title><%= content_for?(:title) ? yield(:title) :  @page_title || APP_NAME %></title>
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+	<![endif]-->
+	<%= javascript_include_tag "application" %>
+	<%= stylesheet_link_tag    "application" %>
+	<%= csrf_meta_tags %>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<%= yield(:head) %>
+</head>
+<body class="<%= rand(2) == 1 ? 'single' : 'four' %>">
+	<%= render :partial => 'shared/navbar' %> 
+	<div class="container" id="main_content">
+		<div class="row">
+			<div class="span12">
+				<%= bootstrap_flash %>
+				<% if show_title? %>
+				<div class="page-header">
+					<%= content_tag :h1, yield(:title) %>
+				</div>
+				<% end %>
+				<%= yield %>
+			</div>
+		</div>
+	</div>
+	<%= render :partial => 'shared/footer' %>
+	<%= render :partial => 'shared/current_help' %>
+</body>
+<%= render :partial => 'layouts/site_javascripts' %>
 </html>

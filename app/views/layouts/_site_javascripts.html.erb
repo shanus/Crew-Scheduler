@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+			$('#help-link').popover({ placement : 'bottom',
+																trigger : 'manual',
+																content : helpContent()
+															});
+			if ( ($.browser.msie) || ($.browser.webkit) ) {
+				var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+				if (!isChrome) {
+					$('form').h5Validate();
+				}
+			}
+			$('.btn').bind("click", function(){
+				var linkText = $(this).text().toLowerCase();
+				if($(this).hasClass('dismiss')) {
+					return true;
+				}
+				if ((linkText == "back") || (linkText == "cancel")) {
+					parent.history.back();
+					return false;
+				} else {
+					return true;
+				}
+			});
+			
+    });
+</script>

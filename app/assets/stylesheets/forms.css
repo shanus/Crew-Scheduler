@@ -1,0 +1,12 @@
+.make-toggle .radio, .make-toggle .checkbox {
+	padding-left: 0;
+}
+.markItUpEditor {
+	background: white!important;
+	width: 96%!important;
+	height: auto;
+	padding-left: 10px;
+}
+.markItUpHeader .preview {
+	display:none;
+}
