@@ -1,0 +1,32 @@
+<% title(t '.title', :default => "Hulls") %>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+					<th>Name</th>
+					<th>Category</th>
+					<th>Seats</th>
+					<th class="no_sort"><%=t '.actions', :default => t("helpers.actions") %></th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @hulls.each do |hull| %>
+		<tr>
+			<td><%= hull.name %></td>
+			<td><%= hull.category_id %></td>
+			<td><%= hull.seats %></td>
+			<td>
+				<%= link_to t('.show', :default => t("helpers.links.show")), hull, :class => 'btn btn-mini btn-info' %>
+				<%= link_to t('.edit', :default => t("helpers.links.edit")), edit_hull_path(hull), :class => 'btn btn-mini' %>
+				<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+											hull,
+											:method => :delete,
+											:data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+											:class => 'btn btn-mini btn-danger' %>
+			</td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")), new_hull_path, :class => 'btn btn-primary' %>

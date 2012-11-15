@@ -1,0 +1,43 @@
+<% title "Help Contents" %>
+
+<table class="table table-striped" id="tips">
+	<thead>
+  <tr>
+    <th>Path</th>
+	  <th>Content</th>
+    <th>Creator</th>
+    <th>Modifier</th>
+    <th>Last Modified</th>
+		<th class="no_sort"><%=t '.actions', :default => t("helpers.actions") %></th>
+  </tr>
+	</thead>
+	<tbody>
+	<% @tips.each do |tip| %>
+	  <tr>
+	    <td>
+				<%= tip.actual_path %><br />
+				<span class="smallesttext">(<%= tip.path %>)</span>
+			</td>
+			<td><%= truncate_html(simple_format(tip.content), :length => 30) %></td>
+	    <td><%= tip.creator.reverse_full_name if tip.creator %></td>
+	    <td><%= tip.modifier.reverse_full_name if tip.modifier %></td>
+	    <td><%= l tip.updated_at, :format => :short %></td>
+      <td>
+				<%= link_to t('.show', :default => t("helpers.links.show")),
+                    help_path(tip), :class => 'btn btn-mini btn-info' %>
+        <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                    edit_help_path(tip), :class => 'btn btn-mini' %>
+        <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                    help_path(tip),
+                    :method => :delete,
+                    :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+                    :class => 'btn btn-mini btn-danger' %>
+      </td>
+	  </tr>
+	<% end %>
+	</tbody>
+</table>
+
+<%= link_to "New Help Item",
+						new_help_path,
+						:class => 'btn btn-primary' %>

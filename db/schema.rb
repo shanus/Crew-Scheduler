@@ -11,7 +11,66 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114235453) do
+ActiveRecord::Schema.define(:version => 20121115141640) do
+
+  create_table "boats", :force => true do |t|
+    t.string   "name"
+    t.integer  "hull_id"
+    t.integer  "usage_id"
+    t.integer  "weight_id"
+    t.string   "color"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "bulletins", :force => true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "display_until"
+    t.integer  "creator_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "coach"
+    t.string   "coxswain"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.integer  "team_id"
+    t.integer  "boat_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "hulls", :force => true do |t|
+    t.string   "name"
+    t.integer  "category_id"
+    t.string   "seats"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "memberships", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "team_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "participations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -23,6 +82,31 @@ ActiveRecord::Schema.define(:version => 20121114235453) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "teams", :force => true do |t|
+    t.string   "name"
+    t.boolean  "require_cox"
+    t.boolean  "require_coach"
+    t.string   "color"
+    t.boolean  "active",        :default => true
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "tips", :force => true do |t|
+    t.text     "content"
+    t.string   "path"
+    t.integer  "creator_id"
+    t.integer  "modifier_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "usages", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",                           :null => false
@@ -63,5 +147,11 @@ ActiveRecord::Schema.define(:version => 20121114235453) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
+
+  create_table "weights", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end

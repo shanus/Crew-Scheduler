@@ -1,0 +1,22 @@
+<% title(t '.title', :default => "Boat" ) %>
+
+<dl class="dl-horizontal">
+	<dt><strong>Name:</strong></dt>
+	<dd><%= @boat.name %></dd>
+	<dt><strong>Hull:</strong></dt>
+	<dd><%= @boat.hull_id %></dd>
+	<dt><strong>Usage:</strong></dt>
+	<dd><%= @boat.usage_id %></dd>
+	<dt><strong>Weight:</strong></dt>
+	<dd><%= @boat.weight_id %></dd>
+</dl>
+
+<div class="form-actions">
+	<%= link_to t('.back', :default => t("helpers.links.back")), boats_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_boat_path(@boat), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+								@boat,
+								:method => 'delete',
+								:data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+								:class => 'btn btn-danger' %>
+</div>

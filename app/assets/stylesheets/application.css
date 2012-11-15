@@ -5,6 +5,7 @@
  *= require_self
  *= require bootstrap-colorpicker
  *= require bootstrap-datepicker
+ *= require bootstrap-timepicker
  *= require bootstrap-toggle-buttons
  *= require jquery.ui.core
  *= require jquery.ui.theme

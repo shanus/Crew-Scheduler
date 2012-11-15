@@ -3,6 +3,7 @@
 //= require twitter/bootstrap
 //= require cocoon
 //= require bootstrap-datepicker
+//= require bootstrap-timepicker
 //= require bootstrap-colorpicker
 //= require bootstrap-toggle-buttons
 //= require dataTables/jquery.dataTables

@@ -1,0 +1,14 @@
+<%= simple_form_for @tip, :url => ((@tip.new_record? ? help_index_path : help_path(@tip))), :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :path, :as => :select, :collection => Tip.available_options, :prompt => "Please select a path...", :input_html => { :class => "span4"} %>
+    <%= f.input :content, :input_html => { :class => "span8"} %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                help_index_path, :class => 'btn' %>
+  </div>
+<% end %>

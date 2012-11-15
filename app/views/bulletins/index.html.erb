@@ -1,0 +1,34 @@
+<% title(t '.title', :default => "Bulletins") %>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+					<th>Title</th>
+					<th>Content</th>
+					<th>Display until</th>
+					<th>Creator</th>
+					<th class="no_sort"><%=t '.actions', :default => t("helpers.actions") %></th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @bulletins.each do |bulletin| %>
+		<tr>
+			<td><%= bulletin.title %></td>
+			<td><%= bulletin.content %></td>
+			<td><%= bulletin.display_until %></td>
+			<td><%= bulletin.creator_id %></td>
+			<td>
+				<%= link_to t('.show', :default => t("helpers.links.show")), bulletin, :class => 'btn btn-mini btn-info' %>
+				<%= link_to t('.edit', :default => t("helpers.links.edit")), edit_bulletin_path(bulletin), :class => 'btn btn-mini' %>
+				<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+											bulletin,
+											:method => :delete,
+											:data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+											:class => 'btn btn-mini btn-danger' %>
+			</td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")), new_bulletin_path, :class => 'btn btn-primary' %>

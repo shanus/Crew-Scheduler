@@ -1,0 +1,49 @@
+<% title "Help Item - #{@tip.path}", false %>
+<h1>Help Item</h1>
+<p>
+  <strong>Path:</strong> 
+  <%= @tip.actual_path %> 
+	<span class="smallesttext">(<%= @tip.path %>)</span>
+</p>
+
+<p>
+  <strong>Preview:</strong>
+</p>
+<div class="popover fade bottom in" id="preview">
+	<div class="popover-inner">
+		<h3 class="popover-title">Help</h3>
+		<div class="popover-content">
+			<p><%= simple_format @tip.content %></p>
+		</div>
+	</div>
+</div>
+
+
+<p>
+  <strong>Created by:</strong> 
+  <%= @tip.creator.full_name if @tip.creator %>
+</p>
+<p>
+  <strong>Created At:</strong> 
+  <%= l @tip.created_at, :format => :long %>
+</p>
+<p>
+  <strong>Modified By:</strong> 
+  <%= @tip.modifier.full_name if @tip.modifier %>
+</p>
+<p>
+  <strong>Updated At:</strong> 
+  <%= l @tip.updated_at, :format => :long %>
+</p>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              help_index_path, :class => 'btn'  %>	
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_help_path(@tip), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              help_path(@tip),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure? This is permanent.')),
+              :class => 'btn btn-danger' %>
+</div>

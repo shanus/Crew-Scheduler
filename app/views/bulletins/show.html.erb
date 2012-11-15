@@ -1,0 +1,22 @@
+<% title(t '.title', :default => "Bulletin" ) %>
+
+<dl class="dl-horizontal">
+	<dt><strong>Title:</strong></dt>
+	<dd><%= @bulletin.title %></dd>
+	<dt><strong>Content:</strong></dt>
+	<dd><%= @bulletin.content %></dd>
+	<dt><strong>Display until:</strong></dt>
+	<dd><%= @bulletin.display_until %></dd>
+	<dt><strong>Creator:</strong></dt>
+	<dd><%= @bulletin.creator_id %></dd>
+</dl>
+
+<div class="form-actions">
+	<%= link_to t('.back', :default => t("helpers.links.back")), bulletins_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_bulletin_path(@bulletin), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+								@bulletin,
+								:method => 'delete',
+								:data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+								:class => 'btn btn-danger' %>
+</div>

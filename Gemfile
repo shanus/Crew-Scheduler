@@ -14,6 +14,7 @@ gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-colorpicker-rails'
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-timepicker-rails'
 gem 'rails-bootstrap-toggle-buttons'
 gem 'markitup-rails'
 
@@ -27,6 +28,7 @@ gem 'carmen'
 gem 'truncate_html'
 gem 'cocoon'
 gem 'kaminari'
+gem 'sidekiq'
 
 group :test do
   gem "capybara", ">= 1.1.3"
