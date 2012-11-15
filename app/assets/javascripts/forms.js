@@ -9,4 +9,5 @@ $(document).ready(function() {
 			    disabled: "NO"
 			  }
 	});
+	$('.colorpicker').colorpicker();
 });

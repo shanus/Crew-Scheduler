@@ -12,6 +12,7 @@ gem "less-rails"
 gem "twitter-bootstrap-rails", '= 2.1.3'
 gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
+gem 'bootstrap-colorpicker-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'rails-bootstrap-toggle-buttons'
 gem 'markitup-rails'
