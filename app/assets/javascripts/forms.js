@@ -9,5 +9,8 @@ $(document).ready(function() {
 			    disabled: "NO"
 			  }
 	});
+	$('.make-toggle span.labelLeft, .make-toggle span.labelRight').bind("click", function() {
+      $(this).siblings('label').trigger('mousedown').trigger('mouseup').trigger('click');
+  });
 	$('.colorpicker').colorpicker();
 });

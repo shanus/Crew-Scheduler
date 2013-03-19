@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'rails', '3.2.9'
+gem 'rails', '3.2.13'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -9,7 +9,7 @@ group :assets do
 end
 gem 'jquery-rails'
 gem "less-rails"
-gem "twitter-bootstrap-rails", '= 2.1.3'
+gem "twitter-bootstrap-rails", "~> 2.2.6"
 gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-colorpicker-rails'
@@ -29,6 +29,8 @@ gem 'truncate_html'
 gem 'cocoon'
 gem 'kaminari'
 gem 'sidekiq'
+gem 'slim'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :test do
   gem "capybara", ">= 1.1.3"

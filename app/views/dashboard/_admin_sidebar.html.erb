@@ -1,0 +1,36 @@
+<% content_for :sidebar do %>
+	<ul class="nav nav-list">
+	  <li class="nav-header">Manage</li>
+	  <li>
+			<%= link_to "<i class='icon-group icon-white'></i> Crews".html_safe, teams_path %>
+		</li>
+		<li>
+			<%= link_to "<i class='icon-certificate icon-white'></i> Boats".html_safe, boats_path %>
+		</li>
+		<li>
+			<%= link_to "<i class='icon-calendar icon-white'></i> Rowing Times".html_safe, events_path %>
+		</li>
+	  <li>
+			<%= link_to "<i class='icon-user icon-white'></i> Rowers".html_safe, users_path %>
+		</li>
+		<li class="divider"></li>
+		<li>
+			<%= link_to "<i class='icon-edit icon-white'></i> Reports".html_safe, "#" %>
+		</li>
+		<li class="divider"></li>
+		<li>
+			<%= link_to "<i class='icon-chevron-up icon-white'></i> Tides".html_safe, "#" %>
+		</li>
+		<li>
+			<%= link_to "<i class='icon-bookmark icon-white'></i> Bulletins".html_safe, bulletins_path %>
+		</li>
+		<li>
+			<%= link_to "<i class='icon-question-sign icon-white'></i> Instructions".html_safe, help_index_path %>
+		</li>
+		<li class="divider"></li>
+		<li class="nav-header">Technical Details</li>
+		<li>
+			<%= link_to "<i class='icon-wrench icon-white'></i> Processes".html_safe, "/sidekiq", :target => "_blank" %>
+		</li>
+	</ul>
+<% end %>

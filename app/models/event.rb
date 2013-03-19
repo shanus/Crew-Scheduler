@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
   before_validation :make_starts_at
   before_validation :make_ends_at
   
-  has_many :participations, :dependent => :destroy
+  has_many :participations, :dependent => :destroy, :inverse_of => :event
   has_many :users, :through => :participations
   
   belongs_to :team

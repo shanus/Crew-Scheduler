@@ -9,9 +9,9 @@ class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :side, :will_cox, :will_coach, :color, :time_zone, :public_rowing_history, :send_reminders
   
-  has_many :memberships, :dependent => :destroy
+  has_many :memberships, :dependent => :destroy, :inverse_of => :user
   has_many :teams, :through => :memberships
-  has_many :participations, :dependent => :destroy
+  has_many :participations, :dependent => :destroy, :inverse_of => :user
   has_many :events, :through => :participations
   
   def full_name

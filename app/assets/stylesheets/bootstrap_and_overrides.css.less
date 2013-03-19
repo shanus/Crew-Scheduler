@@ -2,14 +2,24 @@
 body { 
 	padding-top: 60px;
 }
-
 @import "twitter/bootstrap/responsive";
 
 // Set the correct sprite paths
-@iconSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings.png');
-@iconWhiteSpritePath: asset-path('twitter/bootstrap/glyphicons-halflings-white.png');
+@iconSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: asset-path("twitter/bootstrap/glyphicons-halflings-white.png");
 
-// Spacelab 2.2.1
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+// Note: If you use asset_path() here, your compiled bootstrap_and_overrides.css will not
+//       have the proper paths. So for now we use the absolute path.
+@fontAwesomeEotPath: asset-path("fontawesome-webfont.eot?v=3.0.2");
+@fontAwesomeEotPath_iefix: asset-path("fontawesome-webfont.eot?#iefix&v=3.0.2");
+@fontAwesomeWoffPath: asset-path("fontawesome-webfont.woff?v=3.0.2");
+@fontAwesomeTtfPath: asset-path("fontawesome-webfont.ttf?v=3.0.2");
+
+// Font Awesome
+@import "fontawesome";
+
+// Spacelab 2.3.1
 // Variables
 // --------------------------------------------------
 
@@ -22,9 +32,9 @@ body {
 // -------------------------
 @black:                 #000;
 @grayDarker:            #2D2D2D;
-@grayDark:              #333;
-@gray:                  #777;
-@grayLight:             #bbb;
+@grayDark:              #434848;
+@gray:                  #666;
+@grayLight:             #ccc;
 @grayLighter:           #eee;
 @white:                 #fff;
 
@@ -33,7 +43,7 @@ body {
 // -------------------------
 @blue:                  #3399F3;
 @blueDark:              #405A6A;
-@green:                 #819E37;
+@green:                 #3CB521;
 @red:                   #CD0200;
 @yellow:                #F4CA00;
 @orange:                #D47500;
@@ -44,29 +54,33 @@ body {
 // Scaffolding
 // -------------------------
 @bodyBackground:        @white;
-@textColor:             @grayDarker;
+@textColor:             @gray;
 
 
 // Links
 // -------------------------
-@linkColor:             #558BC4;
+@linkColor:             #09d;
 @linkColorHover:        @linkColor;
 
 
 // Typography
 // -------------------------
-@sansFontFamily:        "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@import url('http://fonts.googleapis.com/css?family=Muli');
+
+@sansFontFamily:        "Muli","Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace;
 
-@baseFontSize:          14px;
+@baseFontSize:          15px;
 @baseFontFamily:        @sansFontFamily;
 @baseLineHeight:        21px;
 @altFontFamily:         @serifFontFamily;
 
 @headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
 @headingsFontWeight:    normal;    // instead of browser default, bold
-@headingsColor:         inherit; // empty to use BS default, @textColor
+@headingsColor:         @grayDarker; // empty to use BS default, @textColor
+
+.page-header { padding-bottom: 3.5px;margin: 8px 0 11.5px; }
 
 
 // Component sizing
@@ -79,7 +93,7 @@ body {
 
 @paddingLarge:          11px 19px; // 44px
 @paddingSmall:          2px 10px;  // 26px
-@paddingMini:           1px 6px;   // 24px
+@paddingMini:           0px 6px;   // 22px
 
 @baseBorderRadius:      4px;
 @borderRadiusLarge:     6px;
@@ -99,19 +113,19 @@ body {
 @btnBackgroundHighlight:            @grayLighter;
 @btnBorder:                         darken(@btnBackground, 20%);
 
-@btnPrimaryBackground:              lighten(@linkColor, 15%);
+@btnPrimaryBackground:              lighten(@linkColor, 10%);
 @btnPrimaryBackgroundHighlight:     @linkColor;
 
-@btnInfoBackground:                 lighten(@grayLight, 15%);
-@btnInfoBackgroundHighlight:        @grayLight;
+@btnInfoBackground:                 lighten(#3A5D83, 10%);
+@btnInfoBackgroundHighlight:        #3A5D83;
 
-@btnSuccessBackground:              lighten(@green, 15%);
+@btnSuccessBackground:              lighten(@green, 10%);
 @btnSuccessBackgroundHighlight:     @green;
 
-@btnWarningBackground:              lighten(@orange, 15%);
+@btnWarningBackground:              lighten(@orange, 10%);
 @btnWarningBackgroundHighlight:     @orange;
 
-@btnDangerBackground:               lighten(@red, 15%);
+@btnDangerBackground:               lighten(@red, 10%);
 @btnDangerBackgroundHighlight:      @red;
 
 @btnInverseBackground:              lighten(@navbarInverseBackground, 15%);
@@ -132,12 +146,12 @@ body {
 // -------------------------
 @dropdownBackground:            @white;
 @dropdownBorder:                rgba(0,0,0,.2);
-@dropdownDividerTop:            #e5e5e5;
-@dropdownDividerBottom:         @white;
+@dropdownDividerTop:            rgba(0, 0, 0, 0.1);
+@dropdownDividerBottom:         rgba(255, 255, 255, 0.5);
 
 @dropdownLinkColor:             @textColor;
 @dropdownLinkColorHover:        @white;
-@dropdownLinkColorActive:       @dropdownLinkColor;
+@dropdownLinkColorActive:       @white;
 
 @dropdownLinkBackgroundActive:  @linkColor;
 @dropdownLinkBackgroundHover:   @dropdownLinkBackgroundActive;
@@ -177,7 +191,7 @@ body {
 
 // Wells
 // -------------------------
-@wellBackground:                  #f5f5f5;
+@wellBackground:                  @grayLighter;
 
 
 // Navbar
@@ -186,26 +200,26 @@ body {
 @navbarCollapseDesktopWidth:      @navbarCollapseWidth + 1;
 
 @navbarHeight:                    40px;
-@navbarBackgroundHighlight:       #eee;
-@navbarBackground:                @grayLight;
-@navbarBorder:                    darken(@navbarBackground, 5%);
+@navbarBackgroundHighlight:       @grayLighter;
+@navbarBackground:                darken(@grayLighter, 5%);
+@navbarBorder:                    @grayLight;
 
 @navbarText:                      @textColor;
 @navbarLinkColor:                 @textColor;
 @navbarLinkColorHover:            @linkColor;
-@navbarLinkColorActive:           @textColor;
+@navbarLinkColorActive:           @linkColor;
 @navbarLinkBackgroundHover:       transparent;
 @navbarLinkBackgroundActive:      transparent;
 
-@navbarBrandColor:                @grayDark;
+@navbarBrandColor:                @navbarLinkColor;
 
 // Inverted navbar
-@navbarInverseBackground:                #6C737E;
-@navbarInverseBackgroundHighlight:       lighten(@navbarInverseBackground, 25%);
-@navbarInverseBorder:                    darken(@navbarInverseBackground, 5%);
+@navbarInverseBackground:                #558BC4;
+@navbarInverseBackgroundHighlight:       lighten(@navbarInverseBackground, 10%);
+@navbarInverseBorder:                    darken(@navbarInverseBackground, 3%);
 
-@navbarInverseText:                      @grayLighter;
-@navbarInverseLinkColor:                 @grayLighter;
+@navbarInverseText:                      lighten(@grayLight, 10%);
+@navbarInverseLinkColor:                 lighten(@grayLight, 10%);
 @navbarInverseLinkColorHover:            @white;
 @navbarInverseLinkColorActive:           @white;
 @navbarInverseLinkBackgroundHover:       transparent;
@@ -229,27 +243,8 @@ body {
 // Hero unit
 // -------------------------
 @heroUnitBackground:              @grayLighter;
-@heroUnitHeadingColor:            inherit;
+@heroUnitHeadingColor:            @headingsColor;
 @heroUnitLeadColor:               inherit;
-
-
-// Form states and alerts
-// -------------------------
-@warningText:             @white;
-@warningBackground:       @orange;
-@warningBorder:           darken(spin(@warningBackground, -10), 3%);
-
-@errorText:               @white;
-@errorBackground:         @red;
-@errorBorder:             darken(spin(@errorBackground, -10), 3%);
-
-@successText:             @white;
-@successBackground:       @green;
-@successBorder:           darken(spin(@successBackground, -10), 5%);
-
-@infoText:                @white;
-@infoBackground:          @blue;
-@infoBorder:              darken(spin(@infoBackground, -10), 7%);
 
 
 // Tooltips and popovers
@@ -304,305 +299,3 @@ body {
 // 768px-979px
 @fluidGridColumnWidth768:      percentage(@gridColumnWidth768/@gridRowWidth768);
 @fluidGridGutterWidth768:      percentage(@gridGutterWidth768/@gridRowWidth768);
-
-// Spacelab 2.2.1
-// Bootswatch
-// -----------------------------------------------------
-
-
-// TYPOGRAPHY
-// -----------------------------------------------------
-
-@import url('http://fonts.googleapis.com/css?family=Muli');
-
-// SCAFFOLDING
-// -----------------------------------------------------
-
-// NAVBAR
-// -----------------------------------------------------
-
-.navbar {
-
-	.navbar-inner {
-		border-bottom: 1px solid #CACACA;
-		.box-shadow(0 1px 0 rgba(255,255,255,0.4)~", "0 0 10px rgba(0,0,0,0.1));
-	}
-
-	.brand {
-
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-
-		&:hover {
-			color: @linkColor;
-		}
-	}
-
-	.nav > li > a {
-		padding: 11px 10px 9px;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-	}
-
-	.navbar-text {
-		margin-top: 2px;
-		padding: 0 10px;
-		line-height: 38px;
-	}
-
-	.navbar-search .search-query,
-	.navbar-search .search-query:hover {
-		margin-bottom: 0;
-		line-height: normal;
-		color: @grayLight;
-		.placeholder(@grayLight);
-		.box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.5));
-
-	    &:focus,
-	    &.focused {
-			.box-shadow(inset 0 1px 2px rgba(0, 0, 0, 0.5));
-			color: @textColor;
-		}
-	}
-
-	&-inverse {
-
-		.brand {
-			text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-
-			&:hover {
-				color: @white;
-			}
-		}
-
-		.nav > li > a {
-			text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
-		}
-
-		.nav li.dropdown.open > .dropdown-toggle .caret,
-		.nav li.dropdown:hover > .dropdown-toggle .caret,
-		.nav li.dropdown.open:hover > .dropdown-toggle .caret {
-			border-top-color: @white;
-		}
-
-		.navbar-search .search-query,
-		.navbar-search .search-query:hover {
-
-			color: @white;
-
-			.placeholder(@grayLighter);
-		}
-	}
-}
-
-@media (max-width: @navbarCollapseWidth) {
-
-	.navbar .nav-collapse {
-
-		.nav li > a:hover {
-			background-color: @linkColor;
-			color: @white;
-			text-shadow: none;
-		}
-
-		.navbar-search {
-			border-top: none;
-			border-bottom: none;
-		}
-	}
-
-	.navbar-inverse .nav-collapse {
-
-		.nav li > a {
-			color: @grayLighter;
-
-			&:hover {
-				background-color: @linkColor !important;
-			}
-		}
-
-		.nav-header {
-			color: @grayLighter;
-		}
-	}
-}
-
-div.subnav {
-
-	.nav > li > a {
-
-		color: @textColor;
-
-		&:hover {
-			color: @linkColor;
-		}
-	}
-
-	.nav > li.active > a {
-
-		color: @textColor;
-
-		&:hover {
-			color: @textColor;
-		}
-	}
-
-	.nav > li.dropdown > .dropdown-toggle {
-		background-color: transparent;
-	}
-
-	.nav > li.dropdown.open > .dropdown-toggle {
-
-		border-left: 1px solid whiteSmoke;
-		border-right: 1px solid #E5E5E5;
-		color: @textColor;
-
-		&:hover {
-			color: @linkColor;
-		}
-	}
-}
-
-// NAV
-// -----------------------------------------------------
-
-.nav > li.dropdown > .dropdown-toggle,
-.nav > li.dropdown.active > .dropdown-toggle,
-.nav > li.dropdown.open > .dropdown-toggle,
-.nav > li.dropdown.open.active > .dropdown-toggle  {
-
-	.caret {
-		border-top: 4px solid @textColor;
-		border-top-color: @textColor;
-		opacity: 1;
-	}
-
-	&:hover .caret {
-		border-top: 4px solid @linkColorHover;
-		border-top-color: @linkColorHover;
-	}
-}
-
-// BUTTONS
-// -----------------------------------------------------
-
-.btn {
-
-
-	&-info,
-	&-info:hover,
-	&-info.disabled {
-		
-		color: @textColor;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-
-		.caret {
-			border-top-color: @textColor;
-			border-bottom-color: @textColor;
-		}
-	}
-
-}
-
-/*.btn {
-	.buttonBackground(#F4F4F4, #ECECEC);
-	color: @textColor;
-	text-shadow: none;
-
-
-	&:hover,
-	&:active,
-	&.active,
-	&.disabled,
-	&[disabled] {
-		color: @grayDark;
-	}
-}
-
-.btn-primary {
-	.buttonBackground(#909090, #3F3F3F);
-}
-
-.btn-warning {
-  .buttonBackground(lighten(@yellow, 15%), @yellow);
-}
-
-.btn-danger {
-  .buttonBackground(lighten(#DA2D2D, 15%), #DA2D2D);
-}
-
-.btn-success {
-  .buttonBackground(#8ADD6D, #60B044);
-}
-
-.btn-info {
-  .buttonBackground(lighten(#4488BB, 15%), #4488BB);
-}
-
-.btn-inverse {
-  .buttonBackground(lighten(@purple, 5%), @purple);
-}*/
-
-// TABLES
-// -----------------------------------------------------
-
-// FORMS
-// -----------------------------------------------------
-
-.control-group.warning {
-	.formFieldState(#E29235, #E29235, @warningBackground);
-}
-
-.control-group.error {
-	.formFieldState(#C00, #C00, @errorBackground);
-}
-
-.control-group.success {
-	.formFieldState(#2BA949, #2BA949, @successBackground);
-}
-
-// DROPDOWNS
-// -----------------------------------------------------
-
-// ALERTS, LABELS, BADGES
-// -----------------------------------------------------
-
-.alert {
-	color: @white;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-}
-
-.label, .badge {
-
-	padding-top: 4px;
-
-	&-important {
-		background-color: @red;
-	}
-
-	&-warning {
-		background-color: @orange;
-	}
-
-	&-success {
-		background-color: @green;
-	}
-
-	&-info {
-		background-color: @blue;
-	}
-}
-
-// MISC
-// -----------------------------------------------------
-
-.well {
-	background-color: @grayLighter;
-}
-
-.hero-unit {
-    .box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
-    border: 1px solid rgba(0,0,0,.05);
-}
-
-// MEDIA QUERIES
-// -----------------------------------------------------
-

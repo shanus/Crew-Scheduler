@@ -1,0 +1,24 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+			<%= link_to "Dashboard", root_path, :class=> "brand" %>
+			<div class="container nav-collapse">
+				<ul class="nav pull-right">
+					<% if user_signed_in? %>
+					<li><%= link_to "#{image_tag gravatar_url(current_user,18), :class => 'avatar'} My Account".html_safe, edit_user_path(current_user) %></li> 
+					<li class="divider-vertical"></li>
+					<li><%= link_to "<i class='icon-signout icon-white'></i> Sign out".html_safe, destroy_user_session_path, :method => :delete %></li>
+					<% else %>
+					<li><%= link_to "<i class='icon-pushpin icon-white'></i> Sign Up".html_safe, new_user_registration_path %></li>
+					<li><%= link_to "<i class='icon-signin icon-white'></i> Sign in".html_safe, new_user_session_path %></li>
+					<% end %>
+				</ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+</div>

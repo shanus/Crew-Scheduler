@@ -3,9 +3,9 @@
 
 	<div class="form-inputs">
 		<%= f.input :name %>
-		<%= f.input :hull_id %>
-		<%= f.input :usage_id %>
-		<%= f.input :weight_id %>
+		<%= f.association :hull, :prompt => false %>
+		<%= f.association :usage, :prompt => false %>
+		<%= f.association :weight, :prompt => false %>
 	</div>
 
 	<div class="form-actions">

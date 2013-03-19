@@ -1,12 +1,22 @@
 @singleBackgroundPath: asset-path('background.png');
 @fourBackgroundPath: asset-path('background_four.png');
+@smallSingleBackgroundPath: asset-path('background_small.png');
+@smallFourBackgroundPath: asset-path('background_four_small.png');
 body.four {
 	background-image: url(@fourBackgroundPath);
-	background-position:top right;
+	background-position:right 60px;
 	background-repeat:no-repeat;
 }
 body.single {
 	background-image: url(@singleBackgroundPath);
-	background-position:top right;
+	background-position:right 60px;
 	background-repeat:no-repeat;
+}
+@media (max-width: 979px) {
+	body.four {
+		background-image: url(@smallFourBackgroundPath);
+	}
+	body.single {
+		background-image: url(@smallSingleBackgroundPath);
+	}
 }

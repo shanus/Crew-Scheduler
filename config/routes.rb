@@ -1,5 +1,7 @@
+require 'sidekiq/web'
+
 Crew::Application.routes.draw do
-get "dashboard/index"
+  get "dashboard/index"
 
   authenticated :user do
     root :to => 'dashboard#index'
@@ -19,4 +21,9 @@ get "dashboard/index"
   resources :events
   resources :teams
   resources :bulletins
+  
+  constraint = lambda { |request| request.env["warden"].authenticate? and request.env['warden'].user.has_role?(:admin) }
+  constraints constraint do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

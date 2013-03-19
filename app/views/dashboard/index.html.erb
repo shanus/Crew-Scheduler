@@ -1,2 +1,8 @@
-<h1>Dashboard#index</h1>
+<% title "Dashboard" %>
 <p>Find me in app/views/dashboard/index.html.erb</p>
+
+
+
+<% if user_signed_in? && current_user.has_role?(:admin) %>
+	<%= render :partial => "admin_sidebar" %>
+<% end %>
