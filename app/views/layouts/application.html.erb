@@ -11,6 +11,7 @@
 		<%= csrf_meta_tags %>
 		<%= javascript_include_tag "application" %>
 		<%= stylesheet_link_tag "application", :media => "all" %>
+		<%= render :partial => 'layouts/favicons' %>
 		<%= yield(:head) %>
 	</head>
 	<body class="<%= rand(2) == 1 ? 'single' : 'four' %>">
