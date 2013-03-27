@@ -2,11 +2,27 @@
 	<%= f.error_notification %>
 
 	<div class="form-inputs">
-		<%= f.input :title %>
-		<%= f.input :content %>
-		<%= f.input :display_until %>
-		<%= f.input :creator_id %>
+		<%= f.input :title, :input_html => { :class => "span5"} %>
+		<%= f.input :content, :input_html => { :class => "span5", :rows => 8 }, 
+		                      :hint => "#{link_to "markdown", "http://daringfireball.net/projects/markdown/syntax", :target => "_blank"} can be used to format the text".html_safe %>
+		<%= f.input :display_until, :wrapper => :append do %>
+		  <%= f.input_field :display_until, :as => :string, 
+																				:class => "span2", 
+																				:size => 16,
+																				:readonly => true,
+																				:value => f.object.display_until.blank? ? nil : f.object.display_until.strftime("%Y-%m-%d") %>
+			<span class="add-on"><i class="icon-calendar"></i></span>
+		<% end %>
+
+		<%= f.input :creator_id, :as => :hidden %>
 	</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".input-append").addClass("date");
+			$(".input-append").datepicker({"format": "yyyy-mm-dd", "weekStart": 0, "autoclose": true});
+		});
+	</script>
 
 	<div class="form-actions">
 		<%= f.button :submit, :class => 'btn-primary' %>

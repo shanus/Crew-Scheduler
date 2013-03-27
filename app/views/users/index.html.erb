@@ -17,7 +17,7 @@
     <tr>
         <td><%= link_to user.name, user %></td>
         <td><%= user.email %></td>
-        <td><%= user.created_at.to_date %></td>
+        <td><%= (user.created_at.nil?) ? raw("<i>Never</i>") : "#{time_ago_in_words(user.created_at)} ago" %></td>
         <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
         <td>
           <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>

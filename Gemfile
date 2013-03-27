@@ -9,11 +9,11 @@ group :assets do
 end
 gem 'jquery-rails'
 gem "less-rails"
-gem "twitter-bootstrap-rails", "~> 2.2.6"
+gem "twitter-bootstrap-rails"
 gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-colorpicker-rails'
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', "~> 0.6.24"
 gem 'bootstrap-timepicker-rails'
 gem 'rails-bootstrap-toggle-buttons'
 gem 'markitup-rails'
@@ -31,6 +31,8 @@ gem 'kaminari'
 gem 'sidekiq'
 gem 'slim'
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'date_validator'
+gem 'bluecloth'
 
 group :test do
   gem "capybara", ">= 1.1.3"

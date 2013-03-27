@@ -17,6 +17,10 @@
 					<li><%= link_to "<i class='icon-pushpin icon-white'></i> Sign Up".html_safe, new_user_registration_path %></li>
 					<li><%= link_to "<i class='icon-signin icon-white'></i> Sign in".html_safe, new_user_session_path %></li>
 					<% end %>
+					<li class="divider-vertical"></li>
+					<li><%= link_to_function "<i class='icon-question-sign icon-white'></i> Help".html_safe, "$(this).popover('toggle')", 
+																			:id => "help-link", 
+																			:title => "Help" %></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>

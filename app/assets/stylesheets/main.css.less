@@ -1,20 +1,79 @@
+@oarPath: asset-path("oar.png");
+@oarSmallPath: asset-path("oar_small.png");
+@oarTinyPath: asset-path("oar_tiny.png");
+
 #main_content {
 	margin-bottom: 56px;
 }
 .sidebar .well {
 	margin-top: 80px;
 }
-
+div#background {
+	position:fixed;
+	z-index:-3;
+	bottom:20px;
+	left:8px;
+	width:140px;
+	height:280px;
+	background:transparent url(@oarPath) no-repeat left bottom;
+}
+div#backgroundshifted {
+	position:fixed;
+	z-index:-3;
+	bottom:20px;
+	right:8px;
+	width:140px;
+	height:280px;
+	background:transparent url(@oarPath) no-repeat right bottom;
+	-moz-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	transform: scaleX(-1);
+	filter: FlipH;
+	-ms-filter: "FlipH";
+}
+@media (max-width: 1530px) {
+	div#background {
+		position:fixed;
+		z-index:-3;
+		bottom:30px;
+		left:8px;
+		width:70px;
+		height:140px;
+		background:transparent url(@oarSmallPath) no-repeat left bottom;
+	}
+}
 @media (max-width: 979px) {
 	#main_content {
 		min-height: 600px;
 	}
+	div#background, div#backgroundshifted {
+		position:static;
+		width:140px;
+		height:140px;
+		margin-bottom:-48px;
+		background:transparent url(@oarSmallPath) no-repeat center center;
+		-webkit-transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		-o-transform: rotate(90deg);
+		transform: rotate(90deg);
+	}
+
 }
 @media (max-width: 767px) {
 	.sidebar .well {
 		margin-top: 10px;
 	}
+	div#background, div#backgroundshifted {
+		margin-left:-20px;
+		margin-bottom:-36px;
+		width:70px;
+		height:70px;
+		background:transparent url(@oarTinyPath) no-repeat center center;
+	}
 }
+
 @media (max-width: 321px) {
 	#main_content {
 		min-height: 340px;

@@ -3,20 +3,20 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-					<th>Title</th>
-					<th>Content</th>
-					<th>Display until</th>
-					<th>Creator</th>
-					<th class="no_sort"><%=t '.actions', :default => t("helpers.actions") %></th>
+			<th>Display until</th>
+			<th>Title</th>
+			<th>Posted by</th>
+			<th>Created</th>
+			<th class="no_sort"><%=t '.actions', :default => t("helpers.actions") %></th>
 		</tr>
 	</thead>
 	<tbody>
 	<% @bulletins.each do |bulletin| %>
 		<tr>
+			<td class="smallertext"><%= bulletin.display_until.blank? ? "<em>Unknown</em>".html_safe : l(bulletin.display_until, :format => :statistic) %></td>
 			<td><%= bulletin.title %></td>
-			<td><%= bulletin.content %></td>
-			<td><%= bulletin.display_until %></td>
-			<td><%= bulletin.creator_id %></td>
+			<td class="smallertext"><%= bulletin.creator ? bulletin.creator.full_name : "<em>Unknown</em>".html_safe %></td>
+			<td><%= (bulletin.created_at.nil?) ? "<em>Never</em>".html_safe : "#{time_ago_in_words(bulletin.created_at)} ago" %></td>
 			<td>
 				<%= link_to t('.show', :default => t("helpers.links.show")), bulletin, :class => 'btn btn-mini btn-info' %>
 				<%= link_to t('.edit', :default => t("helpers.links.edit")), edit_bulletin_path(bulletin), :class => 'btn btn-mini' %>

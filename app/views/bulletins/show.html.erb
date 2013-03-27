@@ -1,14 +1,19 @@
 <% title(t '.title', :default => "Bulletin" ) %>
 
+<h2><%= @bulletin.title %></h2>
+<blockquote>
+	<%= BlueCloth.new(@bulletin.content).to_html.html_safe %>
+</blockquote>
+<br />
+<p class="lead"><strong>Display until:</strong><%= @bulletin.display_until.blank? ? "<em>Unknown</em>".html_safe : l(@bulletin.display_until, :format => :statistic) %></p>
+<br /><br />
 <dl class="dl-horizontal">
-	<dt><strong>Title:</strong></dt>
-	<dd><%= @bulletin.title %></dd>
-	<dt><strong>Content:</strong></dt>
-	<dd><%= @bulletin.content %></dd>
-	<dt><strong>Display until:</strong></dt>
-	<dd><%= @bulletin.display_until %></dd>
 	<dt><strong>Creator:</strong></dt>
-	<dd><%= @bulletin.creator_id %></dd>
+	<dd><%= @bulletin.creator ? @bulletin.creator.full_name : "<em>Unknown</em>".html_safe %></dd>
+	<dt><strong>Created at:</strong></dt>
+	<dd><%= @bulletin.created_at.blank? ? "<em>Unknown</em>".html_safe : l(@bulletin.created_at, :format => :long_pretty) %></dd>
+	<dt><strong>Updated at:</strong></dt>
+	<dd><%= @bulletin.updated_at.blank? ? "<em>Unknown</em>".html_safe : l(@bulletin.updated_at, :format => :long_pretty) %></dd>
 </dl>
 
 <div class="form-actions">

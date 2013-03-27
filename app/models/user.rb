@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   has_many :teams, :through => :memberships
   has_many :participations, :dependent => :destroy, :inverse_of => :user
   has_many :events, :through => :participations
+  has_many :tips, :dependent => :destroy
+  has_many :bulletins, :dependent => :destroy
   
   def full_name
     "#{self.first_name} #{self.last_name}".strip

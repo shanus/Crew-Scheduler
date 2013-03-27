@@ -16,6 +16,8 @@ class BulletinsController < ApplicationController
 
   def new
     @bulletin = Bulletin.new
+    @bulletin.creator = current_user
+    @bulletin.display_until = Date.today + 1.week
 
     respond_with(@bulletin)
   end
@@ -28,6 +30,7 @@ class BulletinsController < ApplicationController
 
   def create
     @bulletin = Bulletin.new(params[:bulletin])
+    @bulletin.creator = current_user
 
     flash[:notice] = 'Successfully created Bulletin.' if @bulletin.save
     respond_with(@bulletin)
