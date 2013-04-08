@@ -1,6 +1,8 @@
 class HullsController < ApplicationController
   respond_to :html, :xml, :json
   authorize_resource :class => Hull
+  
+  # layout "app_with_sidebar"
 
   def index
     @hulls = Hull.all

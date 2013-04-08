@@ -16,6 +16,8 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @event.starts_at = Time.now + 1.day
+    @event.ends_at = @event.starts_at + 1.hour
 
     respond_with(@event)
   end

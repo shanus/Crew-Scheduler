@@ -24,6 +24,10 @@ module LayoutHelper
     value ? "Yes" : "No"
   end
   
+  def display_boolean(value)
+    boolean_display(value)
+  end
+  
   def blank_display(item, full_display = nil)
     full_display = item if full_display.nil?
     if item.blank?

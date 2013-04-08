@@ -1,6 +1,8 @@
 class TeamsController < ApplicationController
   respond_to :html, :xml, :json
   authorize_resource :class => Team
+  
+  # layout "app_with_sidebar"
 
   def index
     @teams = Team.all

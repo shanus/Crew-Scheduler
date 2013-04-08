@@ -2,14 +2,12 @@
 	<%= f.error_notification %>
 
 	<div class="form-inputs">
-		<%= f.input :start_date, :as => :string, :placeholder => "yyyy-mm-dd", :input_html => { :class => "span2 datepicker", :readonly => true, :value => l(f.object.start_date, :format => :date_only) } %>
-		<%= f.input :start_time, :label => false, :wrapper => :append, :class => "inline" do %>
-		   <%= f.input_field :start_time, :as => :string, :placeholder => "hh:mm", :class => "span1 timepicker", :readonly => true, :value => l(f.object.start_time, :format => :time_only) %>
+		<%= f.input :starts_at, :wrapper => :append, :class => "inline" do %>
+		   <%= f.input_field :starts_at, :as => :string, :placeholder => "MMM dd yyyy hh:mm", :class => "span2 datetimepicker", :readonly => true, :value => l(f.object.start_time, :format => :input) %>
 		    <%= content_tag :span, "<i class='icon-time'></i>".html_safe, :class => "add-on" %>
 		<% end %>
-		<%= f.input :end_date, :as => :string, :placeholder => "yyyy-mm-dd", :input_html => { :class => "span2 datepicker", :readonly => true, :value => l(f.object.end_date, :format => :date_only) } %>
-		<%= f.input :end_time, :label => false, :wrapper => :append, :class => "inline" do %>
-		   <%= f.input_field :end_time, :as => :string, :placeholder => "hh:mm", :class => "span1 timepicker", :readonly => true, :value => l(f.object.end_time, :format => :time_only) %>
+		<%= f.input :ends_at, :wrapper => :append, :class => "inline" do %>
+		   <%= f.input_field :ends_at, :as => :string, :placeholder => "MMM dd yyyy hh:mm", :class => "span2 datetimepicker", :readonly => true, :value => l(f.object.end_time, :format => :input) %>
 		    <%= content_tag :span, "<i class='icon-time'></i>".html_safe, :class => "add-on" %>
 		<% end %>
 		<%= f.association :team %>
@@ -22,6 +20,10 @@
 	</div>
 <% end %>
 <script type="text/javascript">
-	$(".datepicker").datepicker({"format": "yyyy-mm-dd", "weekStart": 0, "autoclose": true, "startDate": '<%= Date.today.strftime("%Y-%m-%d") %>'});
-	$('.timepicker').timepicker({"minuteStep": 5});
+	$(".datetimepicker").datetimepicker({
+					format: "M dd yyyy - hh:ii", 
+					autoclose: true,
+					todayBtn: false,
+					startDate: "<%= l(Time.now, :format => :input) %>"
+				});
 </script>

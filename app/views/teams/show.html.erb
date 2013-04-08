@@ -1,8 +1,12 @@
-<% title(t '.title', :default => "Team" ) %>
+<% title(t('.title', :default => "Team"), false ) %>
+
+<h1 class="page-title"><%= @team.name %></h1>
 
 <dl class="dl-horizontal">
-	<dt><strong>Name:</strong></dt>
-	<dd><%= @team.name %></dd>
+	<dt><strong>Coxswain Required:</strong></dt>
+	<dd><%= display_boolean @team.require_cox %></dd>
+	<dt><strong>Coach Required:</strong></dt>
+	<dd><%= display_boolean @team.require_coach %></dd>
 </dl>
 
 <div class="form-actions">

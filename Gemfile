@@ -33,6 +33,7 @@ gem 'slim'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'date_validator'
 gem 'bluecloth'
+gem 'validates_timeliness'
 
 group :test do
   gem "capybara", ">= 1.1.3"

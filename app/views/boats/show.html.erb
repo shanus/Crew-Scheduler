@@ -1,14 +1,12 @@
-<% title(t '.title', :default => "Boat" ) %>
+<% title(t '.title', :default => @boat.name ) %>
 
 <dl class="dl-horizontal">
-	<dt><strong>Name:</strong></dt>
-	<dd><%= @boat.name %></dd>
 	<dt><strong>Hull:</strong></dt>
-	<dd><%= @boat.hull_id %></dd>
+	<dd><%= @boat.hull ? @boat.hull.name : "<em>Unknown</em>".html_safe %></dd>
 	<dt><strong>Usage:</strong></dt>
-	<dd><%= @boat.usage_id %></dd>
+	<dd><%= @boat.usage ? @boat.usage.name : "<em>Unknown</em>".html_safe %></dd>
 	<dt><strong>Weight:</strong></dt>
-	<dd><%= @boat.weight_id %></dd>
+	<dd><%= @boat.weight ? @boat.weight.name : "<em>Unknown</em>".html_safe %></dd>
 </dl>
 
 <div class="form-actions">

@@ -14,9 +14,9 @@
 	<% @boats.each do |boat| %>
 		<tr>
 			<td><%= boat.name %></td>
-			<td><%= boat.hull_id %></td>
-			<td><%= boat.usage_id %></td>
-			<td><%= boat.weight_id %></td>
+			<td><%= boat.hull ? boat.hull.seats : "<em>Unknown</em>".html_safe %></td>
+			<td><%= boat.usage ? boat.usage.name : "<em>Unknown</em>".html_safe %></td>
+			<td><%= boat.weight ? boat.weight.name : "<em>Unknown</em>".html_safe %></td>
 			<td>
 				<%= link_to t('.show', :default => t("helpers.links.show")), boat, :class => 'btn btn-mini btn-info' %>
 				<%= link_to t('.edit', :default => t("helpers.links.edit")), edit_boat_path(boat), :class => 'btn btn-mini' %>

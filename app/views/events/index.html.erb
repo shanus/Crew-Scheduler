@@ -15,8 +15,8 @@
 		<tr>
 			<td><%= event.starts_at %></td>
 			<td><%= event.ends_at %></td>
-			<td><%= event.team_id %></td>
-			<td><%= event.boat_id %></td>
+			<td><%= event.team_name %></td>
+			<td><%= event.boat_name %></td>
 			<td>
 				<%= link_to t('.show', :default => t("helpers.links.show")), event, :class => 'btn btn-mini btn-info' %>
 				<%= link_to t('.edit', :default => t("helpers.links.edit")), edit_event_path(event), :class => 'btn btn-mini' %>

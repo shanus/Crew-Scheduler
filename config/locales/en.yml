@@ -6,6 +6,9 @@ en:
       date_only: "%Y-%m-%d"
       statistic: "%A, %B %d, %Y"
       time_only: "%H:%M"
+      input: "%b %d %Y - %H:%M"
+      range_start: "%A, %b %d, %Y %H:%M"
+      range_end: "%H:%M"
   date:
     formats:
       date_only: "%Y-%m-%d"
