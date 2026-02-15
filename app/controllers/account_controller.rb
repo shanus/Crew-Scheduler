@@ -1,10 +1,10 @@
 class AccountController < ApplicationController
   skip_before_action :login_required, only: [:login, :authenticate, :signup, :create, :activate, :reset, :send_reset]
   before_action :check_if_logged_in, only: [:login, :signup, :reset]
-  
+
   # Rails 8 native rate limiting
   rate_limit to: 5, within: 10.minutes, only: [:create, :send_reset], with: -> { redirect_to root_path, alert: "Too many requests. Please try again later." }
-  
+
   # Invisible Captcha protection for signup and reset
   invisible_captcha only: [:create, :send_reset], on_spam: :spam_detected
 
@@ -18,9 +18,9 @@ class AccountController < ApplicationController
       self.current_user = user
       if params[:remember_me] == "1"
         user.remember_me
-        cookies.signed[:auth_token] = { 
-          value: user.remember_token, 
-          expires: user.remember_token_expires_at 
+        cookies.signed[:auth_token] = {
+          value: user.remember_token,
+          expires: user.remember_token_expires_at
         }
       end
       flash[:notice] = "Logged in successfully"
@@ -56,7 +56,7 @@ class AccountController < ApplicationController
   def activate
     code = params[:activation_code]
     @user = User.find_by(activation_code: code)
-    
+
     if @user&.activate
       flash[:notice] = "This account has been activated. Please login."
       redirect_to login_path

@@ -14,7 +14,7 @@
         <tr class="<%= 'opacity-75 bg-light' if event.date < Date.today %>">
           <td>
             <div class="fw-bold"><%= human_date(event.date) %></div>
-            <div class="small text-muted"><%= event.date.strftime("%A") %></div>
+            <div class="fs-5 text-muted"><%= event.date.strftime("%A") %></div>
           </td>
           <td>
             <div class="d-flex align-items-center mb-1">
@@ -25,13 +25,13 @@
               <% end %>
             </div>
             <% if event.boat %>
-              <div class="small text-muted d-flex align-items-center">
+              <div class="fs-5 text-muted d-flex align-items-center">
                 <%= boat_icon(event.boat) %>
                 <span class="ms-1"><%= event.boat.name %></span>
               </div>
             <% end %>
           </td>
-          <td class="small">
+          <td class="fs-5">
              <% if event.seating_positions.any? %>
                 <% event.seating_positions.includes(:user).each do |sp| %>
                   <div class="d-inline-block me-2 mb-1">
@@ -43,12 +43,12 @@
                 <span class="text-muted italic">No seating assigned</span>
              <% end %>
           </td>
-          <td class="small">
+          <td class="fs-5">
             <% if event.coxswain %>
-              <div><span class="text-muted">Cox:</span> <strong><%= event.coxswain.login %></strong></div>
+              <div><span class="text-muted">Cox:</span> <strong><%= event.coxswain_name %></strong></div>
             <% end %>
             <% if event.coach %>
-              <div><span class="text-muted">Coach:</span> <strong><%= event.coach.login %></strong></div>
+              <div><span class="text-muted">Coach:</span> <strong><%= event.coach_name %></strong></div>
             <% end %>
           </td>
           <td class="text-end">

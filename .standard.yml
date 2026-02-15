@@ -1,0 +1,14 @@
+ignore:
+  - 'legacy/**/*'
+  - '**/*':
+    - Style/HashSyntax
+    - Style/RedundantDoubleSplatHashBraces
+    - Style/StringLiteralsInInterpolation
+    - Style/ConditionalAssignment
+    - Style/RedundantParentheses
+    - Style/ComparableClamp
+    - Lint/SymbolConversion
+    - Performance/StringIdentifierArgument
+    - Layout/SpaceInsideHashLiteralBraces
+    - Layout/SpaceInsideArrayLiteralBrackets
+    - Layout/SpaceInsideBlockBraces

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :login_required, only: [:rss]
   before_action :history_is_public, only: [:sparkline]
-  
+
   def index
     @pagy, @users = pagy(User.order(:login), limit: 30)
   end
@@ -9,10 +9,10 @@ class UsersController < ApplicationController
   def list
     @pagy, @users = pagy(User.order(:login), limit: 30)
   end
-  
+
   def rss
     @user = User.find_by!(login: params[:login])
-    @upcoming = @user.upcoming 
+    @upcoming = @user.upcoming
     @title = "Upcoming Rowing for #{@user.login.capitalize}"
     @desc = "Rowing Times for the next two weeks for #{@user.login.capitalize}."
     respond_to do |format|
@@ -21,11 +21,11 @@ class UsersController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
   end
-  
+
   def sparkline
     @user = params[:id].present? ? User.find_by(id: params[:id]) : current_user
     @user ||= current_user
-    render partial: 'sparkline', locals: { sparkline_data: @user.rowing_history }
+    render partial: "sparkline", locals: {sparkline_data: @user.rowing_history}
   end
 
   def show
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to users_path, notice: 'Member was successfully created.'
+      redirect_to users_path, notice: "Member was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: 'Member was successfully updated.'
+      redirect_to user_path(@user), notice: "Member was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -61,9 +61,9 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    redirect_to users_path, notice: 'Member was successfully deleted.'
+    redirect_to users_path, notice: "Member was successfully deleted."
   end
-  
+
   def users_for_lookup
     @ports = User.where("side != 'stbd'").order(:login)
     @starboards = User.where("side != 'port'").order(:login)
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
       format.html { render layout: false }
     end
   end
-  
+
   private
 
   def user_params
@@ -85,7 +85,7 @@ class UsersController < ApplicationController
     return true if params[:id].blank?
     user = User.find_by(id: params[:id])
     return true if user&.public_rowing_history
-    
+
     render plain: " ", status: :forbidden
     false
   end

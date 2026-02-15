@@ -12,5 +12,5 @@ Pagy.options[:limit] = 20
 # Setting it directly in options for the offset paginator:
 Pagy.options[:overflow] = :last_page
 
-# Note: Explicit 'require' for extras like 'bootstrap' is often no longer needed 
+# Note: Explicit 'require' for extras like 'bootstrap' is often no longer needed
 # if using the new #series_nav(:bootstrap) method, as it autoloads helpers.

@@ -1,7 +1,7 @@
 module TeamsHelper
   def comma_list(team, email: false)
     return "none" if team.users.empty?
-    
+
     team.users.map do |member|
       if email
         member.email
@@ -10,7 +10,7 @@ module TeamsHelper
       end
     end.join(", ").html_safe
   end
-  
+
   def team_email(team)
     comma_list(team, email: true)
   end

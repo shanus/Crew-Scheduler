@@ -1,9 +1,9 @@
 class BulletinsController < ApplicationController
   skip_before_action :login_required, only: [:index, :show]
-  
+
   def index
     @pagy, @bulletins = pagy(Bulletin.order(created_at: :desc), limit: 10)
-    
+
     respond_to do |format|
       format.html
       format.xml { render xml: @bulletins }
@@ -33,7 +33,7 @@ class BulletinsController < ApplicationController
   def create
     @bulletin = current_user.bulletins.build(bulletin_params)
     if @bulletin.save
-      redirect_to @bulletin, notice: 'Bulletin was successfully created.'
+      redirect_to @bulletin, notice: "Bulletin was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,11 +42,11 @@ class BulletinsController < ApplicationController
   def update
     @bulletin = Bulletin.find(params[:id])
     if current_user != @bulletin.user
-       return redirect_to @bulletin, alert: "Unauthorized"
+      return redirect_to @bulletin, alert: "Unauthorized"
     end
 
     if @bulletin.update(bulletin_params)
-      redirect_to @bulletin, notice: 'Bulletin was successfully updated.'
+      redirect_to @bulletin, notice: "Bulletin was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -57,9 +57,9 @@ class BulletinsController < ApplicationController
     if current_user != @bulletin.user
       return redirect_to bulletins_url, alert: "Unauthorized"
     end
-    
+
     @bulletin.destroy
-    redirect_to bulletins_url, notice: 'Bulletin was successfully deleted.'
+    redirect_to bulletins_url, notice: "Bulletin was successfully deleted."
   end
 
   private

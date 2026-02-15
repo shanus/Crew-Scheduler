@@ -27,40 +27,56 @@
       <div class="collapse navbar-collapse" id="navbarMain">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <% if logged_in? %>
-          <li class="nav-item">
-            <%= link_to "Summary", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
-          </li>
-          
-          <% @active_teams&.each do |team| %>
-          <li class="nav-item">
-            <%= link_to team.name.titleize, summary_team_path(team), class: "nav-link #{'active' if @current_team == team}" %>
-          </li>
-          <% end %>
+            <li class="nav-item">
+              <%= link_to "Summary", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
+            </li>
+            
+            <% if @active_teams %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Crews
+              </a>
+              <ul class="dropdown-menu">
+                <% @active_teams&.each do |team| %>
+                <li class="dropdown-item">
+                  <%= link_to team.name.titleize, summary_team_path(team), class: "nav-link #{'active' if @current_team == team}" %>
+                </li>
+              <% end %>
+              </ul>
+            </li>
+            <% end %>
 
-          <li class="nav-item">
-            <%= link_to "Reports", reports_path, class: "nav-link #{'active' if controller_name == 'reports'}" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Admin", admin_path, class: "nav-link #{'active' if controller_name == 'admin'}" %>
-          </li>
+            <li class="nav-item">
+              <%= link_to "Reports", reports_path, class: "nav-link #{'active' if controller_name == 'reports'}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Admin", admin_path, class: "nav-link #{'active' if controller_name == 'admin'}" %>
+            </li>
+          <% end %>
         </ul>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <%= link_to "<i class='bi bi-person-fill'></i> #{current_user.login}".html_safe, edit_user_path(current_user), class: "nav-link me-2", title:"Edit Personal Settings" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "<i class='bi bi-box-arrow-right'></i> <span class='d-inline d-lg-none'>Logout</span>".html_safe, logout_path, class: "nav-link", title:"Logout" %>
-          </li>
+
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+          <% if logged_in? %>
+            <li class="nav-item">
+              <%= link_to edit_user_path(current_user), class: "nav-link me-2", title: "Edit Personal Settings" do %>
+                <i class="bi bi-person-fill"></i> <%= current_user.login %>
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to logout_path, class: "nav-link", title: "Logout" do %>
+                <i class="bi bi-box-arrow-right"></i> <span class="d-inline d-lg-none">Logout</span>
+              <% end %>
+            </li>
           <% else %>
-          <li class="nav-item">
-            <%= link_to "Signup", signup_path, class: "btn btn-outline-light btn-sm me-2 my-2 my-lg-0" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Login", login_path, class: "btn btn-outline-light btn-sm me-2 my-2 my-lg-0" %>
-          </li>
+            <li class="nav-item">
+              <%= link_to "Signup", signup_path, class: "btn btn-outline-light btn-sm me-2 my-2 my-lg-0" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Login", login_path, class: "btn btn-outline-light btn-sm me-2 my-2 my-lg-0" %>
+            </li>
           <% end %>
           <li class="nav-item">
-            <button class="nav-link me-3" data-action="click->theme#toggle" title="Toggle Dark Mode">
+            <button class="btn nav-link px-2" data-action="click->theme#toggle" title="Toggle Dark Mode">
               <i class="bi bi-sun-fill" data-theme-target="icon"></i> <span class="d-inline d-lg-none">Toggle Dark Mode</span>
             </button>
           </li>

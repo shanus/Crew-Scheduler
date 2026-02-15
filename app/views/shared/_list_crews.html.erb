@@ -3,12 +3,12 @@
     <thead class="table-light">
       <tr>
         <th rowspan="2">Name</th>
-        <th colspan="2" class="text-center border-start">Requirements</th>
+        <th colspan="2" class="text-center border-start border-end">Requirements</th>
         <th rowspan="2" class="text-end">Actions</th>
       </tr>
       <tr>
-        <th class="text-center border-start small">Coxswain</th>
-        <th class="text-center small">Coach</th>
+        <th class="text-center border-start fs-5">Coxswain</th>
+        <th class="text-center border-end fs-5">Coach</th>
       </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
         <tr class="<%= 'table-light opacity-50' unless team.active %>">
           <td>
             <div class="d-flex align-items-center">
-              <span class="p-2 rounded-circle me-2" style="background-color: <%= team.color || '#6c757d' %>"></span>
+              <span class="p-2 rounded-circle me-2" style="background-color: <%= team.color.blank? ? '#6c757d' : team.color %>"></span>
               <%= link_to team.name, team_path(team), class: "text-decoration-none fw-bold" %>
               <% unless team.active %>
                 <span class="badge bg-secondary ms-2">Inactive</span>
@@ -25,12 +25,12 @@
           </td>
           <td class="text-center border-start">
             <% if team.require_cox %>
-              <i class="bi bi-check-lg text-success fs-5"></i>
+              <i class="bi bi-check-lg text-success fs-3"></i>
             <% end %>
           </td>
-          <td class="text-center">
+          <td class="text-center border-end">
             <% if team.require_coach %>
-              <i class="bi bi-check-lg text-success fs-5"></i>
+              <i class="bi bi-check-lg text-success fs-3"></i>
             <% end %>
           </td>
           <td class="text-end">

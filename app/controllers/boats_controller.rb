@@ -20,7 +20,7 @@ class BoatsController < ApplicationController
   def create
     @boat = Boat.new(boat_params)
     if @boat.save
-      redirect_to boats_path, notice: 'Boat was successfully created.'
+      redirect_to boats_path, notice: "Boat was successfully created."
     else
       @boat_usages = BoatUsage.all
       @boat_weights = BoatWeight.all
@@ -37,7 +37,7 @@ class BoatsController < ApplicationController
   def update
     @boat = Boat.find(params[:id])
     if @boat.update(boat_params)
-      redirect_to boat_path(@boat), notice: 'Boat was successfully updated.'
+      redirect_to boat_path(@boat), notice: "Boat was successfully updated."
     else
       @boat_usages = BoatUsage.all
       @boat_weights = BoatWeight.all
@@ -48,24 +48,36 @@ class BoatsController < ApplicationController
   def destroy
     @boat = Boat.find(params[:id])
     @boat.destroy
-    redirect_to boats_path, notice: 'Boat was successfully deleted.'
+    redirect_to boats_path, notice: "Boat was successfully deleted."
   end
-  
+
   def check_availability
     if params[:id].present?
-      date = Date.strptime(params[:date], "%d-%m-%Y") rescue Date.today
-      start_time = Time.zone.parse("#{params[:date]} #{params[:start]}") rescue nil
-      finish_time = Time.zone.parse("#{params[:date]} #{params[:end]}") rescue nil
-      
+      date = begin
+        Date.strptime(params[:date], "%d-%m-%Y")
+      rescue
+        Date.today
+      end
+      start_time = begin
+        Time.zone.parse("#{params[:date]} #{params[:start]}")
+      rescue
+        nil
+      end
+      finish_time = begin
+        Time.zone.parse("#{params[:date]} #{params[:end]}")
+      rescue
+        nil
+      end
+
       @boat = Boat.find(params[:id])
       @message = @boat.check_availability(date, start_time, finish_time)
     end
     render layout: false
   end
-  
+
   def details
     @boat = Boat.find_by(id: params[:id]) if params[:id].present?
-    render partial: 'boats/boat_detail'
+    render partial: "boats/boat_detail"
   end
 
   private

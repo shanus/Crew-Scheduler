@@ -19,10 +19,10 @@ class EventsController < ApplicationController
     else
       @current_team = Team.find(params[:team])
     end
-    
+
     @event = Event.new(team: @current_team)
     @event.event_on = Date.today + 7.days
-    
+
     # Try to find tides for the date to suggest a good start time
     @tides = Tide.where("day >= ?", @event.event_on - 2.days).limit(5)
     if @tides[2]
@@ -42,10 +42,10 @@ class EventsController < ApplicationController
   def create
     normalize_times
     @event = Event.new(event_params)
-    
+
     if @event.save
       SeatingPosition.init(@event) if @event.boat.present?
-      flash[:notice] = 'Rowing time was successfully created.'
+      flash[:notice] = "Rowing time was successfully created."
       redirect_to summary_team_path(@event.team)
     else
       @tides = Tide.where("day >= ?", @event.event_on - 2.days).limit(5)
@@ -62,9 +62,9 @@ class EventsController < ApplicationController
   def update
     normalize_times
     @event = Event.find(params[:id])
-    
+
     if @event.update(event_params)
-      flash[:notice] = 'Rowing time was successfully updated.'
+      flash[:notice] = "Rowing time was successfully updated."
       redirect_to boat_path(@event.boat) # Matches legacy show action logic or redirect as needed
     else
       @tides = Tide.where("day >= ?", @event.event_on - 2.days).limit(5)
@@ -75,23 +75,23 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id])
     @event.destroy
-    redirect_to events_path, notice: 'Event was successfully deleted.'
+    redirect_to events_path, notice: "Event was successfully deleted."
   end
-  
+
   def update_rowers
     @event = Event.find(params[:id])
     rowers_params = params[:rowers] || {}
-    
+
     rowers_params.each do |position, login|
       user = User.find_by(login: login)
       seat = @event.seating_positions.find_by(position: position)
-      seat.update(user_id: user&.id) if seat
+      seat&.update(user_id: user&.id)
     end
-    
+
     if @event.update(event_params)
-      flash[:notice] = 'Rowing time was successfully updated.'
-    else 
-      flash[:error] = 'An error occurred while saving changes.'
+      flash[:notice] = "Rowing time was successfully updated."
+    else
+      flash[:error] = "An error occurred while saving changes."
     end
     redirect_to summary_team_path(@event.team)
   end
@@ -103,7 +103,7 @@ class EventsController < ApplicationController
   end
 
   def normalize_times
-    # In modern Rails with multi-parameter attributes, usually Rails handles this, 
+    # In modern Rails with multi-parameter attributes, usually Rails handles this,
     # but the legacy code manually synced date with time.
     # If the form uses date_select/time_select, Rails 8 handles the parts.
     # Keeping the spirit of the legacy normalization if needed.

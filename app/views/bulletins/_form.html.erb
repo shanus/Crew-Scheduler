@@ -1,7 +1,7 @@
 <% if @bulletin.errors.any? %>
   <div class="alert alert-danger shadow-sm mb-4">
     <h5 class="alert-heading">Errors prevented this bulletin from being saved:</h5>
-    <ul class="mb-0 small">
+    <ul class="mb-0 fs-5">
       <% @bulletin.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
@@ -30,7 +30,7 @@
       <%= f.date_field :display_until, class: "form-control shadow-sm" %>
     </div>
     <div class="col-md-8 pt-2">
-      <span class="text-muted small">The bulletin will automatically be hidden after this date.</span>
+      <span class="text-muted fs-5">The bulletin will automatically be hidden after this date.</span>
     </div>
   </div>
 </div>

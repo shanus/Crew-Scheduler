@@ -1,5 +1,6 @@
 module ApplicationHelper
   include Pagy::Method
+
   def markdown(text)
     return "" if text.blank?
     Kramdown::Document.new(text).to_html.html_safe
@@ -55,7 +56,7 @@ module ApplicationHelper
 
   def human_time(time)
     return "" if time.nil?
-    time.strftime(time.min == 0 ? "%H:00" : "%H:%M")
+    time.strftime((time.min == 0) ? "%H:00" : "%H:%M")
   end
 
   def color_swatch(item)

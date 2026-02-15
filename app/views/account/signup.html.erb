@@ -9,7 +9,7 @@
         <% if @user&.errors&.any? %>
           <div class="alert alert-danger shadow-sm">
             <h6 class="alert-heading">Validation Errors:</h6>
-            <ul class="mb-0 small">
+            <ul class="mb-0 ">
               <% @user.errors.full_messages.each do |msg| %>
                 <li><%= msg %></li>
               <% end %>
@@ -48,8 +48,8 @@
               <%= f.submit "Sign Up", class: "btn btn-success btn-lg shadow-sm" %>
             </div>
             <div class="text-center mt-3">
-              <span class="text-muted small">Already have an account?</span>
-              <%= link_to "Log In", login_path, class: "small text-decoration-none ms-1 fw-bold" %>
+              <span class="text-muted fs-5">Already have an account?</span>
+              <%= link_to "Log In", login_path, class: "fs-5 text-decoration-none ms-1 fw-bold" %>
             </div>
           </div>
         <% end %>

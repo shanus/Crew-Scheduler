@@ -14,28 +14,28 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/signup', to: 'account#signup', as: :signup
-  post '/signup', to: 'account#create'
-  get '/login', to: 'account#login', as: :login
-  post '/login', to: 'account#authenticate'
-  get '/logout', to: 'account#logout', as: :logout
-  get '/reset', to: 'account#reset', as: :reset
-  post '/reset', to: 'account#send_reset'
-  get '/activate/:activation_code', to: 'account#activate', as: :activate
+  get "/signup", to: "account#signup", as: :signup
+  post "/signup", to: "account#create"
+  get "/login", to: "account#login", as: :login
+  post "/login", to: "account#authenticate"
+  get "/logout", to: "account#logout", as: :logout
+  get "/reset", to: "account#reset", as: :reset
+  post "/reset", to: "account#send_reset"
+  get "/activate/:activation_code", to: "account#activate", as: :activate
 
-  get '/summary', to: 'summary#index', as: :summary
-  get '/admin', to: 'admin#index', as: :admin
+  get "/summary", to: "summary#index", as: :summary
+  get "/admin", to: "admin#index", as: :admin
 
   resources :users do
     collection do
       get :users_for_lookup
     end
   end
-  get '/users/rss/:login', to: 'users#rss', as: :user_rss
+  get "/users/rss/:login", to: "users#rss", as: :user_rss
 
   resources :tides do
     collection do
-      get 'summary(/:number)', to: 'tides#summary', as: :summary
+      get "summary(/:number)", to: "tides#summary", as: :summary
       get :upload
       post :import
     end
@@ -43,13 +43,13 @@ Rails.application.routes.draw do
 
   resources :events do
     collection do
-      get 'new/:team', to: 'events#new', as: :new_for_team
+      get "new/:team", to: "events#new", as: :new_for_team
     end
   end
 
   resources :teams do
     member do
-      get 'summary/:time', to: 'teams#summary', as: :summary, defaults: { time: 'future' }
+      get "summary/:time", to: "teams#summary", as: :summary, defaults: {time: "future"}
     end
   end
 
@@ -58,7 +58,7 @@ Rails.application.routes.draw do
   get "sparklines/:id/image", to: "sparklines#index", as: :sparkline
 
   # Standard Rails 8 health check
-  get "up" => "rails/health#show", as: :rails_health_check
+  get "up" => "rails/health#show", :as => :rails_health_check
   get "/.well-known/appspecific/com.chrome.devtools.json", to: proc { [200, {"Content-Type" => "application/json"}, ["{}"]] }
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)

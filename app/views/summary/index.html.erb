@@ -46,7 +46,7 @@
     </div>
 
     <div id="bulletins" class="mb-5">
-      <h3 class="border-bottom pb-2 mb-3">Bulletins</h3>
+      <h3 class="border-bottom pb-2 mb-3"><i class="bi bi-pin-fill"></i> Bulletins</h3>
       <% if @bulletins&.any? %>
         <%= render partial: 'bulletin', collection: @bulletins %>
         <% if @bulletins.total_entries > 3 %>
@@ -60,7 +60,7 @@
     </div>
 
     <div id="wanted" class="mb-5">
-      <h3 class="border-bottom pb-2 mb-3 text-danger"><i class="bi bi-megaphone-fill"></i> Rowers Wanted</h3>
+      <h3 class="border-bottom pb-2 mb-3"><i class="bi bi-megaphone-fill"></i> Rowers Wanted</h3>
       <div class="list-group shadow-sm">
         <% if @needed&.any? %>
           <%= render partial: 'needed', collection: @needed %>

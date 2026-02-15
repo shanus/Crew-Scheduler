@@ -8,16 +8,16 @@ module Authentication
   protected
 
   def current_user
-    @current_user ||= authenticate_user_from_session || :false
+    @current_user ||= authenticate_user_from_session || false
   end
 
   def logged_in?
-    current_user != :false
+    current_user != false
   end
 
   def current_user=(user)
     session[:user_id] = user&.id
-    @current_user = user || :false
+    @current_user = user || false
   end
 
   def login_required
@@ -54,14 +54,14 @@ module Authentication
 
   def login_from_cookie
     return if logged_in? || cookies.signed[:auth_token].blank?
-    
+
     user = User.find_by(remember_token: cookies.signed[:auth_token])
     if user&.remember_token?
       user.remember_me
       self.current_user = user
-      cookies.signed[:auth_token] = { 
-        value: user.remember_token, 
-        expires: user.remember_token_expires_at 
+      cookies.signed[:auth_token] = {
+        value: user.remember_token,
+        expires: user.remember_token_expires_at
       }
     end
   end

@@ -7,7 +7,7 @@ module ReportsHelper
     return report_item.color if report_item.respond_to?(:color) && report_item.color.present?
     "#6c757d" # Default grey
   end
-  
+
   def build_history_table(history_data)
     # Modernizing build_table
     content_tag(:div, class: "table-responsive mb-3") do
@@ -15,11 +15,11 @@ module ReportsHelper
         header = content_tag(:thead, class: "table-light") do
           content_tag(:tr) do
             get_weeks(history_data.size - 1).reverse.map do |w|
-              content_tag(:th, w.strftime('%m/%d'))
+              content_tag(:th, w.strftime("%m/%d"))
             end.join.html_safe
           end
         end
-        
+
         body = content_tag(:tbody) do
           content_tag(:tr) do
             history_data.map do |value|
@@ -27,12 +27,12 @@ module ReportsHelper
             end.join.html_safe
           end
         end
-        
+
         header + body
       end
     end + content_tag(:div, "(number of times per week)", class: "small text-muted mb-4")
   end
-  
+
   def build_summary_table(hash)
     # Modernizing build_table_from_hash
     content_tag(:div, class: "table-responsive mb-4 shadow-sm border overflow-hidden") do
@@ -42,13 +42,13 @@ module ReportsHelper
             hash.keys.map { |k| content_tag(:th, k.to_s.humanize) }.join.html_safe
           end
         end
-        
+
         body = content_tag(:tbody) do
           content_tag(:tr) do
             hash.values.map { |v| content_tag(:td, v) }.join.html_safe
           end
         end
-        
+
         header + body
       end
     end

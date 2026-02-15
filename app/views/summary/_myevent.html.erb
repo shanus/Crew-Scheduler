@@ -1,8 +1,8 @@
 <li class="list-group-item p-2">
   <div class="d-flex justify-content-between align-items-start">
     <div>
-      <div class="fw-bold small"><%= human_date(myevent.event_on, format: "%A, %m/%d") %></div>
-      <div class="small"><%= human_time myevent.start_time %> - <%= myevent.team.name.titleize %></div>
+      <div class="fw-bold fs-5"><%= human_date(myevent.event_on, format: "%A, %m/%d") %></div>
+      <div class="fs-5"><%= human_time myevent.start_time %> - <%= myevent.team.name.titleize %></div>
     </div>
     <%= link_to event_path(myevent), class: "text-primary" do %>
       <i class="bi bi-chevron-right"></i>

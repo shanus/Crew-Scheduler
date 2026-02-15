@@ -25,7 +25,7 @@
                   <i class="bi bi-arrow-left-right" title="Either"></i>
                 <% end %>
               </div>
-              <div class="fw-bold text-uppercase small"><%= @user.side %></div>
+              <div class="fw-bold text-uppercase fs-5"><%= @user.side %></div>
             </div>
             <div class="col-md-9">
               <h4 class="border-bottom pb-2">Details</h4>
@@ -68,7 +68,7 @@
 
           <hr>
 
-          <div class="row text-muted small">
+          <div class="row text-muted fs-5">
             <div class="col-md-4">
               <strong>Created:</strong><br>
               <%= @user.created_at&.strftime("%B %e, %Y") || "N/A" %>
