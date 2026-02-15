@@ -1,12 +1,23 @@
 // Main SCSS Manifest
-// $primary: #2e66b3;
-// $secondary: #15546f;
-// $light: #dcdede;
-// $dark: #040026;
-// $info: #495c69; 
-// $success: #198754;
-// $warning: #e6ce17;
-// $danger: #dc3545;
+// Slate-based Blue-Shifted Gray Palette
+$gray-100: #f1f5f9;
+$gray-200: #e2e8f0;
+$gray-300: #cbd5e1;
+$gray-400: #94a3b8;
+$gray-500: #64748b;
+$gray-600: #475569;
+$gray-700: #334155;
+$gray-800: #1e293b;
+$gray-900: #0f172a;
+
+$primary: $gray-700;
+$secondary: $gray-500;
+$light: $gray-100;
+$dark: $gray-900;
+$info: #0ea5e9; // Sky blue for info
+$success: #10b981; // Emerald for success
+$warning: #f59e0b; // Amber for warning
+$danger: #ef4444; // Red for danger
 $enable-rounded: true;
 $enable-gradients: true;
 $enable-shadows: true;
@@ -25,14 +36,6 @@ $border-radius-lg: 0.5rem;
 
 @import 'bootstrap';
 
-// Custom styles for Crew Scheduler
-body {
-
-	// Use body background from BS, but ensure light mode has the light grey
-	&.bg-light[data-bs-theme="light"] {
-		background-color: #f8f9fa !important;
-	}
-}
 
 .swatch {
 	display: inline-block;
@@ -62,4 +65,10 @@ body {
 	align-items: flex-end;
 	height: 20px;
 	gap: 1px;
+}
+
+.sculler-background {
+	background-image: url('sculler.png');
+	background-repeat: no-repeat;
+	background-position: top right;
 }

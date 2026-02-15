@@ -8,7 +8,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-
+  <%= render 'layouts/favicons' %>
   <%= javascript_importmap_tags %>
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -19,7 +19,10 @@
 <body data-controller="theme">
   <nav class="navbar sticky-top navbar-expand-lg bg-primary text-bg-primary"data-bs-theme="dark">
     <div class="container-fluid">
-      <%= link_to "Crew Scheduler", root_path, class: "navbar-brand" %>
+      <%= link_to  root_path, title: "Crew Scheduler",class: "navbar-brand" do %>
+        <%= image_tag 'icon_small.png', alt: 'YRC Logo', style: "max-height: 40px;" %> 
+        <span class="d-inline d-lg-none">Crew Scheduler</span>
+      <% end %>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -55,7 +58,7 @@
           <% end %>
         </ul>
 
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
           <% if logged_in? %>
             <li class="nav-item">
               <%= link_to edit_user_path(current_user), class: "nav-link me-2", title: "Edit Personal Settings" do %>
@@ -76,7 +79,7 @@
             </li>
           <% end %>
           <li class="nav-item">
-            <button class="btn nav-link px-2" data-action="click->theme#toggle" title="Toggle Dark Mode">
+            <button class="nav-link ps-lg-2" data-action="click->theme#toggle" title="Toggle Dark Mode">
               <i class="bi bi-sun-fill" data-theme-target="icon"></i> <span class="d-inline d-lg-none">Toggle Dark Mode</span>
             </button>
           </li>
@@ -86,17 +89,7 @@
   </nav>
 
   <div class="container-fluid pt-4">
-    <% flash.each do |type, message| %>
-      <% alert_class = case type.to_s
-         when 'notice' then 'alert-success'
-         when 'alert', 'error' then 'alert-danger'
-         else 'alert-info'
-         end %>
-      <div class="alert <%= alert_class %> alert-dismissible fade show" role="alert">
-        <%= message %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% end %>
+    <%= render 'layouts/flash_messages' %>
 
     <%= yield %>
   </div>

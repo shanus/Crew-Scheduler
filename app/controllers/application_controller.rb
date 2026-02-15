@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def load_active_teams
-    @active_teams = Team.activ.order(id: :desc) if logged_in?
+    @active_teams = Team.active.order(id: :desc) if logged_in?
   end
 
   def set_user_time_zone
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
       # But legacy just set Time.zone. In Rails 8, it's safer to use Time.use_zone.
       Time.zone = current_user.time_zone
     else
-      Time.use_zone("Eastern Time (US & Canada)")
+      Time.use_zone("Eastern Time (US & Canada)") { yield if block_given? }
     end
   end
 end

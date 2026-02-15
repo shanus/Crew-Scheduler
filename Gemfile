@@ -87,3 +87,5 @@ gem "bootstrap-icons"
 gem "bootstrap-icons-helper"
 
 gem "standard", "~> 1.54"
+
+gem "simple_calendar", "~> 3.1"

@@ -1,7 +1,7 @@
-<div class="row">
+<div class="row flex-row-reverse">
   <div class="col-md-3">
     <div class="card mb-4 shadow-sm">
-      <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+      <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Next Rowing</h5>
         <%= link_to user_rss_path(login: current_user.login), title: "Subscribe to RSS Feed", class: "text-white" do %>
           <i class="bi bi-rss-fill"></i>
@@ -33,6 +33,9 @@
     </div>
 
     <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Event Calendar</h5>
+      </div>
       <div class="card-body p-2">
         <%= render partial: 'calendar' %>
       </div>
@@ -40,14 +43,16 @@
   </div>
 
   <div class="col-md-9">
-    <div class="jumbotron p-4 mb-4 bg-light shadow-sm border">
-      <h1 class="display-5 fw-bold">Crew Scheduler</h1>
-      <p class="col-md-8 fs-4">Welcome back to the Yarmouth Rowing Club scheduler.</p>
+    <div class="p-2 mb-4 shadow-sm border">
+      <div class="p-2 sculler-background">
+        <h1 class="display-5 fw-bold">Crew Scheduler</h1>
+        <p class="col-md-8 fs-4">Welcome back to the Yarmouth Rowing Club scheduler.</p>
+      </div>
     </div>
 
     <div id="bulletins" class="mb-5">
       <h3 class="border-bottom pb-2 mb-3"><i class="bi bi-pin-fill"></i> Bulletins</h3>
-      <% if @bulletins&.any? %>
+      <% unless @bulletins.blank? %>
         <%= render partial: 'bulletin', collection: @bulletins %>
         <% if @bulletins.total_entries > 3 %>
           <div class="text-end">
@@ -55,7 +60,7 @@
           </div>
         <% end %>
       <% else %>
-        <p class="text-muted">No recent bulletins.</p>
+        <p class="px-3 text-muted">No recent bulletins.</p>
       <% end %>
     </div>
 
@@ -104,7 +109,7 @@
 
         <div class="col-lg-6 mb-4">
           <div class="card shadow-sm border-info">
-            <div class="card-header bg-info text-white">
+            <div class="card-header bg-dark text-white">
               <h5 class="mb-0"><%= (Date.tomorrow + 1.day).strftime("%A") %>'s Rowing</h5>
             </div>
             <div class="list-group list-group-flush">
