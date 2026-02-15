@@ -1,5 +1,5 @@
-class Bulletin < ActiveRecord::Base
+class Bulletin < ApplicationRecord
   belongs_to :user
   
-  validates_presence_of     :user_id, :title, :body, :display_until
+  validates :user_id, :title, :body, :display_until, presence: true
 end

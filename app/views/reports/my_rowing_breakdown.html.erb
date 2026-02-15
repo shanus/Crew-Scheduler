@@ -1,72 +1,85 @@
-<% javascript 'swfobject' %>
-<h2>Rowing Breakdown for <%= h @user.login %></h2>
-<h3>On the water <%= pluralize(@events.size, 'time') %> since <%= history_start %></h3>
-<br />
-<h3>By Crew</h3>
-<% unless @crew_breakdown.blank? -%>
-<div id="crew_chart_<%= @user.id %>" class='chart'>
-	<h3><%= h @user.name %></h3>
-	<%= build_table_from_hash(@crew_breakdown) %>
-	<%= flash_warning %>
-</div>
-<br />
-<script type="text/javascript">
-  // <![CDATA[    
-  var so = new SWFObject("/chart/ampie.swf", "crew_chart_<%= @user.id %>", "70%", "350", "8");
-  so.addVariable("path", "/chart/");
-  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
-  so.addVariable("data_file", escape("<%= @my_rowing_breakdown_data_link %>?by=crew"));
-  so.addVariable("additional_chart_settings", "<settings><pie><%= pie_colors(@crew_breakdown, 'crew') %></pie></settings>");
-  so.addVariable("preloader_color", "#000000");
-  so.write("crew_chart_<%= @user.id %>");
-  // ]]>
-</script>
-<% else -%>
-	<p class='chart'>No data<br /></p>
-<% end -%>
+<%= turbo_frame_tag "report_content" do %>
+  <div class="text-start">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+      <h2 class="h4 mb-0">Rowing Breakdown for <strong><%= @user.login %></strong></h2>
+      <span class="badge bg-primary fs-6">
+        <i class="bi bi-water"></i> <%= pluralize(@events.size, 'time') %> on water
+      </span>
+    </div>
 
-<h3>By Boat</h3>
-<% unless @boating_breakdown.blank? -%>
-<div id="boat_chart_<%= @user.id %>" class='chart'>
-	<h3><%= h @user.name %></h3>
-	<%= build_table_from_hash(@boating_breakdown) %>
-	<%= flash_warning %>
-</div>
-<br />
-<script type="text/javascript">
-  // <![CDATA[    
-  var so = new SWFObject("/chart/ampie.swf", "boat_chart_<%= @user.id %>", "70%", "350", "8");
-  so.addVariable("path", "/chart/");
-  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
-  so.addVariable("data_file", escape("<%= @my_rowing_breakdown_data_link %>?by=boat"));
-  so.addVariable("additional_chart_settings", "<settings><pie><%= pie_colors(@boating_breakdown, 'boat') %></pie></settings>");
-  so.addVariable("preloader_color", "#000000");
-  so.write("boat_chart_<%= @user.id %>");
-  // ]]>
-</script>
-<% else -%>
-	<p class='chart'>No data<br /></p>
-<% end -%>
+    <div class="row">
+      <div class="col-lg-6 mb-4">
+        <h5 class="mb-3 border-bottom pb-2">By Crew</h5>
+        <% if @crew_breakdown.present? %>
+          <div class="mb-3">
+            <%= pie_chart @crew_breakdown, height: "250px", library: { title: { display: true, text: 'Events by Crew' } } %>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover border">
+              <thead class="bg-light">
+                <tr><th>Crew</th><th class="text-end">Times</th></tr>
+              </thead>
+              <tbody>
+                <% @crew_breakdown.each do |crew_name, count| %>
+                  <tr>
+                    <td><%= crew_name %></td>
+                    <td class="text-end"><span class="badge bg-secondary"><%= count %></span></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="text-muted small italic">No crew data available.</p>
+        <% end %>
+      </div>
 
-<h3>By Seat</h3>
-<% unless @seating_breakdown.blank? -%>
-<div id="seat_chart_<%= @user.id %>" class='chart'>
-	<h3><%= h @user.name %></h3>
-	<%= build_table_from_hash(@seating_breakdown) %>
-	<%= flash_warning %>
-</div>
-<br />
-<script type="text/javascript">
-  // <![CDATA[    
-  var so = new SWFObject("/chart/ampie.swf", "seat_chart_<%= @user.id %>", "70%", "350", "8");
-  so.addVariable("path", "/chart/");
-  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
-  so.addVariable("data_file", escape("<%= @my_rowing_breakdown_data_link %>?by=seat"));
-  so.addVariable("additional_chart_settings", "<settings><pie><base_color>#333333</base_color></pie></settings>");
-  so.addVariable("preloader_color", "#000000");
-  so.write("seat_chart_<%= @user.id %>");
-  // ]]>
-</script>
-<% else -%>
-	<p class='chart'>No data<br /></p>
-<% end -%>
+      <div class="col-lg-6 mb-4">
+        <h5 class="mb-3 border-bottom pb-2">By Boat</h5>
+        <% if @boating_breakdown.present? %>
+          <div class="mb-3">
+            <%= pie_chart @boating_breakdown, height: "250px", colors: ["#0dcaf0", "#6610f2", "#6f42c1", "#d63384", "#dc3545"], library: { title: { display: true, text: 'Events by Boat' } } %>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover border">
+              <thead class="bg-light">
+                <tr><th>Boat</th><th class="text-end">Times</th></tr>
+              </thead>
+              <tbody>
+                <% @boating_breakdown.each do |boat_name, count| %>
+                  <tr>
+                    <td><%= boat_name %></td>
+                    <td class="text-end"><span class="badge bg-info text-dark"><%= count %></span></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% else %>
+          <p class="text-muted small italic">No boat data available.</p>
+        <% end %>
+      </div>
+
+      <div class="col-md-12 mb-4">
+        <h5 class="mb-3 border-bottom pb-2">By Seat</h5>
+        <% if @seating_breakdown.present? %>
+          <div class="mb-4">
+            <%= column_chart @seating_breakdown, height: "300px", colors: ["#212529"] %>
+          </div>
+          <div class="row">
+            <% @seating_breakdown.each do |seat_name, count| %>
+              <div class="col-md-3 mb-2">
+                <div class="card bg-light border-0 py-2 px-3 shadow-sm d-flex flex-row justify-content-between align-items-center">
+                  <span class="small fw-bold"><%= seat_name %></span>
+                  <span class="badge bg-dark rounded-pill"><%= count %></span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-muted small italic">No seating data available.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

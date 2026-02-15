@@ -1,63 +1,56 @@
 module ReportsHelper
+  def get_weeks(n)
+    (0..n).map { |i| (Date.today - i.weeks).at_beginning_of_week }
+  end
+
   def report_color(report_item)
-    return report_item.color unless report_item.color.blank?
-    Color.random_grey
+    return report_item.color if report_item.respond_to?(:color) && report_item.color.present?
+    "#6c757d" # Default grey
   end
   
-  def pie_colors(hash, type)
-    colors = []
-    output = "<colors>"
-    case type
-    when "boat"
-      hash.each do |index,value|
-        c = Boat.find_by_name(index).color || Color.random_grey
-        colors << c
+  def build_history_table(history_data)
+    # Modernizing build_table
+    content_tag(:div, class: "table-responsive mb-3") do
+      content_tag(:table, class: "table table-sm table-bordered table-striped text-center") do
+        header = content_tag(:thead, class: "table-light") do
+          content_tag(:tr) do
+            get_weeks(history_data.size - 1).reverse.map do |w|
+              content_tag(:th, w.strftime('%m/%d'))
+            end.join.html_safe
+          end
+        end
+        
+        body = content_tag(:tbody) do
+          content_tag(:tr) do
+            history_data.map do |value|
+              content_tag(:td, value)
+            end.join.html_safe
+          end
+        end
+        
+        header + body
       end
-    when "crew"
-      hash.each do |index,value|
-        c = Team.find_by_name(index).color || Color.random_grey
-        colors << c
+    end + content_tag(:div, "(number of times per week)", class: "small text-muted mb-4")
+  end
+  
+  def build_summary_table(hash)
+    # Modernizing build_table_from_hash
+    content_tag(:div, class: "table-responsive mb-4 shadow-sm border overflow-hidden") do
+      content_tag(:table, class: "table table-hover mb-0") do
+        header = content_tag(:thead, class: "table-dark") do
+          content_tag(:tr) do
+            hash.keys.map { |k| content_tag(:th, k.to_s.humanize) }.join.html_safe
+          end
+        end
+        
+        body = content_tag(:tbody) do
+          content_tag(:tr) do
+            hash.values.map { |v| content_tag(:td, v) }.join.html_safe
+          end
+        end
+        
+        header + body
       end
     end
-    colors.compact
-    output << colors.join(",")
-    # do I need to strip trailing comma?  -slm 05/31/08
-    output << "</colors>"
-    return output
-  end
-  
-  def build_table(history)
-    html = "<table class='report'><tr>"
-    get_weeks(history.size - 1).each do |w|
-      html << "<th>#{w.strftime('%m/%d')}</th>"
-    end
-    html << "</tr><tr>"
-    history.each do |value|
-      html << "<td>#{value}</td>"
-    end
-    html << "</tr></table>"
-    html << "(number of times per week)<br /><br />"
-    return html
-  end
-  
-  def flash_warning
-    html = "<p>To see this page properly, you need to upgrade your Flash Player, please "
-    html << (link_to "visit the Adobe web site", "http://www.adobe.com/go/getflashplayer", :target => "_blank")
-    html << "</p>"
-    return html
-  end
-  
-  def build_table_from_hash(hash)
-    html = "<table class='report'><tr>"
-    hash.each do |index,value|
-      html << "<th>#{index}</th>"
-    end
-    html << "</tr><tr>"
-    hash.each do |value|
-      html << "<td>#{value}</td>"
-    end
-    html << "</tr></table>"
-    html << "<br /><br />"
-    return html
   end
 end

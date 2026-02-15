@@ -1,87 +1,97 @@
 class AccountController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
-  # If you want "remember me" functionality, add this before_filter to Application Controller
-  before_filter :login_from_cookie
-  before_filter :check_if_logged_in, :only => [:reset, :login, :signup]
+  skip_before_action :login_required, only: [:login, :authenticate, :signup, :create, :activate, :reset, :send_reset]
+  before_action :check_if_logged_in, only: [:login, :signup, :reset]
   
-  # say something nice, you goof!  something sweet.
-  def index
-    redirect_to(signup_url) unless logged_in? || User.count > 0
-    @user = current_user
-  end
+  # Rails 8 native rate limiting
+  rate_limit to: 5, within: 10.minutes, only: [:create, :send_reset], with: -> { redirect_to root_path, alert: "Too many requests. Please try again later." }
+  
+  # Invisible Captcha protection for signup and reset
+  invisible_captcha only: [:create, :send_reset], on_spam: :spam_detected
 
   def login
     @page_title = "Scheduler: Login"
-    return unless request.post?
-    self.current_user = User.authenticate(params[:login], params[:password])
-    if logged_in?
+  end
+
+  def authenticate
+    user = User.authenticate(params[:login], params[:password])
+    if user
+      self.current_user = user
       if params[:remember_me] == "1"
-        self.current_user.remember_me
-        cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+        user.remember_me
+        cookies.signed[:auth_token] = { 
+          value: user.remember_token, 
+          expires: user.remember_token_expires_at 
+        }
       end
-      redirect_back_or_default(summary_url)
       flash[:notice] = "Logged in successfully"
+      redirect_back_or_default(root_path)
+    else
+      flash.now[:alert] = "Invalid login or password"
+      render :login, status: :unauthorized
     end
   end
 
   def signup
     @page_title = "Scheduler: Sign Up"
-    @user = User.new(params[:user])
-    return unless request.post?
-    if verify_recaptcha(@post)
-      @user.save!
-      #self.current_user = @user
-      redirect_back_or_default(login_url)
-      flash[:notice] = "Thanks for signing up!"
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(user_params)
+    if @user.save
+      flash[:notice] = "Thanks for signing up! Please check your email to activate your account."
+      redirect_to login_path
     else
-      flash[:error] = "There was an error with your recaptcha entry."
+      render :signup, status: :unprocessable_entity
     end
-  rescue ActiveRecord::RecordInvalid
-    render :action => 'signup'
   end
-  
+
   def logout
-    self.current_user.forget_me if logged_in?
-    # commented out because heroku does not like this  -slm 06/24/2008
-    #cookies.delete :auth_token
+    current_user.forget_me if logged_in?
     reset_session
-    redirect_to(login_url)
     flash[:notice] = "You have been logged out."
+    redirect_to login_path
   end
-  
+
   def activate
-    flash.clear
-    @code = params[:activation_code]
-    return if (params[:id] == nil) && (params[:activation_code] == nil)
-    activator = params[:id] || params[:activation_code]
-    @user = User.find_by_activation_code(activator)
-    if @user and @user.activate
-      #self.current_user = @user
-      redirect_back_or_default(login_url)
+    code = params[:activation_code]
+    @user = User.find_by(activation_code: code)
+    
+    if @user&.activate
       flash[:notice] = "This account has been activated. Please login."
-    else  
-      redirect_back_or_default(summary_url)
-      flash[:error] = "Unable to activate the account.  Perhaps the account is already activated?"
+      redirect_to login_path
+    else
+      flash[:alert] = "Unable to activate the account. Perhaps it's already activated?"
+      redirect_to root_path
     end
   end
-  
+
   def reset
     @page_title = "Scheduler: Forgot Password"
-    return unless request.post?
-    if verify_recaptcha(@post)
-      @user = User.find :first, :conditions => { :email => params[:email] }
-      if @user.nil?
-        redirect_to(:action => "reset")
-        flash[:error] = "No user was found for #{params[:email]}."
-      else
-        @user.reset_password
-        UserNotifier.deliver_forgot_password(@user)
-        redirect_to(login_url)
-        flash[:notice] = "You will receive an email shortly with your temporary password."
-      end
+  end
+
+  def send_reset
+    @user = User.find_by(email: params[:email])
+    if @user
+      @user.reset_password
+      UserMailer.forgot_password(@user).deliver_later
+      flash[:notice] = "You will receive an email shortly with your temporary password."
+      redirect_to login_path
     else
-      flash[:error] = "There was an error with your recaptcha entry."
+      flash.now[:alert] = "No user was found for #{params[:email]}."
+      render :reset, status: :not_found
     end
+  end
+
+  protected
+
+  def spam_detected
+    redirect_to root_path, alert: "Spam detected."
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:login, :email, :side, :password, :password_confirmation, :time_zone)
   end
 end

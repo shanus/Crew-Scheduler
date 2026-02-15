@@ -1,40 +1,55 @@
-<% javascript 'swfobject' %>
-<div id="left_sidebar">
-	<h3>Quick Reports</h3>
-	<ul id="quickreports">
-		<li><%= link_to_remote "Crew History", :url => { :controller => 'reports', :action => 'crew_history' },
-		 																				:update => 'report',
-																						:loading => "$('report').update('');Element.show('report_indicator')",
-																						:complete => "Element.hide('report_indicator')" %></li>
-		<li><%= link_to_remote "Boat Utilization", :url => { :controller => 'reports', :action => 'boat_utilization' },
-		 																				:update => 'report',
-																						:loading => "$('report').update('');Element.show('report_indicator')",
-																						:complete => "Element.hide('report_indicator')" %></li>
-		<li><%= link_to_remote "Rower History", :url => { :controller => 'reports', :action => 'rower_history' },
-																						:update => 'report',
-																						:loading => "$('report').update('');Element.show('report_indicator')",
-																						:complete => "Element.hide('report_indicator')" %></li>
-		<li><%= link_to_remote "Boats by Crew", :url => { :controller => 'reports', :action => 'boat_usage_by_crew' },
-																						:update => 'report',
-																						:loading => "$('report').update('');Element.show('report_indicator')",
-																						:complete => "Element.hide('report_indicator')" %></li>
-		<li><%= link_to_remote "Crews by Boat", :url => { :controller => 'reports', :action => 'crew_usage_of_boats' },
-																						:update => 'report',
-																						:loading => "$('report').update('');Element.show('report_indicator')",
-																						:complete => "Element.hide('report_indicator')" %></li>
-	</ul>
-	<h3><%= link_to_remote "My Rowing", :url => { :controller => 'reports', :action => 'my_rowing_breakdown' },
-	 																		:update => 'report',
-																			:loading => "$('report').update('');Element.show('report_indicator')",
-																			:complete => "Element.hide('report_indicator')" %></h3>
-</div>
-<div id="content" class="reportpage">
-	<div class="indicator">
-		<p id="report_indicator" style="display:none;">
-		  <%= image_tag "indicator.gif" %> Loading...
-		</p>
-	</div>
-	<div id="report">
-		<p style="margin-top:4em;font-weight:bold;text-align:center;">Choose a Report from the menu on the left to view</p>
-	</div>
+<div class="row">
+  <div class="col-md-3">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="bi bi-file-earmark-bar-graph"></i> Quick Reports</h5>
+      </div>
+      <div class="list-group list-group-flush" id="report-menu">
+        <%= link_to my_rowing_breakdown_reports_path, 
+            data: { turbo_frame: "report_content" }, 
+            class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+          My Rowing
+          <i class="bi bi-chevron-right small text-muted"></i>
+        <% end %>
+        
+        <%= link_to crew_history_reports_path, 
+            data: { turbo_frame: "report_content" }, 
+            class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+          Crew History
+          <i class="bi bi-chevron-right small text-muted"></i>
+        <% end %>
+
+        <%= link_to boat_utilization_reports_path, 
+            data: { turbo_frame: "report_content" }, 
+            class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+          Boat Utilization
+          <i class="bi bi-chevron-right small text-muted"></i>
+        <% end %>
+
+        <%= link_to rower_history_reports_path, 
+            data: { turbo_frame: "report_content" }, 
+            class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+          Rower History
+          <i class="bi bi-chevron-right small text-muted"></i>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="alert alert-light border shadow-sm small">
+      <i class="bi bi-info-circle"></i> Click a report to load it instantly without a page refresh.
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <div class="card shadow-sm border-0 min-vh-50">
+      <div class="card-body p-4 text-center">
+        <%= turbo_frame_tag "report_content" do %>
+          <div class="py-5">
+            <i class="bi bi-graph-up display-1 text-light mb-4 d-block"></i>
+            <h3 class="text-muted">Select a report from the menu to get started</h3>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

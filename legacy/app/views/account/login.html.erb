@@ -1,0 +1,21 @@
+<div class="editform">
+	<%= error_messages_for :user %>
+
+	<% form_tag do -%>
+	<p><label for="login">Login</label><br/>
+	<%= text_field_tag 'login' %></p>
+
+	<p><label for="password">Password</label><br/>
+	<%= password_field_tag 'password' %></p>
+
+	<p><label for="remember_me">Remember me:</label>
+	<%= check_box_tag 'remember_me' %></p>
+
+	<p><%= submit_tag 'Log in', :class => "loginbutton" %></p>
+	<% end -%>
+
+	<br />
+	<%= link_to 'Sign Up', :action => "signup" %> | <%= link_to 'Forgot Password?', :action => "reset" %>
+</div>
+
+<%= javascript_tag "$('login').focus()" %>

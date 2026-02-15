@@ -1,14 +1,29 @@
-<div class="editform">
-	<% form_tag do -%>
-	<p><label for="email">Email Address</label><br/>
-	<%= text_field_tag 'email', nil, :size => 30 %></p>
+<div class="row justify-content-center py-5">
+  <div class="col-md-5">
+    <div class="card shadow-lg border-0">
+      <div class="card-header bg-dark text-white text-center py-4">
+        <h2 class="h4 mb-0"><i class="bi bi-key-fill"></i> Forgot Password</h2>
+        <p class="small mb-0 opacity-75">Enter your email to receive a temporary password</p>
+      </div>
+      <div class="card-body p-4">
+        <%= form_with(url: reset_path, local: true) do |f| %>
+          <div class="mb-4">
+            <%= f.label :email, "Email Address", class: "form-label fw-bold" %>
+            <%= f.email_field :email, class: "form-control form-control-lg shadow-sm", placeholder: "you@example.com", required: true %>
+            <div class="form-text mt-2">
+              We'll send a new temporary password to this address.
+            </div>
+          </div>
 
-	<p><label for="recaptcha" class="required">Are You Human?</label><br />
-	<%= recaptcha_tags :display => {:theme => 'clean'} %><br /></p>
+          <%# Modern Bot Protection - Invisible to Users %>
+          <%= invisible_captcha %>
 
-	<p><%= submit_tag 'Reset My Password', :class => "right signupbutton" %></p>
-	<% end -%>
-
-	<%= link_to 'cancel', login_url  %>
-
+          <div class="d-grid gap-2">
+            <%= f.submit "Reset My Password", class: "btn btn-primary btn-lg shadow-sm" %>
+            <%= link_to "Cancel", login_path, class: "btn btn-link text-muted mt-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

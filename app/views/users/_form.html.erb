@@ -1,38 +1,81 @@
-<% javascript 'colour_picker' %>
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-body">
+    <div class="mb-3">
+      <%= f.label :email, class: "form-label" %>
+      <%= f.email_field :email, class: "form-control", placeholder: "email@example.com" %>
+    </div>
 
-<p><label for="user_email">Email</label><br/>
-<%= text_field 'user', :email  %></p>
+    <div class="mb-3">
+      <label class="form-label d-block">Side Preference</label>
+      <div class="btn-group w-100" role="group" aria-label="Side selection">
+        <%= f.radio_button :side, "port", class: "btn-check", id: "side_port" %>
+        <label class="btn btn-outline-primary" for="side_port" title="Port">
+          <i class="bi bi-arrow-left-circle-fill"></i> Port
+        </label>
 
-<label for="user_side">Side</label><br/>
-<div class="radiogroup">
-	<%= image_tag("port.png", :size => "35x35", :title=>"port") %> <%= radio_button("user", "side", "port") %>
-	<%= image_tag("stbd.png", :size => "35x35", :title=>"starboard") %> <%= radio_button("user", "side", "stbd") %>
-	<%= image_tag("ambi.png", :size => "35x35", :title=>"either") %> <%= radio_button("user", "side", "ambi") %>
+        <%= f.radio_button :side, "stbd", class: "btn-check", id: "side_stbd" %>
+        <label class="btn btn-outline-primary" for="side_stbd" title="Starboard">
+          Starboard <i class="bi bi-arrow-right-circle-fill"></i>
+        </label>
+
+        <%= f.radio_button :side, "ambi", class: "btn-check", id: "side_ambi" %>
+        <label class="btn btn-outline-primary" for="side_ambi" title="Either">
+          <i class="bi bi-arrow-left-right"></i> Either
+        </label>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="form-check form-switch mb-2">
+          <%= f.check_box :will_cox, class: "form-check-input" %>
+          <%= f.label :will_cox, "Willing to Coxswain", class: "form-check-label" %>
+        </div>
+        <div class="form-check form-switch">
+          <%= f.check_box :will_coach, class: "form-check-input" %>
+          <%= f.label :will_coach, "Willing to Coach", class: "form-check-label" %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-check form-switch mb-2">
+          <%= f.check_box :send_reminders, class: "form-check-input" %>
+          <%= f.label :send_reminders, "Email Reminders", class: "form-check-label" %>
+        </div>
+        <div class="form-check form-switch">
+          <%= f.check_box :public_rowing_history, class: "form-check-input" %>
+          <%= f.label :public_rowing_history, "Public History", class: "form-check-label" %>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <%= f.label :password, class: "form-label" %>
+        <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
+        <div class="form-text">Leave blank to keep existing password</div>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :password_confirmation, class: "form-label" %>
+        <%= f.password_field :password_confirmation, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :time_zone, class: "form-label" %>
+      <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {}, { class: "form-select" } %>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <%= f.label :color, "Report Color", class: "form-label" %>
+        <%= f.color_field :color, class: "form-control form-control-color w-100" %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :team_id, "Crew", class: "form-label" %>
+        <%= f.collection_select :team_id, Team.order(:name), :id, :name, { include_blank: "None" }, { class: "form-select" } %>
+      </div>
+    </div>
+  </div>
 </div>
-
-<p><label for="user_will_cox">Willing to be a coxswain</label> 
-<%= check_box 'user', 'will_cox'  %></p>
-
-<p><label for="user_will_coach">Willing to Coach</label> 
-<%= check_box 'user', 'will_coach'  %></p>
-
-<p><label for="user_password">Password</label><br/>
-<%= password_field 'user', :password %></p>
-
-<p><label for="user_password_confirmation">Confirm Password</label><br/>
-<%= password_field 'user', :password_confirmation %></p>
-
-<p><label for="user_time_zone">Time Zone</label><br />
-<%= time_zone_select :user, :time_zone, ActiveSupport::TimeZone.us_zones %></p>
-
-<p><%= label('user', :send_reminders) %> 
-<%= check_box('user', :send_reminders, :title => "Send reminder emails the day before you row") %></p>
-
-<p><%= label('user', :public_rowing_history) %> 
-<%= check_box('user', :public_rowing_history, :title => "Make my rowing history public") %></p>
-
-<p><%= label('user', :color) %><br/>
-<%= color_field :user, :color, { :use_swatch_icon => true }, {:value => 'Choose...' } %></p>
-
-<p><label for="user_team">Crew</label><br/>
-<%= select("user", "team_id", Team.find(:all).collect {|t| [ t.name, t.id ] }, {:include_blank => 'None'}) %></p>

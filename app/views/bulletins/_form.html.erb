@@ -1,9 +1,36 @@
-<p><label for="buttletin_title">Title</label><br/>
-<%= text_field 'bulletin', 'title'  %></p>
+<% if @bulletin.errors.any? %>
+  <div class="alert alert-danger shadow-sm mb-4">
+    <h5 class="alert-heading">Errors prevented this bulletin from being saved:</h5>
+    <ul class="mb-0 small">
+      <% @bulletin.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<p><label for="buttletin_body">Message</label><br/>
-<%= text_area 'bulletin', 'body', :size => "40x10"  %><br/>
-<span class="directions"><a onclick="window.open(this.href,'help_window','height=400,width=600,scrollbars=1,resizable=1');return false;" title="Help" href="/markdown.html">How can I change the style of this text?</a></span></p>
+<div class="mb-4">
+  <%= f.label :title, class: "form-label fw-bold" %>
+  <%= f.text_field :title, class: "form-control form-control-lg shadow-sm", placeholder: "Enter a descriptive title" %>
+</div>
 
-<p><label for="buttletin_display_until">Display Until</label><br/>
-<%= date_select 'bulletin', 'display_until', :order => [:month, :day, :year], :start_year => Time.now.year  %></p>
+<div class="mb-4">
+  <%= f.label :body, "Message Content", class: "form-label fw-bold" %>
+  <%= f.text_area :body, rows: 10, class: "form-control shadow-sm", placeholder: "Type your announcement here... (Markdown supported)" %>
+  <div class="form-text mt-2">
+    <i class="bi bi-info-circle"></i> Supports <strong>Markdown</strong> formatting. 
+    <a href="https://www.markdownguide.org/basic-syntax/" target="_blank" class="text-decoration-none ms-1">Markdown Cheat Sheet</a>
+  </div>
+</div>
+
+<div class="mb-3">
+  <%= f.label :display_until, "Show Bulletin Until", class: "form-label fw-bold" %>
+  <div class="row">
+    <div class="col-md-4">
+      <%= f.date_field :display_until, class: "form-control shadow-sm" %>
+    </div>
+    <div class="col-md-8 pt-2">
+      <span class="text-muted small">The bulletin will automatically be hidden after this date.</span>
+    </div>
+  </div>
+</div>

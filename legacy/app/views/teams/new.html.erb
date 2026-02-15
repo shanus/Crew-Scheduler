@@ -1,0 +1,10 @@
+<div class="editform">
+	<h1>New Crew</h1>
+
+	<% form_tag :action => 'create' do %>
+	  <%= render :partial => 'form' %>
+	  <%= submit_tag "Create", :class => "eventbutton" %>
+	<% end %>
+
+	<%= link_to 'cancel', admin_url %>
+</div>

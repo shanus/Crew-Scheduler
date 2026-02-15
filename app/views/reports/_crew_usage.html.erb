@@ -1,22 +1,20 @@
-<h3><%= h crew_usage.name %></h3>
-<h4>On the water <%= pluralize(@events_breakdown["#{crew_usage.name}"], 'time') %> since <%= history_start %></h4>
-<% unless @boat_breakdown["#{crew_usage.name}"].blank? -%>
-<div id="crew_chart_<%= crew_usage.id %>" class='chart'>
-	<%= build_table_from_hash(@boat_breakdown["#{crew_usage.name}"]) %>
-	<%= flash_warning %>
+<div class="card shadow-sm mb-4 border-0 border-start border-4 border-success">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="card-title fw-bold mb-0 text-success"><%= crew_usage.name %></h5>
+      <span class="badge bg-light text-dark border">
+        <i class="bi bi-water"></i> On water <%= pluralize(@events_breakdown[crew_usage.name], 'time') %>
+      </span>
+    </div>
+    
+    <% usage_data = @boat_breakdown[crew_usage.name] %>
+    <% if usage_data.present? %>
+       <%= bar_chart usage_data, height: "150px", colors: ["#198754"] %>
+       <div class="mt-2">
+         <%= build_summary_table(usage_data) %>
+       </div>
+    <% else %>
+      <p class="text-muted small italic">No detailed boat usage data for this crew.</p>
+    <% end %>
+  </div>
 </div>
-<br />
-<script type="text/javascript">
-  // <![CDATA[    
-  var so = new SWFObject("/chart/ampie.swf", "crew_chart_<%= crew_usage.id %>", "70%", "350", "8");
-  so.addVariable("path", "/chart/");
-  so.addVariable("settings_file", escape("/chart/breakdown_settings.xml"));
-  so.addVariable("data_file", escape("<%= @crew_usage_of_boats_data_link %>?id=<%= crew_usage.id %>"));
-  so.addVariable("additional_chart_settings", "<settings><pie><%= pie_colors(@boat_breakdown["#{crew_usage.name}"], 'boat') %></pie></settings>");
-  so.addVariable("preloader_color", "#000000");
-  so.write("crew_chart_<%= crew_usage.id %>");
-  // ]]>
-</script>
-<% else -%>
-	<p class='chart'>No data for <%= h crew_usage.name %><br /></p>
-<% end -%>

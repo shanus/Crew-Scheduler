@@ -1,0 +1,1 @@
+<li><%= human_date(myevent.event_on, "%A, %m/%d") %>@<%= human_time myevent.start_time %> with the <%= h myevent.team.name.capitalize %> Crew in the <%= h myevent.boat.name %> [<%= link_to "view", {:controller => "events", :action => "show", :id => myevent} %>]</li>

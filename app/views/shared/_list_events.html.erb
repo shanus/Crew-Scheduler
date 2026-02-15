@@ -1,64 +1,71 @@
-<table width="95%" cellspacing="0" class="list_items sortable">
-  <tr class="header_row">
-		<th width="40px"></th><th width="40px"></th><th width="12px"></th>
-		<th>Date</th>
-		<th>Time</th>
-		<th>Boat</th>
-		<th>Crew</th>
-		<th>Rowers</th>
-		<th>Coxswain</th>
-		<th>Coach</th>
-		<th width="40px"></th>
-  </tr>
-  
-<% for event in @events %>
-  <tr class="<%= cycle("even", "odd") %>">
-    <td>
-    	<% destroy_link("event", event) -%>
-			<%= render :partial => 'shared/destroy_link' %>
-    </td>
-    <td>
-    	<% edit_link("event", event) -%>
-			<%= render :partial => 'shared/edit_link' %>
-    </td>
-		<td><%= event_status(event) %></td>
-		<td><%= human_date(event.event_on, "%a %m-%d-%y") %></td>
-		<td><%= human_time event.start_time %> - <%= human_time event.end_time %></td>
-		<td><%= h event.boat.name %></td>
-		<td><%= link_to event.team_name, team_summary_url(:id => event.team, :time => "all") unless event.team.nil? %></td>
-		<td class="nobreak">
-			<small>
-				<% rowers = event.rowers %>
-				<% 
-					max_rowers = 1
-		      if (event.boat)
-		        max_rowers = event.boat.max_number_of_rowers
-		      end
-					1.upto(max_rowers) { |i|
-					seat = "seat_#{i}"
-					if (max_rowers==1)
-						seat = "single"
-					elsif (i==max_rowers)
-						seat = "stroke"
-					elsif (i==1)
-						seat = "bow"
-					end 
-				-%>
-					<div class="seat" id="<%= seat %>">
-						<%= h event.rowers[i] %>
-					</div>
-					<% if i == 4 # places break on eights for room -%>
-					<br />
-					<% end -%>
-				<% } -%>
-			</small>
-		</td>
-		<td><%= h event.coxswain_name %></td>
-		<td><%= h event.coach_name %></td>
-		<td>
-    	<% show_link("event", event) -%>
-			<%= render :partial => 'shared/show_link' %>
-		</td>
-  </tr>
-<% end %>
-</table>
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Date</th>
+        <th>Team / Boat</th>
+        <th>Crew Members</th>
+        <th>Staff</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @events.each do |event| %>
+        <tr class="<%= 'opacity-75 bg-light' if event.date < Date.today %>">
+          <td>
+            <div class="fw-bold"><%= human_date(event.date) %></div>
+            <div class="small text-muted"><%= event.date.strftime("%A") %></div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center mb-1">
+              <% if event.team %>
+                <span class="badge me-2" style="background-color: <%= event.team.color || '#6c757d' %>">
+                  <%= event.team.name %>
+                </span>
+              <% end %>
+            </div>
+            <% if event.boat %>
+              <div class="small text-muted d-flex align-items-center">
+                <%= boat_icon(event.boat) %>
+                <span class="ms-1"><%= event.boat.name %></span>
+              </div>
+            <% end %>
+          </td>
+          <td class="small">
+             <% if event.seating_positions.any? %>
+                <% event.seating_positions.includes(:user).each do |sp| %>
+                  <div class="d-inline-block me-2 mb-1">
+                    <span class="text-muted"><%= sp.position_name %>:</span>
+                    <span class="fw-bold"><%= sp.user&.login || 'Empty' %></span>
+                  </div>
+                <% end %>
+             <% else %>
+                <span class="text-muted italic">No seating assigned</span>
+             <% end %>
+          </td>
+          <td class="small">
+            <% if event.coxswain %>
+              <div><span class="text-muted">Cox:</span> <strong><%= event.coxswain.login %></strong></div>
+            <% end %>
+            <% if event.coach %>
+              <div><span class="text-muted">Coach:</span> <strong><%= event.coach.login %></strong></div>
+            <% end %>
+          </td>
+          <td class="text-end">
+            <div class="d-flex justify-content-end gap-2">
+              <%= link_to event_path(event), class: "btn btn-sm btn-outline-primary", title: "View" do %>
+                <i class="bi bi-eye"></i>
+              <% end %>
+              <%= link_to edit_event_path(event), class: "btn btn-sm btn-outline-secondary", title: "Edit" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+              <%= link_to event_path(event), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", title: "Delete" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

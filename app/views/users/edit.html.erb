@@ -1,12 +1,32 @@
-<div class="editform">
-	<h1>Editing "<%= @user.login %>"</h1>
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-person-gear"></i> Editing "<%= @user.login %>"</h1>
+        <%= link_to admin_path, class: "btn btn-outline-secondary" do %>
+          <i class="bi bi-arrow-left"></i> Back to Admin
+        <% end %>
+      </div>
 
-	<%= error_messages_for :user %>
+      <%= form_with(model: @user) do |f| %>
+        <% if @user.errors.any? %>
+          <div class="alert alert-danger shadow-sm mb-4">
+            <h5 class="alert-heading"><i class="bi bi-exclamation-triangle-fill"></i> Please fix the following errors:</h5>
+            <ul class="mb-0">
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-	<% form_tag :action => 'update', :id => @user do %>
-	  <%= render :partial => 'form' %>
-	  <%= submit_tag 'Save', :class => "eventbutton" %>
-	<% end %>
+        <%= render "form", f: f %>
 
-	<%= link_to 'cancel', admin_url %>
+        <div class="d-grid gap-2">
+          <%= f.submit "Save Changes", class: "btn btn-primary btn-lg shadow-sm" %>
+          <%= link_to "Cancel", admin_path, class: "btn btn-link text-muted" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

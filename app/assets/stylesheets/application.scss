@@ -1,0 +1,65 @@
+// Main SCSS Manifest
+// $primary: #2e66b3;
+// $secondary: #15546f;
+// $light: #dcdede;
+// $dark: #040026;
+// $info: #495c69; 
+// $success: #198754;
+// $warning: #e6ce17;
+// $danger: #dc3545;
+$enable-rounded: true;
+$enable-gradients: true;
+$enable-shadows: true;
+$font-size-base: 1rem;
+$font-sizes: (
+	1: $font-size-base * 1.75,
+	2: $font-size-base * 1.5,
+	3: $font-size-base * 1.25,
+	4: $font-size-base,
+	5: $font-size-base * 0.75,
+	6: $font-size-base * 0.5
+);
+$border-radius: 0.2rem; // Changes default radius to 0.5rem
+$border-radius-sm: 0.1rem; // Changes small radius
+$border-radius-lg: 0.5rem;
+
+@import 'bootstrap';
+
+// Custom styles for Crew Scheduler
+body {
+
+	// Use body background from BS, but ensure light mode has the light grey
+	&.bg-light[data-bs-theme="light"] {
+		background-color: #f8f9fa !important;
+	}
+}
+
+.swatch {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border: 1px solid #ccc;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.small_swatch {
+	display: inline-block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	margin-right: 3px;
+	vertical-align: middle;
+}
+
+.min-vh-50 {
+	min-height: 50vh;
+}
+
+// Sparkline tweaks
+.sparkline-container {
+	display: flex;
+	align-items: flex-end;
+	height: 20px;
+	gap: 1px;
+}

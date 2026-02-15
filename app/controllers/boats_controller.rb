@@ -1,17 +1,10 @@
 class BoatsController < ApplicationController
-  require "hull_type"
-  
   def index
-    list
-    render :action => 'list'
+    @pagy, @boats = pagy(Boat.all, limit: 20)
   end
 
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
   def list
-    @boats = Boat.paginate :per_page => 20, :page => params[:page]
+    @pagy, @boats = pagy(Boat.all, limit: 20)
   end
 
   def show
@@ -20,55 +13,64 @@ class BoatsController < ApplicationController
 
   def new
     @boat = Boat.new
-    @BoatUsages = BoatUsage.find :all
-    @BoatWeights = BoatWeight.find :all
+    @boat_usages = BoatUsage.all
+    @boat_weights = BoatWeight.all
   end
 
   def create
-    @boat = Boat.new(params[:boat])
+    @boat = Boat.new(boat_params)
     if @boat.save
-      flash[:notice] = 'Boat was successfully created.'
-      redirect_to :action => 'list'
+      redirect_to boats_path, notice: 'Boat was successfully created.'
     else
-      render :action => 'new'
+      @boat_usages = BoatUsage.all
+      @boat_weights = BoatWeight.all
+      render :new, status: :unprocessable_entity
     end
   end
 
   def edit
     @boat = Boat.find(params[:id])
-    @BoatUsages = BoatUsage.find :all
-    @BoatWeights = BoatWeight.find :all
+    @boat_usages = BoatUsage.all
+    @boat_weights = BoatWeight.all
   end
 
   def update
     @boat = Boat.find(params[:id])
-    if @boat.update_attributes(params[:boat])
-      flash[:notice] = 'Boat was successfully updated.'
-      redirect_to :action => 'show', :id => @boat
+    if @boat.update(boat_params)
+      redirect_to boat_path(@boat), notice: 'Boat was successfully updated.'
     else
-      render :action => 'edit'
+      @boat_usages = BoatUsage.all
+      @boat_weights = BoatWeight.all
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    Boat.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @boat = Boat.find(params[:id])
+    @boat.destroy
+    redirect_to boats_path, notice: 'Boat was successfully deleted.'
   end
   
   def check_availability
-    if !(params[:id].nil? || params[:id] == "")
-      date = Date.strptime(params[:date], "%d-%m-%Y")
-      start = Time.parse("#{params[:date]} #{params[:start]}")
-      finish = Time.parse("#{params[:date]} #{params[:end]}")
+    if params[:id].present?
+      date = Date.strptime(params[:date], "%d-%m-%Y") rescue Date.today
+      start_time = Time.zone.parse("#{params[:date]} #{params[:start]}") rescue nil
+      finish_time = Time.zone.parse("#{params[:date]} #{params[:end]}") rescue nil
+      
       @boat = Boat.find(params[:id])
-      @message = @boat.check_availability(date, start, finish)
+      @message = @boat.check_availability(date, start_time, finish_time)
     end
-    render :layout => false
+    render layout: false
   end
   
   def details
-    @boat = Boat.find(params[:id]) unless (params[:id].blank?)
-    render :partial => 'boats/boat_detail'
+    @boat = Boat.find_by(id: params[:id]) if params[:id].present?
+    render partial: 'boats/boat_detail'
   end
-  
+
+  private
+
+  def boat_params
+    params.require(:boat).permit(:name, :hull_type, :boat_weight_id, :boat_usage_id, :color)
+  end
 end

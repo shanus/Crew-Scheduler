@@ -1,77 +1,67 @@
 class TidesController < ApplicationController
-  
   def index
-    @tides = Tide.paginate :all, :conditions=> [ "day >= ?", Date.yesterday ], :order => "day ASC", :page => params[:page]
+    @pagy, @tides = pagy(Tide.where("day >= ?", Date.yesterday).order(:day), limit: 30)
   end
   
   def summary
-    limit = params[:number]
-    center_date = Date.strptime(params[:date], "%m-%d-%Y")
-    @tides = Tide.find :all, :conditions=> [ "day >= ?", center_date - (limit.to_i/2).day ], :order => "day ASC", :limit => limit
-    render :layout => false
+    limit = (params[:number] || 7).to_i
+    center_date = Date.strptime(params[:date], "%m-%d-%Y") rescue Date.today
+    @tides = Tide.where("day >= ?", center_date - (limit / 2).days).order(:day).limit(limit)
+    render layout: false
   end
   
   def check_time
-    date = Date.strptime(params[:date], "%d-%m-%Y")
-    @tide = Tide.find :first, :conditions => { :day => date }
-    @start = Time.parse("#{params[:date]} #{params[:start]}")
-    @finish = Time.parse("#{params[:date]} #{params[:end]}")
-    @start = Time.parse("#{@tide.sunrise.strftime("%d-%m-%Y")} #{params[:start]}") if @start.to_date != @tide.sunrise.to_date
-    @finish = Time.parse("#{@tide.sunrise.strftime("%d-%m-%Y")} #{params[:end]}") if @finish.to_date != @tide.sunrise.to_date
-    @messages = @tide.check_time(@start, @finish)
-    @messages.concat(Event.check_start(date, params[:start]))
-    #logger.info @messages
-    render :layout => false
+    date = Date.strptime(params[:date], "%d-%m-%Y") rescue Date.today
+    @tide = Tide.find_by(day: date)
+    
+    if @tide
+      @start = Time.zone.parse("#{params[:date]} #{params[:start]}")
+      @finish = Time.zone.parse("#{params[:date]} #{params[:end]}")
+      
+      # Ensure times match tide day (legacy normalization)
+      @start = Time.zone.parse("#{@tide.day.strftime('%d-%m-%Y')} #{params[:start]}") if @start.to_date != @tide.day
+      @finish = Time.zone.parse("#{@tide.day.strftime('%d-%m-%Y')} #{params[:end]}") if @finish.to_date != @tide.day
+      
+      @messages = @tide.check_time(@start, @finish)
+      @messages.concat(Event.check_start(date, params[:start]))
+    else
+      @messages = ["No tide information found for this date."]
+    end
+    
+    render layout: false
   end
   
   def upload
     @page_title = "Scheduler: Tide File Upload"
   end
   
-  def preview
-    # Not yet implemented, user must know what they are doing or upload junk -slm 12/06/2008 
-    unless request.post?
-      flash[:error] = "You must upload a tide file."
-      render :action => "upload" and return
-    end
-    @page_title = "Scheduler: Tide File Preview"
-  end
-  
   def import
-    unless request.post? && !params[:tide].blank?
+    unless request.post? && params[:tide].present?
       flash[:error] = "You must upload a tide file."
-      render :action => "upload" and return
+      return redirect_to action: :upload
     end
-    time_zone = nil
-    time_zone = params[:tz][:time_zone] unless params[:tz].nil? || params[:tz][:time_zone].blank?
-    filetype = params[:tide].original_filename.split(".").last
-    if filetype == "csv"
-      if params[:tide].class == "UploadedTempfile"
-        Tide.import_tide_csv(params[:tide].local_path)
+
+    time_zone = params.dig(:tz, :time_zone).presence || "UTC"
+    uploaded_file = params[:tide]
+    file_path = uploaded_file.path
+    filetype = File.extname(uploaded_file.original_filename).delete('.')
+
+    begin
+      case filetype
+      when "csv"
+        Tide.import_tide_csv(file_path, time_zone)
+      when "txt"
+        csv_path = Tide.create_tide_csv(file_path)
+        Tide.import_tide_csv(csv_path, time_zone)
       else
-        temp_file = File.new("#{RAILS_ROOT}/tmp/#{rand(10000)}-#{params[:tide].original_filename}","w")
-        temp_file.write(params[:tide].read)
-        temp_file.close
-        Tide.import_tide_csv(temp_file.path, time_zone)
-        # FileUtils.remove(temp_file.path)
+        flash[:error] = "Unsupported file type. Please upload a .csv or .txt file."
+        return redirect_to action: :upload
       end
-    elsif filetype == "txt"
-      if params[:tide].class == "UploadedTempfile"
-        tide_file = Tide.create_tide_csv(params[:tide].local_path)
-      else
-        temp_file = File.new("#{RAILS_ROOT}/tmp/#{rand(10000)}-#{params[:tide].original_filename}","w")
-        temp_file.write(params[:tide].read)
-        temp_file.close
-        tide_file = Tide.create_tide_csv(temp_file.path)
-        # FileUtils.remove(temp_file.path)
-      end
-      Tide.import_tide_csv(tide_file.path, time_zone)
-      #FileUtils.remove(tide_file.path)
-    else
-      flash[:error] = "You must upload a tide file."
-      render :action => "upload" and return
+      flash[:notice] = "Your #{filetype} tide file was successfully imported."
+    rescue => e
+      flash[:error] = "An error occurred during import: #{e.message}"
     end
-    flash[:notice] = "Your #{filetype} tide file was succesfully imported."
-    redirect_to :controller => 'admin', :action => 'index'
+    
+    redirect_to admin_path
   end
 end

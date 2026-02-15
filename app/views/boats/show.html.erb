@@ -1,16 +1,38 @@
-<div class="view">
-	<p><b>Name:</b> <%= h @boat.name.capitalize %></p>
-	
-	<p><b>Report Color:</b> <%= color_swatch(@boat) %></p>
-
-	<p><b>Boat Use:</b> <%= h @boat.boat_usage.name.capitalize %></p>
-
-	<p><b>Crew Weight:</b> <%= h human_weight(@boat) %></p>
-
-	<p><b>Boat Type:</b> <%= h human_boat_type(@boat) %> <%= boat_icon(@boat) %></p>
-
-	<div class="right">
-		<%= link_to 'Edit', :action => 'edit', :id => @boat %> |
-		<%= link_to 'List All', :action => 'list' %>
-	</div>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow-lg border-0 overflow-hidden">
+      <div class="card-header bg-dark text-white p-4">
+        <h2 class="h4 mb-0"><%= @boat.name.titleize %></h2>
+      </div>
+      <div class="card-body p-4 text-center">
+        <div class="mb-4">
+          <%= boat_icon(@boat) %>
+        </div>
+        
+        <div class="list-group list-group-flush text-start mb-4 shadow-sm border">
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Report Color</span>
+            <span><%= color_swatch(@boat) %></span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Usage</span>
+            <span class="fw-bold"><%= @boat.boat_usage&.name&.titleize %></span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Crew Weight</span>
+            <span class="fw-bold"><%= human_weight(@boat) %></span>
+          </div>
+          <div class="list-group-item d-flex justify-content-between">
+            <span class="text-muted">Boat Type</span>
+            <span class="fw-bold"><%= human_boat_type(@boat) %></span>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between border-top pt-3">
+          <%= link_to "Back to List", boats_path, class: "btn btn-link px-0 text-decoration-none" %>
+          <%= link_to "Edit", edit_boat_path(@boat), class: "btn btn-primary px-4 shadow-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

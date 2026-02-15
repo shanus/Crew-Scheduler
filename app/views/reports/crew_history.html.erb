@@ -1,3 +1,6 @@
-<% javascript 'swfobject' %>
-<h2>Crew History Report</h2>
-<%= render :partial => 'crew', :collection => @crews %>
+<%= turbo_frame_tag "report_content" do %>
+  <div class="text-start">
+    <h2 class="h4 border-bottom pb-2 mb-4">Crew History Report</h2>
+    <%= render partial: 'crew', collection: @crews %>
+  </div>
+<% end %>

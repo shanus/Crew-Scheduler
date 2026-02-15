@@ -1,0 +1,5 @@
+<div id="bulletin_<%= bulletin.id %>" class="bulletin_summary">
+	<p class="title"><%= h bulletin.title %> <span class="creator">(posted by: <%= h bulletin.user.login %>)</span>
+	<span class="posted"><%= human_date(bulletin.created_at) %><br /><%= link_to "view", bulletin %></span></p>
+	<p class="body"><%= markdown bulletin.body %></p>
+</div>

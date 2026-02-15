@@ -1,5 +1,14 @@
-<div id="bulletin_<%= bulletin.id %>" class="bulletin_summary">
-	<p class="title"><%= h bulletin.title %> <span class="creator">(posted by: <%= h bulletin.user.login %>)</span>
-	<span class="posted"><%= human_date(bulletin.created_at) %><br /><%= link_to "view", bulletin %></span></p>
-	<p class="body"><%= markdown bulletin.body %></p>
+<div class="card mb-3 border-0 shadow-sm bg-light">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start border-bottom pb-2 mb-2">
+      <div>
+        <h5 class="card-title mb-0"><%= bulletin.title %></h5>
+        <small class="text-muted">posted by <strong><%= bulletin.user.login %></strong> on <%= human_date(bulletin.created_at) %></small>
+      </div>
+      <%= link_to "View", bulletin, class: "btn btn-outline-primary btn-sm" %>
+    </div>
+    <div class="card-text">
+      <%= markdown bulletin.body %>
+    </div>
+  </div>
 </div>

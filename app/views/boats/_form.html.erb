@@ -1,33 +1,59 @@
-<% javascript 'boats','colour_picker' %>
-<%= error_messages_for 'boat' %>
+<% if @boat.errors.any? %>
+  <div class="alert alert-danger shadow-sm mb-4">
+    <h5 class="alert-heading">Please correct the following errors:</h5>
+    <ul class="mb-0">
+      <% @boat.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<table>
-	<tr>
-		<td valign="top">
-			<p><label for="boat_name">Name</label><br/>
-			<%= text_field 'boat', 'name'  %></p>
+<div class="row align-items-start">
+  <div class="col-md-8">
+    <div class="mb-3">
+      <%= f.label :name, class: "form-label fw-bold" %>
+      <%= f.text_field :name, class: "form-control shadow-sm", placeholder: "e.g. Spirit of Yarmouth" %>
+    </div>
 
-			<p><label for="boat_hull_type">Boat Type</label><br/>
-			<select name="boat[hull_type]" id="boat_hull_type" onChange="updateBoatIcon(this, '<%= @boat.dom_id %>')">
-			<%= option_groups_from_collection_for_select(HULL_OPTIONS,
-																										:options, :type_name,
-																										:value, :name,
-																										@boat.hull_type)  %>
-			</select></p>
-			
-			<p><label for="boat_usage">Usage</label><br/>
-			<%= select :boat, :boat_usage_id, @BoatUsages.map {|u| [u.name,u.id]} %></p>
-			
-			<p><label for="boat_weight">Crew Weight</label><br/>
-			<%= select :boat, :boat_weight_id, @BoatWeights.map {|w| [w.name,w.id]} %></p>
-			
-			<p><label for="boat_color">Report Color</label><br/>
-			<%= color_field :boat, :color, { :use_swatch_icon => true }, {:value => 'Choose...' } %></p>
-		</td>
-		<td width="200px" valign="middle">
-			<div id="<%= @boat.dom_id %>">
-				<%= boat_icon(@boat) %>
-			</div>
-		</td>
-	</tr>
-</table><br /><br />
+    <div class="mb-3">
+      <%= f.label :hull_type, "Boat Type", class: "form-label fw-bold" %>
+      <%= f.select :hull_type, 
+          grouped_options_for_select(
+            HullType::HULL_OPTIONS.map { |o| 
+              [o.name, o.options.map { |opt| [opt.name, opt.value] }] 
+            }, 
+            @boat.hull_type
+          ), 
+          { prompt: "Select Boat Type" }, 
+          { class: "form-select shadow-sm" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :boat_usage_id, "Usage", class: "form-label fw-bold" %>
+      <%= f.collection_select :boat_usage_id, BoatUsage.all, :id, :name, { prompt: "Select Usage" }, { class: "form-select shadow-sm" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :boat_weight_id, "Crew Weight", class: "form-label fw-bold" %>
+      <%= f.collection_select :boat_weight_id, BoatWeight.all, :id, :name, { prompt: "Select Weight" }, { class: "form-select shadow-sm" } %>
+    </div>
+
+    <div class="mb-3">
+      <%= f.label :color, "Report Color", class: "form-label fw-bold" %>
+      <div class="d-flex align-items-center gap-2">
+        <%= f.color_field :color, class: "form-control form-control-color shadow-sm", title: "Choose a color for reports" %>
+        <span class="small text-muted">Used in schedule highlight and charts</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 text-center">
+    <div class="card bg-light border-0 py-4 shadow-sm mb-3">
+      <div id="boat-preview-icon">
+        <%= boat_icon(@boat) %>
+      </div>
+      <div class="mt-2 small text-muted">Boat Preview</div>
+    </div>
+  </div>
+</div>

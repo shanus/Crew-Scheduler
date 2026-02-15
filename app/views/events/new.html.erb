@@ -1,23 +1,19 @@
-<div class="padleft">
-	<h1>New Rowing Time</h1>
-
-	<% form_tag :action => 'create' do -%>
-	  <%= render :partial => 'form' %>
-		<p>
-		<% if @event.team.nil? -%>
-				<label for="event_team">Crew</label><br/>
-				<%= select :event, :team_id, @teams.map {|t| [t.name,t.id]} %>
-			<% else -%>
-				<%= hidden_field :event, :team_id %>
-			<% end -%>
-			</p>
-	  <%= submit_tag "Create", :class => "eventbutton" %>
-	<% end %>
-
-	<br /></br />
-	<% if @event.team.nil? -%>
-		<%= link_to 'cancel', :action => 'list' %>
-	<% else -%>
-		<%= link_to 'cancel', team_summary_url(:id => @current_team) %>
-	<% end -%>
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-primary text-white p-3">
+        <h2 class="h4 mb-0">Create New Rowing Event</h2>
+      </div>
+      <div class="card-body p-4">
+        <%= form_with(model: @event, url: events_path, local: true) do |f| %>
+          <%= render 'form', f: f %>
+          
+          <div class="mt-4 pt-3 border-top d-flex justify-content-between">
+            <%= link_to 'Cancel', (params[:team] ? summary_team_path(params[:team]) : root_path), class: "btn btn-outline-secondary" %>
+            <%= f.submit 'Create Event', class: "btn btn-success btn-lg px-5 shadow-sm" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

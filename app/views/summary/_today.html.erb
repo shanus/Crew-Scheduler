@@ -1,1 +1,10 @@
-<li><%= h today.team.name.capitalize %> Crew in the <%= h today.boat.name %> from <%= human_time today.start_time %> to <%= human_time today.end_time %> [<%= link_to "view", {:controller => "events", :action => "show", :id => today} %>]</li>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+  <div>
+    <span class="badge" style="background-color: <%= today.team.color || '#6c757d' %>"><%= today.team.name.titleize %></span>
+    in <strong><%= today.boat.name %></strong>
+    <span class="text-muted ms-2"><%= human_time today.start_time %> - <%= human_time today.end_time %></span>
+  </div>
+  <%= link_to event_path(today), class: "btn btn-sm btn-link" do %>
+    <i class="bi bi-eye"></i> View
+  <% end %>
+</div>

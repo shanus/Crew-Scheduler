@@ -1,20 +1,33 @@
-<% javascript 'colour_picker' %>
-<%= error_messages_for 'team' %>
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-body">
+    <div class="mb-3">
+      <%= f.label :name, "Crew Name", class: "form-label" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "e.g. Competitive Men, Recreational Women" %>
+    </div>
 
-<!--[form:team]-->
-<p><label for="team_name">Name</label><br/>
-<%= text_field 'team', 'name'  %></p>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <div class="form-check form-switch mb-2">
+          <%= f.check_box :require_cox, class: "form-check-input" %>
+          <%= f.label :require_cox, "Coxswain Required", class: "form-check-label" %>
+        </div>
+        <div class="form-check form-switch">
+          <%= f.check_box :require_coach, class: "form-check-input" %>
+          <%= f.label :require_coach, "Coach Required", class: "form-check-label" %>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-check form-switch">
+          <%= f.check_box :active, class: "form-check-input" %>
+          <%= f.label :active, "Active Crew", class: "form-check-label" %>
+        </div>
+      </div>
+    </div>
 
-<p><label for="team_require_cox">Coxswain Required</label> 
-<%= check_box 'team', 'require_cox'  %></p>
-
-<p><label for="team_require_coach">Coach Required</label> 
-<%= check_box 'team', 'require_coach'  %></p>
-
-<p><label for="team_color">Report Color</label><br/>
-<%= color_field :team, :color, { :use_swatch_icon => true }, {:value => 'Choose...' } %></p>
-
-<p><label for="team_active">Active?</label> 
-<%= check_box 'team', 'active'  %></p>
-<!--[eoform:team]-->
-
+    <div class="mb-3">
+      <%= f.label :color, "Report Color", class: "form-label" %>
+      <%= f.color_field :color, class: "form-control form-control-color w-100", title: "Choose a color for reports" %>
+      <div class="form-text">Used to highlight this crew's events in calendars and reports.</div>
+    </div>
+  </div>
+</div>

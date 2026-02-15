@@ -1,0 +1,23 @@
+<div class="padleft">
+	<h1>New Rowing Time</h1>
+
+	<% form_tag :action => 'create' do -%>
+	  <%= render :partial => 'form' %>
+		<p>
+		<% if @event.team.nil? -%>
+				<label for="event_team">Crew</label><br/>
+				<%= select :event, :team_id, @teams.map {|t| [t.name,t.id]} %>
+			<% else -%>
+				<%= hidden_field :event, :team_id %>
+			<% end -%>
+			</p>
+	  <%= submit_tag "Create", :class => "eventbutton" %>
+	<% end %>
+
+	<br /></br />
+	<% if @event.team.nil? -%>
+		<%= link_to 'cancel', :action => 'list' %>
+	<% else -%>
+		<%= link_to 'cancel', team_summary_url(:id => @current_team) %>
+	<% end -%>
+</div>

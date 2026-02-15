@@ -1,5 +1,10 @@
-<% javascript 'swfobject' %>
-<h2>Boat Usage By Crew</h2>
-<% unless @crew_breakdown.blank? -%>
-	<%= render :partial=> "boat_usage", :collection => @boats %>
-<% end -%>
+<%= turbo_frame_tag "report_content" do %>
+  <div class="text-start">
+    <h2 class="h4 border-bottom pb-2 mb-4">Boat Usage By Crew</h2>
+    <% if @crew_breakdown.present? %>
+      <%= render partial: "boat_usage", collection: @boats %>
+    <% else %>
+      <div class="alert alert-info shadow-sm">No usage data found for the current period.</div>
+    <% end %>
+  </div>
+<% end %>

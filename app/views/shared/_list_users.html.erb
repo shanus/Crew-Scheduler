@@ -1,54 +1,61 @@
-<table width="95%" cellspacing="0" class="list_items sortable">
-  <tr class="header_row">
-		<th width="40px"></th><th width="40px"></th>
-		<th>Username</th>
-		<th>Email</th>
-		<th>Side</th>
-		<th>Crew</th>
-		<th>Coxswain</th>
-		<th>Coach</th>
-		<th>Activated</th>
-		<th width="40px"></th>
-  </tr>
-<% for user in @users -%>
-  <tr class="<%=  cycle = cycle("even", "odd") %>">
-		<% background = ((cycle == "even") ? "#FFF" : "#EEE") -%>
-    <td>
-    	<% destroy_link("user", user) -%>
-			<%= render :partial => 'shared/destroy_link' %>
-    </td>
-    <td>
-    	<% edit_link("user", user) -%>
-			<%= render :partial => 'shared/edit_link' %>
-    </td>
-		<td><span<%= underline(user) %>><%= h (user.login) %></span> <%= render :partial => 'users/sparkline', :locals => { :sparkline_data => user.rowing_history(12), :bg_color => background, :color => "#333" } if user.public_rowing_history? %></td>
-		<td><small><%= h (user.email) %></small></td>
-		<td align="center"><img src="/images/<%= h (user.side) %>_flat_small.png" alt="<%= h (user.human_side) %>" /><span class="tiny"><br /><%= h (user.human_side) %></span></td>
-		<% t = user.team %>
-		<td>
-			<% if t.nil? -%>
-				--
-			<% else -%>
-				<%= h (t.name) %>
-			<% end -%>
-		</td>
-		<td class="center">
-			<%= (user.coxswain?) ? image_tag("check_24.png") : ' ' %>
-		</td>
-		<td class="center">
-			<%= (user.coach?) ? image_tag("check_24.png") : ' ' %>
-		</td>
-		<td><small>
-		<% if !user.activated_at.nil? -%>
-		<%= time_ago_in_words(user.activated_at) %> ago
-		<% else -%>
-		<%= link_to "(activate)", activate_url(:activation_code => user.activation_code) %>
-		<% end -%>
-		</small></td>
-		<td>
-    	<% show_link("user", user) -%>
-			<%= render :partial => 'shared/show_link' %>
-		</td>
-  </tr>
-<% end %>
-</table>
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th class="text-center">Side</th>
+        <th>Crew</th>
+        <th class="text-center">Cox / Coach</th>
+        <th>Status</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td>
+            <div class="fw-bold"><%= user.login %></div>
+            <div class="sparkline-container mt-1" style="width: 100px;">
+              <%= sparkline(user.rowing_history(12)) if user.public_rowing_history? %>
+            </div>
+          </td>
+          <td class="small text-muted"><%= mail_to user.email, user.email, class: "text-decoration-none" %></td>
+          <td class="text-center">
+             <span class="badge bg-light text-dark border">
+               <%= user.side.to_s.upcase %>
+             </span>
+          </td>
+          <td>
+            <%= user.team&.name&.truncate(15) || "--" %>
+          </td>
+          <td class="text-center">
+            <% if user.will_cox %>
+              <span class="badge bg-info text-dark" title="Coxswain">X</span>
+            <% end %>
+            <% if user.will_coach %>
+              <span class="badge bg-warning text-dark" title="Coach">C</span>
+            <% end %>
+          </td>
+          <td>
+            <% if user.activated_at %>
+              <span class="text-success small"><i class="bi bi-check-circle"></i> Verified</span>
+            <% else %>
+              <%= link_to "Activate", "#", class: "btn btn-sm btn-outline-warning py-0 px-2" %>
+            <% end %>
+          </td>
+          <td class="text-end">
+            <div class="d-flex justify-content-end gap-2">
+              <%= link_to edit_user_path(user), class: "btn btn-sm btn-outline-secondary", title: "Edit" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+              <%= link_to user_path(user), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", title: "Delete" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

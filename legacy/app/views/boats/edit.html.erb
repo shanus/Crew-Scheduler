@@ -1,0 +1,10 @@
+<div class="editform">
+	<h1>Editing "<%= @boat.name %>"</h1>
+
+	<% form_tag :action => 'update', :id => @boat do %>
+	  <%= render :partial => 'form' %>
+	  <%= submit_tag 'Save', :class => "eventbutton" %>
+	<% end %>
+	
+	<%= link_to 'cancel', admin_url %>
+</div>

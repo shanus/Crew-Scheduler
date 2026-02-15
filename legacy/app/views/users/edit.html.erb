@@ -1,0 +1,12 @@
+<div class="editform">
+	<h1>Editing "<%= @user.login %>"</h1>
+
+	<%= error_messages_for :user %>
+
+	<% form_tag :action => 'update', :id => @user do %>
+	  <%= render :partial => 'form' %>
+	  <%= submit_tag 'Save', :class => "eventbutton" %>
+	<% end %>
+
+	<%= link_to 'cancel', admin_url %>
+</div>

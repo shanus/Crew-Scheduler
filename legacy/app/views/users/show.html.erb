@@ -1,0 +1,35 @@
+<div class="view">
+
+	<p><img src="/images/<%= h (@user.side) %>_flat.png" alt="<%= h (@user.human_side) %>" /> <span class="huge"<%= user_color(@user) %>><%= h @user.login %></span></p>
+
+	<p><b>Side</b> <%= h @user.side %></p>
+
+	<p><b>Crew:</b> <%= h @user.team.name unless @user.team.nil? %></p>
+
+	<p><b>Email</b> <%= mail_to @user.email %></p>
+
+	<p><b>Willing to be a coxswain: </b> 
+	<%= (@user.will_cox) ? 'yes' : 'no'  %></p>
+
+	<p><b>Willing to Coach: </b> 
+	<%= (@user.will_coach) ? 'yes' : 'no'  %></p>
+
+	<p><b>Email Reminders: </b> 
+	<%= (@user.send_reminders) ? 'yes' : 'no'  %></p>
+	
+	<p><b>Public Rowing History: </b> 
+	<%= (@user.public_rowing_history) ? 'yes' : 'no'  %></p>
+	
+	<!-- <p><b>Report Color:</b> <%= color_swatch(@user) %></p> -->
+
+	<p><b>Last Updated at:</b> <%= h timestamps(@user.updated_at) %></p>
+
+	<p><b>Created at:</b> <%= h timestamps(@user.created_at) %></p>
+
+	<p><b>Activated at:</b> <%= (@user.activated_at.nil?) ? "<i>not activated</i>" : (h timestamps(@user.activated_at)) %></p>
+
+	<div class="right">
+		<%= link_to 'Edit', :action => 'edit', :id => @user %> |
+		<%= link_to 'List All', :action => 'list' %>
+	</div>
+</div>

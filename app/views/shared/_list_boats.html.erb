@@ -1,21 +1,38 @@
-<table width="50%" cellspacing="0" class="list_items sortable">
-  <tr class="header_row">
-		<th width="40px"></th><th width="40px"></th>
-		<th>Boat Name</th>
-		<th>Boat Type</th>
-  </tr>
-<% for boat in @boats -%>
-	<tr class="<%= cycle("even", "odd") %>">
-		<td>
-    	<% destroy_link("boat", boat) -%>
-			<%= render :partial => 'shared/destroy_link' %>
-    </td>
-		<td>
-    	<% edit_link("boat", boat) -%>
-			<%= render :partial => 'shared/edit_link' %>
-		</td>
-		<td><span<%= underline(boat) %>><%=h boat.name %></span></td>
-		<td class="center"><img src="/images/<%=h (boat.hull_type.sub(/[\+]/,"%2b")) %>_24.gif" alt="<%=h (boat.human_type) %>" /><span class="tiny"><br /><%=h (boat.human_type) %></span></td>
-  </tr>
-<% end -%>
-</table>
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Weight</th>
+        <th>Usage</th>
+        <th>Color</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @boats.each do |boat| %>
+        <tr>
+          <td class="fw-bold">
+            <%= boat_icon(boat) %>
+            <%= link_to boat.name, boat_path(boat), class: "ms-2 text-decoration-none" %>
+          </td>
+          <td><%= human_boat_type(boat) %></td>
+          <td><%= human_weight(boat) %></td>
+          <td><span class="badge bg-light text-dark border"><%= boat.boat_usage&.name&.titleize %></span></td>
+          <td><%= color_swatch(boat) %></td>
+          <td class="text-end">
+            <div class="d-flex justify-content-end gap-2">
+              <%= link_to edit_boat_path(boat), class: "btn btn-sm btn-outline-secondary", title: "Edit boat" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+              <%= link_to boat_path(boat), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", title: "Delete boat" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

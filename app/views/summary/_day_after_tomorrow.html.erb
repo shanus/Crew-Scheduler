@@ -1,1 +1,10 @@
-<li><%= h day_after_tomorrow.team.name.capitalize %> Crew in the <%= h day_after_tomorrow.boat.name %> from <%= human_time day_after_tomorrow.start_time %> to <%= human_time day_after_tomorrow.end_time %> [<%= link_to "view", {:controller => "events", :action => "show", :id => day_after_tomorrow} %>]</li>
+<div class="list-group-item d-flex justify-content-between align-items-center">
+  <div>
+    <span class="badge" style="background-color: <%= day_after_tomorrow.team.color || '#6c757d' %>"><%= day_after_tomorrow.team.name.titleize %></span>
+    in <strong><%= day_after_tomorrow.boat.name %></strong>
+    <span class="text-muted ms-2"><%= human_time day_after_tomorrow.start_time %> - <%= human_time day_after_tomorrow.end_time %></span>
+  </div>
+  <%= link_to event_path(day_after_tomorrow), class: "btn btn-sm btn-link" do %>
+    <i class="bi bi-eye"></i> View
+  <% end %>
+</div>

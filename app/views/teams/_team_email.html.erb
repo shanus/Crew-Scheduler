@@ -1,2 +1,5 @@
-<%= mail_to team_email(@current_team), 
-		image_tag("mail.gif", :title => "Send email to all team members", :alt => "Mail team", :border => "0"), :encode => "hex" unless @current_team.members.size <= 1 %>
+<% if @current_team.users.size > 1 %>
+  <%= mail_to team_email(@current_team), encode: "hex", class: "btn btn-outline-primary btn-sm mb-2", title: "Send email to all team members" do %>
+    <i class="bi bi-envelope"></i> Email Entire Crew
+  <% end %>
+<% end %>

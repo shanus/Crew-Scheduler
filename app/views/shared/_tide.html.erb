@@ -1,24 +1,22 @@
 <%  
-	tide_events = Array.new
-	for column in Tide.content_columns
-		tide_events << { :event_name => column.name, :time => (tide.send(column.name) || Time.at(0)) } unless (column.name == "day") 
-	end
-	unless show_date
-		tday = short_human_date(tide.day)
-	else
-		tday = human_date(tide.day, "%m/%d")
-	end
--%>
-<li class="tday"><%= h tday %>
-	<ul class="tide_events">
-		<% tide_events.sort_by { |tide_event| tide_event[:time] }.each do |tide_event| -%>
-		<li class="<%= 
-			if tide_event[:time] == Time.at(0) 
-				"no_event"
-			else
-				h tide_event[:event_name] 
-			end
-		%>"><nobr><%= h tide_event[:time].strftime("%I:%M %p") unless tide_event[:time] == Time.at(0) %></nobr></li>
-		<% end -%>
-	</ul>	
+  tide_events = []
+  # Porting the column-based tide event logic
+  [:high_tide_1, :low_tide_1, :high_tide_2, :low_tide_2, :sunrise, :sunset].each do |attr|
+    time = tide.send(attr)
+    tide_events << { name: attr.to_s.humanize, time: time, type: attr } if time
+  end
+  
+  tday = show_date ? human_date(tide.day, format: "%m/%d") : short_human_date(tide.day)
+%>
+
+<li class="list-group-item">
+  <div class="fw-bold small border-bottom mb-1"><%= tday %></div>
+  <div class="d-flex flex-wrap gap-1">
+    <% tide_events.sort_by { |e| e[:time] }.each do |event| %>
+      <span class="badge bg-light text-dark border small p-1" title="<%= event[:name] %>">
+        <i class="bi <%= event[:type].to_s.include?('high') ? 'bi-arrow-up-circle text-primary' : (event[:type].to_s.include?('low') ? 'bi-arrow-down-circle text-danger' : 'bi-sun') %>"></i>
+        <%= event[:time].strftime("%I:%M %p") %>
+      </span>
+    <% end %>
+  </div>
 </li>

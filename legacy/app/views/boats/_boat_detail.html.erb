@@ -1,0 +1,5 @@
+<% unless @boat.nil? -%>
+<%= boat_icon(@boat) %><br />
+Usage: <%= @boat.boat_usage.name %><br />
+Crew weight: <%= @boat.boat_weight.name %> 
+<% end -%>

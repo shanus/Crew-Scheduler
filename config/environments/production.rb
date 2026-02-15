@@ -1,57 +1,89 @@
-# Settings specified here will take precedence over those in config/environment.rb
+require "active_support/core_ext/integer/time"
 
-# The production environment is meant for finished, "live" apps.
-# Code is not reloaded between requests
-config.cache_classes = true
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
 
-# Use a different logger for distributed setups
-# config.logger = SyslogLogger.new
+  # Code is not reloaded between requests.
+  config.enable_reloading = false
 
-# Full error reports are disabled and caching is turned on
-config.action_controller.consider_all_requests_local = false
-config.action_controller.perform_caching             = true
-config.action_view.cache_template_loading            = true
+  # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
+  config.eager_load = true
 
-# Enable serving of images, stylesheets, and javascripts from an asset server
-# config.action_controller.asset_host                  = "http://assets.example.com"
+  # Full error reports are disabled.
+  config.consider_all_requests_local = false
 
-config.log_level = :info
-ActiveRecord::Base.colorize_logging = false
+  # Turn on fragment caching in view templates.
+  config.action_controller.perform_caching = true
 
-# Disable delivery errors, bad email addresses will be ignored
-# config.action_mailer.raise_delivery_errors = false
-# For recaptcha use
-ENV['RECAPTCHA_PUBLIC_KEY']  = "6LeLLroSAAAAAA_Dk3t_7E4VCVYyIfuHmlCFW2-3"
-ENV['RECAPTCHA_PRIVATE_KEY'] = "6LeLLroSAAAAAIehUO7rtf6VSMoLehk98rmnj18a"
+  # Cache assets for far-future expiry since they are all digest stamped.
+  config.public_file_server.headers = { "cache-control" => "public, max-age=#{1.year.to_i}" }
 
+  # Enable serving of images, stylesheets, and JavaScripts from an asset server.
+  # config.asset_host = "http://assets.example.com"
 
-# Include your application configuration below
-YOURSITE = 'scheduler.rowbrunswick.org'
-SUPPORTEMAIL = 'merrymeeting.rowing@gmail.com'
-ADMINEMAIL = 'merrymeeting.rowing@gmail.com'
+  # Store uploaded files on the local file system (see config/storage.yml for options).
+  config.active_storage.service = :local
 
-# Google Calendar and email items
-EVENTCALENDAR = "http://www.google.com/calendar/embed?src=polarrowing%40gmail.com&ctz=America/New_York"
-TIDECALENDAR = "http://www.google.com/calendar/embed?src=7k1mijisl3mjkdo8lu43sfo148%40group.calendar.google.com&ctz=America/New_York&color=%2328754E&mode=WEEK"
-TIDECALENDARNAME = "Tides"
-GMAIL = "merrymeeting.rowing@gmail.com"
-GMAILPASSWD = "nonesuch23river"
+  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
+  # config.assume_ssl = true
 
-# RSS Items
-BULLETINRSSTITLE = "Merrymeeting Community Rowing Bulletins"
-BULLETINRSSDESC = "The latest bulletins and announcements from Merrymeeting Community Rowing."
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # config.force_ssl = true
 
-# Configure the exception notifier
-ExceptionNotifier.exception_recipients = %w(shaun+merrymeetingrowing@yarmouth-rowing.org)
-ExceptionNotifier.sender_address = %("Scheduler Error" <merrymeeting.rowing@gmail.com>)
-ExceptionNotifier.email_prefix = "[Rowbrunswick Scheduler ERROR] "  
+  # Skip http-to-https redirect for the default health check endpoint.
+  # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
-ActionMailer::Base.smtp_settings = {
- :user_name => GMAIL,
- :password => GMAILPASSWD,
- :authentication => :plain,
- :address  => "smtp.gmail.com",
- :port  => 587, 
- :tls => true,
- :domain  => 'gmail.com'
-}
+  # Log to STDOUT with the current request id as a default log tag.
+  config.log_tags = [ :request_id ]
+  config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
+
+  # Change to "debug" to log everything (including potentially personally-identifiable information!).
+  config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+
+  # Prevent health checks from clogging up the logs.
+  config.silence_healthcheck_path = "/up"
+
+  # Don't log any deprecations.
+  config.active_support.report_deprecations = false
+
+  # Replace the default in-process memory cache store with a durable alternative.
+  # config.cache_store = :mem_cache_store
+
+  # Replace the default in-process and non-durable queuing backend for Active Job.
+  # config.active_job.queue_adapter = :resque
+
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # config.action_mailer.raise_delivery_errors = false
+
+  # Set host to be used by links generated in mailer templates.
+  config.action_mailer.default_url_options = { host: "example.com" }
+
+  # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
+  # config.action_mailer.smtp_settings = {
+  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
+  #   password: Rails.application.credentials.dig(:smtp, :password),
+  #   address: "smtp.example.com",
+  #   port: 587,
+  #   authentication: :plain
+  # }
+
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
+  # the I18n.default_locale when a translation cannot be found).
+  config.i18n.fallbacks = true
+
+  # Do not dump schema after migrations.
+  config.active_record.dump_schema_after_migration = false
+
+  # Only use :id for inspections in production.
+  config.active_record.attributes_for_inspect = [ :id ]
+
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  # config.hosts = [
+  #   "example.com",     # Allow requests from example.com
+  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+  # ]
+  #
+  # Skip DNS rebinding protection for the default health check endpoint.
+  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+end

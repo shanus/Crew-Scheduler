@@ -1,40 +1,31 @@
 class UsersController < ApplicationController
-  
-  before_filter :login_required, :except => [:rss]
-  before_filter :history_is_public, :only => [:sparkline]
+  skip_before_action :login_required, only: [:rss]
+  before_action :history_is_public, only: [:sparkline]
   
   def index
-    list
-    render :action => 'list'
+    @pagy, @users = pagy(User.order(:login), limit: 30)
+  end
+
+  def list
+    @pagy, @users = pagy(User.order(:login), limit: 30)
   end
   
   def rss
-    @user = User.find_by_login(params[:login])
-    return (render :status => 404, :file => "#{RAILS_ROOT}/public/404.html") if @user.nil?
+    @user = User.find_by!(login: params[:login])
     @upcoming = @user.upcoming 
     @title = "Upcoming Rowing for #{@user.login.capitalize}"
     @desc = "Rowing Times for the next two weeks for #{@user.login.capitalize}."
     respond_to do |format|
-      format.rss { render :layout => false }
+      format.rss { render layout: false }
     end
+  rescue ActiveRecord::RecordNotFound
+    render file: "#{Rails.root}/public/404.html", status: :not_found, layout: false
   end
   
   def sparkline
-    if params[:id].blank?
-      @user = current_user
-    else
-      @user = User.find_by_id(params[:id])
-      @user = current_user if @user.nil?
-    end
-    render :partial => 'sparkline', :locals => { :sparkline_data => @user.rowing_history }
-  end
-
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
-  def list
-    @users = User.paginate :per_page => 30, :page => params[:page], :order => 'login'
+    @user = params[:id].present? ? User.find_by(id: params[:id]) : current_user
+    @user ||= current_user
+    render partial: 'sparkline', locals: { sparkline_data: @user.rowing_history }
   end
 
   def show
@@ -42,16 +33,15 @@ class UsersController < ApplicationController
   end
 
   def new
-    @users = User.new
+    @user = User.new
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     if @user.save
-      flash[:notice] = 'Member was successfully created.'
-      redirect_to :action => 'list'
+      redirect_to users_path, notice: 'Member was successfully created.'
     else
-      render :action => 'new'
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -61,42 +51,42 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-      flash[:notice] = 'Member was successfully updated.'
-      redirect_to :action => 'show', :id => @user
+    if @user.update(user_params)
+      redirect_to user_path(@user), notice: 'Member was successfully updated.'
     else
-      render :action => 'edit'
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    User.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect_to users_path, notice: 'Member was successfully deleted.'
   end
   
-  # Not used anymore to keep compatible with Heroku  -slm 04/19/2008
   def users_for_lookup
-    # Look for ambis as well for now  -slm 03/14/2008
-    @ports = User.find :all, :conditions => "side != 'stbd'", :order => 'login'
-    # Look for ambis as well for now  -slm 03/14/2008
-    @starboards =  User.find :all, :conditions => "side != 'port'", :order => 'login'
-    @coaches =  User.find :all, :conditions => { :will_coach => true }, :order => 'login'
-    @coxswains =  User.find :all, :conditions => { :will_cox => true }, :order => 'login'
+    @ports = User.where("side != 'stbd'").order(:login)
+    @starboards = User.where("side != 'port'").order(:login)
+    @coaches = User.where(will_coach: true).order(:login)
+    @coxswains = User.where(will_cox: true).order(:login)
     respond_to do |format|
-      format.js { }
+      format.js { render layout: false }
+      format.html { render layout: false }
     end
-    render :layout => false
   end
   
-  protected
+  private
+
+  def user_params
+    params.require(:user).permit(:login, :email, :side, :password, :password_confirmation, :time_zone, :will_cox, :will_coach, :send_reminders, :public_rowing_history, :color)
+  end
+
   def history_is_public
     return true if params[:id].blank?
-    user = User.find(params[:id])
-    user.public_rowing_history ? true : access_denied
-  end
-  
-  def access_denied
-    render :text => " "
+    user = User.find_by(id: params[:id])
+    return true if user&.public_rowing_history
+    
+    render plain: " ", status: :forbidden
     false
   end
 end

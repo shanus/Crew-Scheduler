@@ -1,6 +1,5 @@
-<div style="clear: left;"> 
-	<%= link_to 'Tide Calendar...',
-							"/tides",
-							#TIDECALENDAR, 
-							:target => "_blank", :class => "small_link", :title => "Opens tides in a new window" %>
+<div class="mt-2 text-center"> 
+  <%= link_to tides_path, class: "btn btn-sm btn-link text-decoration-none", title: "View full tide schedule" do %>
+    <i class="bi bi-calendar3"></i> Tide Calendar
+  <% end %>
 </div>

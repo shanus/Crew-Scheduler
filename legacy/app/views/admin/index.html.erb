@@ -1,0 +1,63 @@
+<div id="right_sidebar">
+	<h3>Bulletins <%= link_to (image_tag "feed-icon-small.png", :alt => "RSS feed", :title => "Click to Subscribe...", :border => 0), rss_url('bulletins') %></h3>
+	<p><%= link_to "Create...", :controller => "bulletins", :action => "new" %></p>
+	<p><%= link_to "Show All", :controller => "bulletins", :action => "index" %></p>
+	<hr />
+	<h3>Reports</h3>
+	<p><%= link_to 'Generate a report...', {:controller => "reports", :action => 'index'}, :title => "Create and View Reports" %></p>
+	<hr />
+	<h3>Tides</h3>
+	<p><%= link_to 'Tide Calendar...', TIDECALENDAR, :target => "_blank", :title => "Opens tides in a new window" %></p>
+	<p><%= link_to "Upload...", :controller => "tides", :action => "upload" %></p>
+	<hr />
+	<h3>Club Events</h3>
+	<p><%= link_to 'Calendar...', EVENTCALENDAR, :target => "_blank", :title => "Opens calendar in a new window" %></p>
+</div>
+<div id="content" style="margin-left:30px;">
+<h1>Scheduler Administration</h1>
+<ul id="submenu">
+	<li><%= link_to '[crews]', "#crews", :class => 'tiny' %></li>
+	<li><%= link_to '[boats]', "#boats", :class => 'tiny' %></li>
+	<li><%= link_to '[rowers]', "#rowers", :class => 'tiny' %></li>
+	<li><%= link_to '[rowing times]', {:controller => "events", :action => 'index'}, :class => 'tiny' %></li>
+</ul><br />
+<a name="crews"></a>
+<% add_link("team", "crew") -%>
+<%= render :partial => 'shared/add_link' %>
+<h2>Crews</h2>
+<%= render :partial => 'shared/list_crews' %>
+<%  if @teams_per_page < Team.count -%>
+	<% list_link("team", "crew") -%>
+	<%= render :partial => 'shared/list_link' %>
+<% end -%>
+<br />
+<br />
+<%= link_to '[top]', "#top", :class => 'tiny' %><br />
+<hr />
+<a name="boats"></a>
+<% add_link("boat") -%>
+<%= render :partial => 'shared/add_link' %>
+<h2>Boats</h2>
+<%= render :partial => 'shared/list_boats' %>
+<%  if @boats_per_page < Boat.count -%>
+	<% list_link("boat") -%>
+	<%= render :partial => 'shared/list_link' %>
+<% end -%>
+<br />
+<br />
+<%= link_to '[top]', "#top", :class => 'tiny' %><br />
+<hr />
+<a name="rowers"></a>
+<% add_link("user", "rower") -%>
+<%= render :partial => 'shared/add_link' %>
+<h2>Rowers</h2>
+<%= render :partial => 'shared/list_users' %>
+<%  if @users_per_page < User.count -%>
+	<% list_link("user", "rower") -%>
+	<%= render :partial => 'shared/list_link' %>
+<% end -%>
+<br />
+<br />
+<%= link_to '[top]', "#top", :class => 'tiny' %><br />
+<hr />
+</div>

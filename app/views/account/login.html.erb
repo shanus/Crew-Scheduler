@@ -1,21 +1,46 @@
-<div class="editform">
-	<%= error_messages_for :user %>
+<div class="row justify-content-center pt-5">
+  <div class="col-md-5">
+    <div class="card shadow-lg border-0">
+      <div class="card-header bg-primary text-white text-center py-4">
+        <h2 class="h4 mb-0">Welcome Back</h2>
+        <p class="small mb-0 opacity-75">Log in to manage your rowing schedule</p>
+      </div>
+      <div class="card-body p-4">
+        <% if @user&.errors&.any? %>
+          <div class="alert alert-danger small py-2">
+            <%= @user.errors.full_messages.join(", ") %>
+          </div>
+        <% end %>
 
-	<% form_tag do -%>
-	<p><label for="login">Login</label><br/>
-	<%= text_field_tag 'login' %></p>
+        <%= form_tag login_path, method: :post do %>
+          <div class="mb-3">
+            <%= label_tag :login, "Username", class: "form-label fw-bold" %>
+            <%= text_field_tag :login, params[:login], class: "form-control form-control-lg shadow-sm", autofocus: true, placeholder: "Your login" %>
+          </div>
+          
+          <div class="mb-3">
+            <%= label_tag :password, "Password", class: "form-label fw-bold" %>
+            <%= password_field_tag :password, nil, class: "form-control form-control-lg shadow-sm", placeholder: "••••••••" %>
+          </div>
 
-	<p><label for="password">Password</label><br/>
-	<%= password_field_tag 'password' %></p>
+          <div class="mb-4 d-flex justify-content-between align-items-center">
+            <div class="form-check">
+              <%= check_box_tag :remember_me, 1, params[:remember_me], class: "form-check-input" %>
+              <%= label_tag :remember_me, "Remember me", class: "form-check-label small" %>
+            </div>
+            <%= link_to "Forgot Password?", reset_path, class: "small text-decoration-none" %>
+          </div>
 
-	<p><label for="remember_me">Remember me:</label>
-	<%= check_box_tag 'remember_me' %></p>
-
-	<p><%= submit_tag 'Log in', :class => "loginbutton" %></p>
-	<% end -%>
-
-	<br />
-	<%= link_to 'Sign Up', :action => "signup" %> | <%= link_to 'Forgot Password?', :action => "reset" %>
+          <div class="d-grid mb-3">
+            <%= submit_tag "Log In", class: "btn btn-primary btn-lg shadow-sm" %>
+          </div>
+        <% end %>
+        
+        <div class="text-center mt-4 border-top pt-3">
+          <p class="text-muted small">Don't have an account?</p>
+          <%= link_to "Create an Account", signup_path, class: "btn btn-outline-success btn-sm px-4" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%= javascript_tag "$('login').focus()" %>

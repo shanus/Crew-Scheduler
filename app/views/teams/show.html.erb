@@ -1,20 +1,52 @@
-<div class="view">
-	<p><b>Name: </b>
-	<%= h @team.name.capitalize  %></p>
-	
-	<p><b>Report Color:</b> <%= color_swatch(@team) %></p>
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">
+            <i class="bi bi-people"></i> Crew: <%= @team.name %>
+          </h3>
+          <% if @team.color.present? %>
+            <span class="badge rounded-pill border border-white" style="background-color: <%= @team.color %>">
+              Crew Color
+            </span>
+          <% end %>
+        </div>
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-md-12">
+              <h4 class="border-bottom pb-2">Requirements & Status</h4>
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <i class="bi bi-<%= @team.require_cox ? 'check-circle-fill text-success' : 'dash-circle text-muted' %>"></i>
+                  <strong>Coxswain Required:</strong> <%= @team.require_cox ? 'Yes' : 'No' %>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-<%= @team.require_coach ? 'check-circle-fill text-success' : 'dash-circle text-muted' %>"></i>
+                  <strong>Coach Required:</strong> <%= @team.require_coach ? 'Yes' : 'No' %>
+                </li>
+                <li class="mb-2">
+                  <i class="bi bi-<%= @team.active ? 'check-circle-fill text-success' : 'dash-circle text-muted' %>"></i>
+                  <strong>Active Status:</strong> <%= @team.active ? 'Active' : 'Inactive' %>
+                </li>
+              </ul>
+            </div>
+          </div>
 
-	<p><b>Coxswain Required: </b> 
-	<%= (@team.require_cox) ? 'yes' : 'no'  %></p>
-
-	<p><b>Coach Required: </b> 
-	<%= (@team.require_coach) ? 'yes' : 'no'  %></p>
-	
-	<p><b>Active: </b> 
-	<%= (@team.active) ? 'yes' : 'no'  %></p>
-
-	<div class="right">
-		<%= link_to 'Edit', :action => 'edit', :id => @team %> |
-		<%= link_to 'List All', :action => 'list' %>
-	</div>
+          <div class="alert alert-info shadow-sm">
+            <i class="bi bi-info-circle"></i>
+            <%= link_to "View Crew Summary & Schedule", summary_team_path(@team), class: "alert-link" %>
+          </div>
+        </div>
+        <div class="card-footer bg-light text-end">
+          <%= link_to edit_team_path(@team), class: "btn btn-primary" do %>
+            <i class="bi bi-pencil"></i> Edit Crew
+          <% end %>
+          <%= link_to admin_path, class: "btn btn-outline-secondary" do %>
+            <i class="bi bi-list"></i> List All
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

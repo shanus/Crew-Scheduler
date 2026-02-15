@@ -1,63 +1,85 @@
-<div id="right_sidebar">
-	<h3>Bulletins <%= link_to (image_tag "feed-icon-small.png", :alt => "RSS feed", :title => "Click to Subscribe...", :border => 0), rss_url('bulletins') %></h3>
-	<p><%= link_to "Create...", :controller => "bulletins", :action => "new" %></p>
-	<p><%= link_to "Show All", :controller => "bulletins", :action => "index" %></p>
-	<hr />
-	<h3>Reports</h3>
-	<p><%= link_to 'Generate a report...', {:controller => "reports", :action => 'index'}, :title => "Create and View Reports" %></p>
-	<hr />
-	<h3>Tides</h3>
-	<p><%= link_to 'Tide Calendar...', TIDECALENDAR, :target => "_blank", :title => "Opens tides in a new window" %></p>
-	<p><%= link_to "Upload...", :controller => "tides", :action => "upload" %></p>
-	<hr />
-	<h3>Club Events</h3>
-	<p><%= link_to 'Calendar...', EVENTCALENDAR, :target => "_blank", :title => "Opens calendar in a new window" %></p>
-</div>
-<div id="content" style="margin-left:30px;">
-<h1>Scheduler Administration</h1>
-<ul id="submenu">
-	<li><%= link_to '[crews]', "#crews", :class => 'tiny' %></li>
-	<li><%= link_to '[boats]', "#boats", :class => 'tiny' %></li>
-	<li><%= link_to '[rowers]', "#rowers", :class => 'tiny' %></li>
-	<li><%= link_to '[rowing times]', {:controller => "events", :action => 'index'}, :class => 'tiny' %></li>
-</ul><br />
-<a name="crews"></a>
-<% add_link("team", "crew") -%>
-<%= render :partial => 'shared/add_link' %>
-<h2>Crews</h2>
-<%= render :partial => 'shared/list_crews' %>
-<%  if @teams_per_page < Team.count -%>
-	<% list_link("team", "crew") -%>
-	<%= render :partial => 'shared/list_link' %>
-<% end -%>
-<br />
-<br />
-<%= link_to '[top]', "#top", :class => 'tiny' %><br />
-<hr />
-<a name="boats"></a>
-<% add_link("boat") -%>
-<%= render :partial => 'shared/add_link' %>
-<h2>Boats</h2>
-<%= render :partial => 'shared/list_boats' %>
-<%  if @boats_per_page < Boat.count -%>
-	<% list_link("boat") -%>
-	<%= render :partial => 'shared/list_link' %>
-<% end -%>
-<br />
-<br />
-<%= link_to '[top]', "#top", :class => 'tiny' %><br />
-<hr />
-<a name="rowers"></a>
-<% add_link("user", "rower") -%>
-<%= render :partial => 'shared/add_link' %>
-<h2>Rowers</h2>
-<%= render :partial => 'shared/list_users' %>
-<%  if @users_per_page < User.count -%>
-	<% list_link("user", "rower") -%>
-	<%= render :partial => 'shared/list_link' %>
-<% end -%>
-<br />
-<br />
-<%= link_to '[top]', "#top", :class => 'tiny' %><br />
-<hr />
+<div class="row">
+  <div class="col-lg-3">
+    <div class="card shadow-sm border-0 mb-4">
+      <div class="card-header bg-dark text-white">
+        <h5 class="mb-0">Administration</h5>
+      </div>
+      <div class="list-group list-group-flush">
+        <a href="#crews" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          Crews <span class="badge bg-secondary rounded-pill"><%= Team.count %></span>
+        </a>
+        <a href="#boats" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          Boats <span class="badge bg-secondary rounded-pill"><%= Boat.count %></span>
+        </a>
+        <a href="#rowers" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          Rowers <span class="badge bg-secondary rounded-pill"><%= User.count %></span>
+        </a>
+        <%= link_to "Rowing Times", events_path, class: "list-group-item list-group-item-action" %>
+      </div>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4 bg-light">
+      <div class="card-body">
+        <h6 class="card-title fw-bold border-bottom pb-2">Admin Tools</h6>
+        <div class="d-grid gap-2 mt-3">
+          <%= link_to bulletins_path, class: "btn btn-sm btn-outline-primary text-start" do %>
+            <i class="bi bi-megaphone"></i> Manage Bulletins
+          <% end %>
+          <%= link_to reports_path, class: "btn btn-sm btn-outline-primary text-start" do %>
+            <i class="bi bi-bar-chart"></i> View Reports
+          <% end %>
+          <%= link_to tides_path, class: "btn btn-sm btn-outline-primary text-start" do %>
+            <i class="bi bi-calendar3"></i> Tide Calendar
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-9">
+    <div id="top" class="mb-5">
+      <h1 class="display-5 mb-4">Scheduler Administration</h1>
+      <p class="lead text-muted">Manage all aspects of the club schedule, equipment, and members.</p>
+    </div>
+
+    <section id="crews" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0">Crews</h2>
+        <%= link_to new_team_path, class: "btn btn-sm btn-success" do %>
+          <i class="bi bi-plus-circle"></i> Add Crew
+        <% end %>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <%= render partial: 'shared/list_crews' %>
+      </div>
+    </section>
+
+    <section id="boats" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0">Boats</h2>
+        <%= link_to new_boat_path, class: "btn btn-sm btn-success" do %>
+          <i class="bi bi-plus-circle"></i> Add Boat
+        <% end %>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <%= render partial: 'shared/list_boats' %>
+      </div>
+    </section>
+
+    <section id="rowers" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3 mb-0">Rowers</h2>
+        <%= link_to signup_path, class: "btn btn-sm btn-success" do %>
+          <i class="bi bi-person-plus"></i> Add Rower
+        <% end %>
+      </div>
+      <div class="card border-0 shadow-sm">
+        <%= render partial: 'shared/list_users' %>
+      </div>
+    </section>
+
+    <div class="text-center py-4 text-muted">
+      <%= link_to "Back to Top", "#top", class: "btn btn-link btn-sm text-decoration-none" %>
+    </div>
+  </div>
 </div>

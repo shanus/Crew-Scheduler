@@ -1,9 +1,18 @@
-<% javascript 'swfobject' %>
-<h2>Rower History Report</h2>
-<%= render :partial => 'rower', :collection => @rowers %>
-<br /><br />
-<hr />
-<h3>Public Information Not Available for:</h3>
-<% @not_available.each do |rower| -%>
-	<%= h rower.name %><br />
-<% end -%>
+<%= turbo_frame_tag "report_content" do %>
+  <div class="text-start">
+    <h2 class="h4 border-bottom pb-2 mb-4">Rower History Report</h2>
+    <%= render partial: 'rower', collection: @rowers %>
+    
+    <% if @not_available.any? %>
+      <div class="mt-5 pt-3 border-top">
+        <h5 class="text-muted"><i class="bi bi-eye-slash"></i> Private Information</h5>
+        <p class="small text-muted mb-2">History is not publicly available for the following rowers:</p>
+        <div class="d-flex flex-wrap gap-2">
+          <% @not_available.each do |rower| %>
+            <span class="badge bg-light text-dark border"><%= rower.login %></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

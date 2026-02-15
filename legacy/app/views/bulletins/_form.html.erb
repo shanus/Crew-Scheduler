@@ -1,0 +1,9 @@
+<p><label for="buttletin_title">Title</label><br/>
+<%= text_field 'bulletin', 'title'  %></p>
+
+<p><label for="buttletin_body">Message</label><br/>
+<%= text_area 'bulletin', 'body', :size => "40x10"  %><br/>
+<span class="directions"><a onclick="window.open(this.href,'help_window','height=400,width=600,scrollbars=1,resizable=1');return false;" title="Help" href="/markdown.html">How can I change the style of this text?</a></span></p>
+
+<p><label for="buttletin_display_until">Display Until</label><br/>
+<%= date_select 'bulletin', 'display_until', :order => [:month, :day, :year], :start_year => Time.now.year  %></p>

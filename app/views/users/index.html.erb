@@ -1,0 +1,18 @@
+<div class="row mb-4 align-items-center">
+  <div class="col">
+    <h1 class="display-4">Members</h1>
+  </div>
+  <div class="col-auto">
+    <%= link_to signup_path, class: "btn btn-success shadow-sm" do %>
+      <i class="bi bi-person-plus"></i> Add New Rower
+    <% end %>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0">
+  <%= render partial: 'shared/list_users' %>
+</div>
+
+<div class="mt-4 d-flex justify-content-center">
+  <%== @pagy.series_nav(:bootstrap) %>
+</div>

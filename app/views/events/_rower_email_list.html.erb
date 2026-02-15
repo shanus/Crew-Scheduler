@@ -1,23 +1,28 @@
-<ul>
-<% 
-	max_rowers = 1
-  if (@event.boat)
-    max_rowers = @event.boat.max_number_of_rowers
-  end
-	1.upto(max_rowers) { |i|
-	u = (@event.users.find_by_login(@event.rowers[i]))
-	seat = "#{i} seat"
-	if (max_rowers==1)
-		seat = "single"
-	elsif (i==max_rowers)
-		seat = "stroke"
-	elsif (i==1)
-		seat = "bow"
-	end 
-	unless u.nil? -%>
-	<li><%= seat %>: <%= mail_to u.email,  @event.rowers[i], :encode => "hex" %></li>
-	<% else -%>
-	<li><%= seat %>: <%= h @event.rowers[i] %></li>
-	<% end -%>
-<% } -%>
+<ul class="list-group list-group-flush">
+  <% 
+    max_rowers = @event.boat&.max_number_of_rowers || 1
+    (1..max_rowers).each do |i|
+      # In the ported model, we use the seating_positions association
+      seat_pos = @event.seating_positions.find_by(position: i)
+      user = seat_pos&.user
+      
+      label = if max_rowers == 1
+                "Single"
+              elsif i == max_rowers
+                "Stroke"
+              elsif i == 1
+                "Bow"
+              else
+                "Seat #{i}"
+              end
+  %>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span class="badge bg-secondary rounded-pill"><%= label %></span>
+      <% if user %>
+        <%= mail_to user.email, user.login, encode: "hex", class: "text-decoration-none fw-bold" %>
+      <% else %>
+        <span class="text-muted italic">Vacant</span>
+      <% end %>
+    </li>
+  <% end %>
 </ul>

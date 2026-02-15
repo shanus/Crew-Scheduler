@@ -1,26 +1,67 @@
-<div class="view">
-	<p><b>When:</b> <%= human_date @event.event_on, "%A, %B %e, %Y" %>, <%= human_time @event.start_time %> - <%= human_time @event.end_time %></p>
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card shadow-lg border-0 overflow-hidden">
+      <div class="card-header bg-primary text-white p-4">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h1 class="h3 mb-1"><%= @event.team.name.titleize %> Crew</h1>
+            <p class="mb-0">
+              <i class="bi bi-calendar-check"></i> <%= human_date @event.event_on, format: "%A, %B %e, %Y" %>
+              <i class="bi bi-clock ms-3"></i> <%= human_time @event.start_time %> - <%= human_time @event.end_time %>
+            </p>
+          </div>
+          <div class="text-end">
+            <span class="badge bg-light text-primary fs-5 shadow-sm"><%= @event.boat.name %></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-body p-4">
+        <div class="row mb-4">
+          <div class="col-md-12 text-center py-3 border-bottom mb-4">
+            <%= boat_icon(@event.boat) %>
+            <div class="mt-2 text-muted fw-bold">
+              <%= human_boat_type(@event.boat) %> - <%= human_weight(@event.boat) %>
+            </div>
+          </div>
+          
+          <div class="col-md-6 mb-4">
+            <h5 class="border-bottom pb-2 mb-3"><i class="bi bi-person-badge"></i> Staff</h5>
+            <div class="list-group list-group-flush shadow-sm">
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Coach</span>
+                <span class="fw-bold"><%= @event.coach.presence || "None assigned" %></span>
+              </div>
+              <% if @event.boat.has_coxswain? %>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>Coxswain</span>
+                  <span class="fw-bold"><%= @event.coxswain.presence || "None assigned" %></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
 
-	<p><b>Boat:</b> <%= h @event.boat.name.capitalize %></p>
-
-	<p><%= boat_icon(@event.boat) %></p>
-
-	<p><b>Crew:</b> <%= h @event.team.name.capitalize %></p>
-
-	<p><b>Coach:</b> <%= h @event.coach_name %></p>
-
-	<p><b>Coxswain:</b> <%= h @event.coxswain_name %></p>
-
-	<p><b>Rowers:</b><br />
-		<%= render :partial => 'rower_email_list' %>
-	</p>
-
-	<p><b>Last Updated at:</b> <%= h timestamps(@event.updated_at) %></p>
-
-	<p><b>Created at:</b> <%= h timestamps(@event.created_at) %></p>
-	
-	<div class="right">
-	<%= link_to 'Edit', :action => 'edit', :id => @event %> |
-	<%= link_to 'List All', :action => 'list' %>
-	</div>
+          <div class="col-md-6 mb-4">
+            <h5 class="border-bottom pb-2 mb-3"><i class="bi bi-people"></i> Seating Chart</h5>
+            <%= render partial: 'rower_email_list' %>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-between border-top pt-4">
+          <div class="small text-muted">
+            <div><strong>Last updated:</strong> <%= @event.updated_at.strftime("%B %d, %Y %H:%M") %></div>
+            <div><strong>Created at:</strong> <%= @event.created_at.strftime("%B %d, %Y %H:%M") %></div>
+          </div>
+          <div class="d-flex gap-2">
+            <%= link_to edit_event_path(@event), class: "btn btn-secondary shadow-sm" do %>
+              <i class="bi bi-pencil"></i> Edit Details
+            <% end %>
+            <%= link_to summary_team_path(@event.team), class: "btn btn-outline-primary shadow-sm" do %>
+              <i class="bi bi-list"></i> Back to Team Schedule
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,46 +1,70 @@
-<% add_link("bulletin") -%>
-<%= render :partial => 'shared/add_link' if logged_in? %>
-<h1><%= link_to (image_tag "feed-icon-large.png", :alt => "RSS feed", :title => "Click to Subscribe...", :border => 0), rss_url('bulletins') %>Bulletins</h1>
+<div class="row mb-4 align-items-center">
+  <div class="col">
+    <h1 class="display-4">
+      Bulletins
+      <%= link_to rss_url('bulletins'), class: "text-warning ms-2", title: "Subscribe to RSS Feed" do %>
+        <i class="bi bi-rss-fill"></i>
+      <% end %>
+    </h1>
+  </div>
+  <% if logged_in? %>
+    <div class="col-auto">
+      <%= link_to new_bulletin_path, class: "btn btn-success shadow-sm" do %>
+        <i class="bi bi-plus-circle"></i> New Bulletin
+      <% end %>
+    </div>
+  <% end %>
+</div>
 
-<table width="95%" cellspacing="0" class="list_items">
-  <tr class="header_row">
-		<th width="40px"></th><th width="40px"></th>
-		<th>Display Until</th>
-		<th>Title</th>
-		<th>Posted By</th>
-		<th>Created</th>
-		<th width="40px"></th>
-  </tr>
+<div class="card shadow-sm border-0">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Display Until</th>
+          <th>Title</th>
+          <th>Posted By</th>
+          <th>Created</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bulletins.each do |bulletin| %>
+          <tr>
+            <td>
+              <span class="badge bg-light text-dark border">
+                <i class="bi bi-calendar-event"></i> <%= human_date(bulletin.display_until) %>
+              </span>
+            </td>
+            <td class="fw-bold"><%= bulletin.title %></td>
+            <td>
+              <i class="bi bi-person-circle"></i> <%= bulletin.user.login %>
+            </td>
+            <td class="text-muted small">
+              <%= human_date(bulletin.created_at) %>
+            </td>
+            <td class="text-end">
+            <div class="d-flex justify-content-end gap-2">
+              <%= link_to bulletin_path(bulletin), class: "btn btn-sm btn-outline-primary", title: "View details" do %>
+                <i class="bi bi-eye"></i>
+              <% end %>
+              <% if bulletin.user == current_user %>
+                <%= link_to edit_bulletin_path(bulletin), class: "btn btn-sm btn-outline-secondary", title: "Edit" do %>
+                  <i class="bi bi-pencil"></i>
+                <% end %>
+                <%= link_to bulletin_path(bulletin), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", title: "Delete" do %>
+                  <i class="bi bi-trash"></i>
+                <% end %>
+              <% end %>
+            </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<% for bulletin in @bulletins %>
-  <tr class="<%= cycle("even", "odd") %>">
-    <td>
-			<small>
-				<% if bulletin.user == current_user %>
-				<%= link_to image_tag("trash.png", :alt => "delete", :border => 0, :title => "delete"), bulletin, :confirm => 'Are you sure?', :method => :delete %>
-				<% end %>
-			</small>
-		</td>
-    <td>
-			<small>
-				<% if bulletin.user == current_user %>
-				<%= link_to image_tag("edit.png", :alt => "edit", :border => 0, :title => "edit"), edit_bulletin_path(bulletin) %>
-				<% end %>
-			</small>
-		</td>
-		<td><%= human_date(bulletin.display_until) %></td>
-		<td><%= h bulletin.title %></td>
-		<td><%= h bulletin.user.login %></td>
-		<td>
-			<%= human_date(bulletin.created_at) %>
-		</td>
-    <td>
-			<small><%= link_to image_tag("show.png", :alt => "show details", :border => 0, :title => "show details"), bulletin %></small>
-		</td>
-  </tr>
-<% end %>
-</table>
-<br />
-<%= will_paginate @bulletins %>
-
-
+<div class="mt-4 d-flex justify-content-center">
+  <%== @pagy.series_nav(:bootstrap) %>
+</div>

@@ -1,136 +1,78 @@
-# Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  include Pagy::Method
+  def markdown(text)
+    return "" if text.blank?
+    Kramdown::Document.new(text).to_html.html_safe
+  end
+
+  def sparkline(data)
+    # Modern CSS-based sparkline (mini bar chart)
+    return "" if data.empty?
+    max = data.max.to_f
+    max = 1.0 if max == 0
+
+    content_tag(:div, class: "d-flex align-items-end overflow-hidden", style: "height: 20px; gap: 1px;") do
+      data.map do |val|
+        height = (val / max * 100).to_i
+        content_tag(:div, "", class: "bg-primary flex-grow-1", style: "height: #{height}%; min-width: 2px;", title: "#{val} sessions")
+      end.join.html_safe
+    end
+  end
 
   def page_title
-    @page_title ||= "Scheduler: #{controller.controller_name.capitalize} - #{controller.action_name.capitalize}"
+    @page_title ||= "Scheduler: #{controller.controller_name.humanize} - #{controller.action_name.humanize}"
   end
-  
-  def stylesheet(*args)
-    content_for(:head) { stylesheet_link_tag(*args) }
+
+  def rss_url(controller_name)
+    "https://#{CrewScheduler::YOURSITE}/#{controller_name}.rss"
   end
-  
-  def javascript(*args)
-    content_for(:head) { javascript_include_tag(*args) }
-  end
-    
-  def rss_url(controller)
-    "http://#{YOURSITE}/#{controller}.rss"
-  end
-  
+
   def random_background_image
-    return stylesheet_link_tag('single') if (rand(2) == 1)
-    stylesheet_link_tag('four')
+    # Modernizing the random background logic
+    return stylesheet_link_tag("single", "data-turbo-track": "reload") if rand(2) == 1
+    stylesheet_link_tag("four", "data-turbo-track": "reload")
   end
-  
-  def random_image
-    image_files = %w( .jpg .gif .png )
-    files = Dir.entries(
-          "#{RAILS_ROOT}/public/images/rotate" 
-      ).delete_if { |x| !image_files.index(x[-4,4]) }
-    files[rand(files.length)]
+
+  def human_date(date, format: "%B %e, %Y")
+    return "" if date.nil?
+    d = date.to_date
+    today = Date.today
+
+    if d == today
+      "Today"
+    elsif d == today - 1
+      "Yesterday"
+    elsif d == today + 1
+      "Tomorrow"
+    else
+      d.strftime(format)
+    end
   end
-  
-  def human_date(date, format = "%B %e, %Y") 
-    case Date.today - date.to_date 
-      when  1 then "Yesterday" 
-      when  0 then "Today" 
-      when -1 then "Tomorrow" 
-      else date.strftime(format) 
-    end 
+
+  def short_human_date(date)
+    human_date(date, format: "%A")
   end
-  
-  def short_human_date(date, format = "%A") 
-    case Date.today - date.to_date 
-      when  1 then "Yesterday" 
-      when  0 then "Today" 
-      when -1 then "Tomorrow" 
-      else date.strftime(format) 
-    end 
-  end
-  
-  def timestamps(time)
-    (time).strftime("%B %d, %Y %H:%M:%S")
-  end
-  
+
   def human_time(time)
-    return "#{time.hour}:00" unless time.min != 0
-    "#{time.hour}:#{time.min}"
+    return "" if time.nil?
+    time.strftime(time.min == 0 ? "%H:00" : "%H:%M")
   end
-  
-  def add_link(class_to_add, visible_name = nil)
-    @class_to_add = class_to_add
-    @visible_name = class_to_add
-    @visible_name = visible_name unless visible_name.nil?
-  end
-  
-  def destroy_link(class_to_destroy, id)
-    @class_to_destroy = class_to_destroy
-    @destroy_id = id
-  end
-  
-  def show_link(class_to_show, id)
-    @class_to_show = class_to_show
-    @show_id = id
-  end
-  
-  def edit_link(class_to_edit, id)
-    @class_to_edit = class_to_edit
-    @edit_id = id
-  end
-  
-  def list_link(class_to_list, visible_name = nil)
-    @class_to_list = class_to_list
-    @visible_name = class_to_list
-    @visible_name = visible_name unless visible_name.nil?
-  end
-  
-  def get_weeks(time_period = 24)
-    todays_date = Date.today
-    start_of_week = todays_date.beginning_of_week - 1.day #set Sunday as beginning of week
-    weeks = Array.new(time_period, nil)
-    0.upto(time_period.to_i) { |i|
-      weeks[i] = start_of_week - i.weeks
-    }
-    return weeks
-  end
-  
+
   def color_swatch(item)
-    if item.color.blank?
-      html = "none"
-    else 
-     html = '<span class="swatch" style="background-color: '
-     html << item.color
-     html << ';"> </span>'
-    end
-    return html
+    return "none" if item.color.blank?
+    content_tag(:span, " ", class: "swatch", style: "background-color: #{item.color};")
   end
-  
+
   def small_swatch(item)
-    html = '<span class="small_swatch"'
-    if item.color.blank?
-      html << '> </span>'
-    else 
-     html = ' style="background-color: '
-     html << item.color
-     html << ';"> </span>'
-    end
-    return html
+    content_tag(:span, " ", class: "small_swatch", style: item.color.present? ? "background-color: #{item.color};" : "")
   end
-  
-  def underline(item)
-    if item.color.blank?
-      html = ""
-    else 
-     html = ' style="border-bottom:3px solid '
-     html << item.color
-     html << ';"'
-    end
-    return html
+
+  def underline_style(item)
+    item.color.present? ? "border-bottom: 3px solid #{item.color};" : ""
   end
-  
-  def history_start(time_period = 24)
-    todays_date = Date.today
-    start_of_week = todays_date.beginning_of_week - 1.day #set Sunday as beginning of week
-    (start_of_week - time_period.to_i.weeks).strftime("%B %e, %Y")
+
+  def get_weeks(time_period = 24)
+    start_of_week = Date.today.beginning_of_week - 1.day # Sunday
+    (0..time_period).map { |i| start_of_week - i.weeks }
   end
 end

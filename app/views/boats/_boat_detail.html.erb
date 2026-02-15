@@ -1,5 +1,18 @@
-<% unless @boat.nil? -%>
-<%= boat_icon(@boat) %><br />
-Usage: <%= @boat.boat_usage.name %><br />
-Crew weight: <%= @boat.boat_weight.name %> 
-<% end -%>
+<div class="boat-detail-container">
+  <div class="d-flex align-items-center mb-2">
+    <div class="me-3">
+      <%= boat_icon(@boat) %>
+    </div>
+    <div>
+      <h5 class="mb-0"><%= @boat.name %></h5>
+      <span class="badge bg-secondary"><%= human_boat_type(@boat) %></span> - 
+      <span class="text-muted"><%= human_weight(@boat) %></span>
+    </div>
+  </div>
+  <div class="small">
+    <div><strong>Usage:</strong> <%= @boat.boat_usage&.name&.titleize %></div>
+    <div><strong>Options:</strong> <%= @boat.hull_type %></div>
+    <div><strong>Max Rowers:</strong> <%= @boat.max_number_of_rowers %></div>
+    <div><strong>Coxswain Required:</strong> <%= @boat.has_coxswain? ? "Yes" : "No" %></div>
+  </div>
+</div>

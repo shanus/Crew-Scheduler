@@ -1,0 +1,19 @@
+<div class="view">
+	<h1>Bulletin</h1>
+
+	<p><b>Will be displayed until:</b> <%= h @bulletin.display_until %></p>
+	<div class="bulletin">
+	<h2><%= h @bulletin.title %></h2>
+	<p class="message"><%= markdown @bulletin.body %></p>
+	</div>
+	<p><b>Created by:</b> <%= h @bulletin.user.login %></p>
+
+	<p><b>Last Updated at:</b> <%= h timestamps(@bulletin.updated_at) %></p>
+
+	<p><b>Created at:</b> <%= h timestamps(@bulletin.created_at) %></p>
+
+	<div class="right">
+	<%= link_to_if((current_user == @bulletin.user),'Edit', edit_bulletin_path(@bulletin)) %> |
+	<%= link_to 'List All', bulletins_path %>
+	</div>
+</div>

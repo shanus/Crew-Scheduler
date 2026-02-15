@@ -1,54 +1,122 @@
-<div id="left_sidebar" style="width: 260px;">
-	<h4>Next Rowing <%= link_to (image_tag "feed-icon-small.png", :alt => "RSS feed", :title => "Click to Subscribe...", :border => 0), user_rss_url(:login => current_user.login) %></h3>
-		<ul class="myevents">
-		<%= "<li>none</li>" if @myevents.length == 0 %>
-		<%= render :partial => 'myevent', :collection => @myevents %>
-		</ul>
-	<hr />
-	<h4>Tides</h4>
-	<ul id="tide_summary">
-		<%= render :partial => 'shared/tide', :collection => @tides, :locals => {:show_date => false} %>
-	</ul>
-	<%= render :partial => 'shared/tide_calendar' %>
-	<br />
-	<%= render :partial => 'calendar' %>
-</div>
-<div id="content" style="padding-left: 65px;">
-	<h1>Crew Scheduler</h1>
-	<div id="bulletins">
-		<%= render :partial => 'bulletin', :collection => @bulletins %>
-		<% if (@total_bulletins > 3) %>
-			<%= link_to( 'more...', "/bulletins", {:class=>"small_link right"}) %><br />
-		<% end %>
-	</div>
-	<div id="wanted">
-		<h3>Rowers wanted:</h3>
-		<%= "none" if @needed.length == 0 %>
-		<ul class="upcoming">
-			<%= render :partial => 'needed', :collection => @needed %>
-		</ul>
-	</div>
-	<div id="summary_schedule">
-		<div id="today">
-			<h3>Today's Rowing Summary</h3>
-			<%= "none" if @today.length == 0 %>
-			<ul class="upcoming">
-				<%= render :partial => 'today', :collection => @today %>
-			</ul>
-		</div>
-		<div id="tomorrow">
-			<h3>Tomorrow's Rowing Summary</h3>
-			<%= "none" if @tomorrow.length == 0 %>
-			<ul class="upcoming">
-				<%= render :partial => 'tomorrow', :collection => @tomorrow %>
-			</ul>
-		</div>
-		<div id="day_after_tomorrow">
-			<h3><%= (Date.tomorrow + 1.day).strftime("%A") %>'s Rowing Summary</h3>
-			<%= "none" if @day_after_tomorrow.length == 0 %>
-			<ul class="upcoming">
-				<%= render :partial => 'day_after_tomorrow', :collection => @day_after_tomorrow %>
-			</ul>
-		</div>
-	</div>
+<div class="row">
+  <div class="col-md-3">
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Next Rowing</h5>
+        <%= link_to user_rss_path(login: current_user.login), title: "Subscribe to RSS Feed", class: "text-white" do %>
+          <i class="bi bi-rss-fill"></i>
+        <% end %>
+      </div>
+      <ul class="list-group list-group-flush">
+        <% if @myevents&.any? %>
+          <%= render partial: 'myevent', collection: @myevents %>
+        <% else %>
+          <li class="list-group-item text-muted">No upcoming rowing</li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">Tides</h5>
+      </div>
+      <ul class="list-group list-group-flush" id="tide-summary">
+        <% if @tides&.any? %>
+          <%= render partial: 'shared/tide', collection: @tides, locals: { show_date: false } %>
+        <% else %>
+          <li class="list-group-item text-muted">No tide info</li>
+        <% end %>
+      </ul>
+      <div class="card-footer">
+        <%= render partial: 'shared/tide_calendar' %>
+      </div>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body p-2">
+        <%= render partial: 'calendar' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <div class="jumbotron p-4 mb-4 bg-light shadow-sm border">
+      <h1 class="display-5 fw-bold">Crew Scheduler</h1>
+      <p class="col-md-8 fs-4">Welcome back to the Yarmouth Rowing Club scheduler.</p>
+    </div>
+
+    <div id="bulletins" class="mb-5">
+      <h3 class="border-bottom pb-2 mb-3">Bulletins</h3>
+      <% if @bulletins&.any? %>
+        <%= render partial: 'bulletin', collection: @bulletins %>
+        <% if @bulletins.total_entries > 3 %>
+          <div class="text-end">
+            <%= link_to 'See all bulletins...', bulletins_path, class: "btn btn-link btn-sm" %>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted">No recent bulletins.</p>
+      <% end %>
+    </div>
+
+    <div id="wanted" class="mb-5">
+      <h3 class="border-bottom pb-2 mb-3 text-danger"><i class="bi bi-megaphone-fill"></i> Rowers Wanted</h3>
+      <div class="list-group shadow-sm">
+        <% if @needed&.any? %>
+          <%= render partial: 'needed', collection: @needed %>
+        <% else %>
+          <div class="list-group-item text-muted">None at the moment</div>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="schedule">
+      <div class="row">
+        <div class="col-lg-12 mb-4">
+          <div class="card border-primary shadow-sm">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Today's Rowing Summary</h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <% if @today&.any? %>
+                <%= render partial: 'today', collection: @today %>
+              <% else %>
+                <div class="list-group-item text-muted">No rowing scheduled for today</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+          <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+              <h5 class="mb-0">Tomorrow's Rowing</h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <% if @tomorrow&.any? %>
+                <%= render partial: 'tomorrow', collection: @tomorrow %>
+              <% else %>
+                <div class="list-group-item text-muted">No rowing scheduled for tomorrow</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+          <div class="card shadow-sm border-info">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0"><%= (Date.tomorrow + 1.day).strftime("%A") %>'s Rowing</h5>
+            </div>
+            <div class="list-group list-group-flush">
+              <% if @day_after_tomorrow&.any? %>
+                <%= render partial: 'day_after_tomorrow', collection: @day_after_tomorrow %>
+              <% else %>
+                <div class="list-group-item text-muted">No rowing scheduled</div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

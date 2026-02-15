@@ -1,0 +1,20 @@
+<div class="view">
+	<p><b>Name: </b>
+	<%= h @team.name.capitalize  %></p>
+	
+	<p><b>Report Color:</b> <%= color_swatch(@team) %></p>
+
+	<p><b>Coxswain Required: </b> 
+	<%= (@team.require_cox) ? 'yes' : 'no'  %></p>
+
+	<p><b>Coach Required: </b> 
+	<%= (@team.require_coach) ? 'yes' : 'no'  %></p>
+	
+	<p><b>Active: </b> 
+	<%= (@team.active) ? 'yes' : 'no'  %></p>
+
+	<div class="right">
+		<%= link_to 'Edit', :action => 'edit', :id => @team %> |
+		<%= link_to 'List All', :action => 'list' %>
+	</div>
+</div>

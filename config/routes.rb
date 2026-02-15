@@ -1,43 +1,67 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :bulletins
-  map.resources :reports, :collection => {:rower_history => :get, 
-                                          :crew_history => :get, 
-                                          :boat_utilization => :get,
-                                          :my_rowing_breakdown => :get,
-                                          :boat_usage_by_crew => :get,
-                                          :crew_usage_of_boats => :get}
-  # The priority is based upon order of creation: first created -> highest priority.
-   
-  # Sample of regular route:
-  # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
+Rails.application.routes.draw do
+  root "summary#index"
 
-  # Sample of named route:
-  # map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
-  # This route can be invoked with purchase_url(:id => product.id)
+  resources :bulletins
+  resources :boats
+  resources :reports, only: [:index] do
+    collection do
+      get :rower_history
+      get :crew_history
+      get :boat_utilization
+      get :my_rowing_breakdown
+      get :boat_usage_by_crew
+      get :crew_usage_of_boats
+    end
+  end
 
-  # You can have the root of your site routed by hooking up '' 
-  # -- just remember to delete public/index.html.
-  map.root :controller => "summary", :action => 'index'
-  map.signup '/signup', :controller => "account", :action => "signup"
-  map.logout '/logout', :controller => "account", :action => "logout"
-  map.login '/login', :controller => "account", :action => "login"
-  map.reset '/reset', :controller => "account", :action => "reset"
-  map.activate '/activate/:activation_code', :controller => "account", :action => "activate"
-  map.summary '/summary', :controller => "/summary", :action => 'index'
-  map.admin '/admin', :controller => "admin", :action => 'index'
-  
-  map.connect '/users/users_for_lookup.js', :controller => "users", :action => 'users_for_lookup'
-  map.connect '/tides/summary/:number', :controller => "tides", :action => "summary", :number => nil
-  map.connect '/events/new/:team', :controller => 'events', :action => 'new', :team => nil
-  map.team_summary '/teams/summary/:id/:time', :controller => 'teams', :action => 'summary', :id => nil, :time => 'future'
-  map.user_rss '/users/rss/:login', :controller => 'users', :action => 'rss', :login => nil
-  map.sparklines "sparklines/:action/:id/image.png", :controller => "sparklines"
-  # Allow downloading Web Service WSDL as a file with an extension
-  # instead of a file named 'wsdl'
-  map.connect ':controller/service.wsdl', :action => 'wsdl'
+  get '/signup', to: 'account#signup', as: :signup
+  post '/signup', to: 'account#create'
+  get '/login', to: 'account#login', as: :login
+  post '/login', to: 'account#authenticate'
+  get '/logout', to: 'account#logout', as: :logout
+  get '/reset', to: 'account#reset', as: :reset
+  post '/reset', to: 'account#send_reset'
+  get '/activate/:activation_code', to: 'account#activate', as: :activate
 
-  # Install the default route as the lowest priority.
-  map.connect ':controller/:action/:id.:format'
-  map.connect ':controller/:action/:id'
+  get '/summary', to: 'summary#index', as: :summary
+  get '/admin', to: 'admin#index', as: :admin
+
+  resources :users do
+    collection do
+      get :users_for_lookup
+    end
+  end
+  get '/users/rss/:login', to: 'users#rss', as: :user_rss
+
+  resources :tides do
+    collection do
+      get 'summary(/:number)', to: 'tides#summary', as: :summary
+      get :upload
+      post :import
+    end
+  end
+
+  resources :events do
+    collection do
+      get 'new/:team', to: 'events#new', as: :new_for_team
+    end
+  end
+
+  resources :teams do
+    member do
+      get 'summary/:time', to: 'teams#summary', as: :summary, defaults: { time: 'future' }
+    end
+  end
+
+  # Legacy sparklines - might need replacement or specialized controller
+  # Modernized sparklines route
+  get "sparklines/:id/image", to: "sparklines#index", as: :sparkline
+
+  # Standard Rails 8 health check
+  get "up" => "rails/health#show", as: :rails_health_check
+  get "/.well-known/appspecific/com.chrome.devtools.json", to: proc { [200, {"Content-Type" => "application/json"}, ["{}"]] }
+
+  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
+  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 end

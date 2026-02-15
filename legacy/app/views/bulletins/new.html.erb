@@ -1,0 +1,14 @@
+<div class="editform">
+	<h1>Create a New Bulletin</h1>
+
+	<%= error_messages_for :bulletin %>
+
+	<% form_for(@bulletin) do |f| %>
+		<%= render :partial => 'form' %>
+	  <p>
+	    <%= f.submit "Create", :class => "eventbutton" %>
+	  </p>
+	<% end %>
+
+	<%= link_to 'cancel', admin_url %>
+</div>

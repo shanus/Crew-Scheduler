@@ -1,43 +1,27 @@
 module TeamsHelper
-  def comma_list(team, email = false)
-    list = ''
-    team.members.each do |member|
+  def comma_list(team, email: false)
+    return "none" if team.users.empty?
+    
+    team.users.map do |member|
       if email
-        text = member.email
+        member.email
       else
-        text = mail_to member.email, member.login, :encode => "hex"
+        mail_to member.email, member.login, encode: "hex"
       end
-			list << "#{text}, "
-		end
-		(list = 'none') if team.members.count == 0
-		list.rstrip.sub(/,$/,'')
-  end
-  
-  def users_javascript
-    #content_for(:head) { "<script src='/users/users_for_lookup' type='text/javascript'></script>" }
-    script = ""
-    script += "<script type='text/javascript'>\n"
-    script += "var starboards = new Array(#{@starboards.size});\n"
-    @starboards.each_with_index do |starboard, index|
-      script += "starboards[#{index}] = \"#{starboard.login}\";\n"
-    end
-    script += "var ports = new Array(#{@ports.size});\n"
-    @ports.each_with_index do |port, index|
-      script += "ports[#{index}] = \"#{port.login}\";\n"
-    end
-    script += "var coaches = new Array(#{@coaches.size});\n"
-    @coaches.each_with_index do |coach, index|
-      script += "coaches[#{index}] = \"#{coach.login}\";\n"
-    end
-    script += "var coxswains = new Array(#{@coxswains.size});\n"
-    @coxswains.each_with_index do |cox, index|
-      script += "coxswains[#{index}] = \"#{cox.login}\";\n"
-    end
-    script += "</script>"
-    content_for(:head) { "#{script}" }
+    end.join(", ").html_safe
   end
   
   def team_email(team)
-    comma_list(team, true)
+    comma_list(team, email: true)
+  end
+
+  # Modern alternative to legacy users_javascript
+  def users_autocomplete_data
+    {
+      starboards: User.where("side != 'port'").pluck(:login),
+      ports: User.where("side != 'stbd'").pluck(:login),
+      coaches: User.where(will_coach: true).pluck(:login),
+      coxswains: User.where(will_cox: true).pluck(:login)
+    }
   end
 end

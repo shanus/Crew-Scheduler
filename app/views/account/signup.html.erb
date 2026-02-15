@@ -1,40 +1,59 @@
-<div class="editform">
-	<%= error_messages_for :user %>
+<div class="row justify-content-center py-4">
+  <div class="col-md-6">
+    <div class="card shadow-lg border-0">
+      <div class="card-header bg-success text-white text-center py-4">
+        <h2 class="h4 mb-0">Join the Crew</h2>
+        <p class="small mb-0 opacity-75">Sign up to start rowing with Yarmouth Rowing Club</p>
+      </div>
+      <div class="card-body p-4">
+        <% if @user&.errors&.any? %>
+          <div class="alert alert-danger shadow-sm">
+            <h6 class="alert-heading">Validation Errors:</h6>
+            <ul class="mb-0 small">
+              <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-	<% form_for :user do |f| -%>
-	<p><label for="login">Login/Username</label><br/>
-	<%= f.text_field :login %></p>
+        <%= form_with(model: @user, url: signup_path, local: true) do |f| %>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <%= f.label :login, "Username", class: "form-label fw-bold" %>
+              <%= f.text_field :login, class: "form-control shadow-sm", placeholder: "Pick a login name" %>
+            </div>
+            <div class="col-md-6 mb-3">
+              <%= f.label :email, "Email Address", class: "form-label fw-bold" %>
+              <%= f.email_field :email, class: "form-control shadow-sm", placeholder: "you@example.com" %>
+            </div>
+          </div>
 
-	<p><label for="email">Email</label><br/>
-	<%= f.text_field :email %></p>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <%= f.label :password, class: "form-label fw-bold" %>
+              <%= f.password_field :password, class: "form-control shadow-sm" %>
+            </div>
+            <div class="col-md-6 mb-3">
+              <%= f.label :password_confirmation, "Confirm Password", class: "form-label fw-bold" %>
+              <%= f.password_field :password_confirmation, class: "form-control shadow-sm" %>
+            </div>
+          </div>
 
-	<label for="side">Side</label><br/>
-	<div class="radiogroup">
-		<%= image_tag("port.png", :size => "35x35", :title=>"port") %> <%= radio_button("user", "side", "port", :class =>"radio") %>
-		<%= image_tag("stbd.png", :size => "35x35", :title=>"starboard") %> <%= radio_button("user", "side", "stbd", :class =>"radio") %>
-		<%= image_tag("ambi.png", :size => "35x35", :title=>"either") %> <%= radio_button("user", "side", "ambi", :class =>"radio") %>
-	</div>
+          <%# Modern Bot Protection - Invisible to Users %>
+          <%= f.invisible_captcha :subtitle %>
 
-	<p><label for="user_will_cox">Willing to be a coxswain</label> 
-	<%= check_box 'user', 'will_cox'  %></p>
-
-	<p><label for="user_will_coach">Willing to Coach</label> 
-	<%= check_box 'user', 'will_coach'  %></p>
-
-	<p><label for="password">Password</label><br/>
-	<%= f.password_field :password %></p>
-
-	<p><label for="password_confirmation">Confirm Password</label><br/>
-	<%= f.password_field :password_confirmation %></p>
-
-	<p><label for="user_team">Crew</label><br/>
-	<%= select("user", "team_id", Team.find(:all).collect {|t| [ t.name, t.id ] }, {:include_blank => 'None'}) %></p>
-
-	<p><label for="recaptcha" class="required">Are You Human?</label><br />
-	<%= recaptcha_tags :display => {:theme => 'clean'} %><br /></p>
-
-	<p><%= submit_tag 'Sign up', :class => "signupbutton right" %></p>
-	<% end -%>
-	
-	<%= link_to 'cancel', login_url %>
+          <div class="mt-4 pt-3 border-top">
+            <div class="d-grid">
+              <%= f.submit "Sign Up", class: "btn btn-success btn-lg shadow-sm" %>
+            </div>
+            <div class="text-center mt-3">
+              <span class="text-muted small">Already have an account?</span>
+              <%= link_to "Log In", login_path, class: "small text-decoration-none ms-1 fw-bold" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,18 +1,14 @@
-class SeatingPosition < ActiveRecord::Base
+class SeatingPosition < ApplicationRecord
   belongs_to :event
-  belongs_to :user
+  belongs_to :user, optional: true
   
   def self.init(event)
-    unless event.nil?
-      max_rowers = 1
-      if (event.boat)
-        max_rowers = event.boat.max_number_of_rowers
-      end
-      1.upto(max_rowers) { |seat|
-        SeatingPosition.create( :event => event, :user => nil, :position => seat)
-      }
+    return self if event.nil?
+    
+    max_rowers = event.boat&.max_number_of_rowers || 1
+    1.upto(max_rowers) do |seat|
+      SeatingPosition.create(event: event, user: nil, position: seat)
     end
     self
   end
-  
 end

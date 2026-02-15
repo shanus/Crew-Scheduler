@@ -1,0 +1,10 @@
+<div class="padleft">
+	<h1>Edit Rowing Time</h1>
+
+	<% form_tag :action => 'update', :id => @event do %>
+	  <%= render :partial => 'form' %>
+	  <%= submit_tag 'Save', :class => "eventbutton" %>
+	<% end %>
+
+	<%= link_to 'cancel', team_summary_url(:id => @event.team) %>
+</div>

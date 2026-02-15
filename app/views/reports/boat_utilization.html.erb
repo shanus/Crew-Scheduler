@@ -1,3 +1,6 @@
-<% javascript 'swfobject' %>
-<h2>Boat Utilization Report</h2>
-<%= render :partial => 'boat', :collection => @boats %>
+<%= turbo_frame_tag "report_content" do %>
+  <div class="text-start">
+    <h2 class="h4 border-bottom pb-2 mb-4">Boat Utilization Report</h2>
+    <%= render partial: 'boat', collection: @boats %>
+  </div>
+<% end %>

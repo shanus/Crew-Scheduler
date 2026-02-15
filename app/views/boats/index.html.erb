@@ -1,0 +1,18 @@
+<div class="row mb-4 align-items-center">
+  <div class="col">
+    <h1 class="display-4">Boats</h1>
+  </div>
+  <div class="col-auto">
+    <%= link_to new_boat_path, class: "btn btn-success shadow-sm" do %>
+      <i class="bi bi-plus-circle"></i> Add New Boat
+    <% end %>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0">
+  <%= render 'shared/list_boats' %>
+</div>
+
+<div class="mt-4 d-flex justify-content-center">
+  <%== @pagy.series_nav(:bootstrap) %>
+</div>

@@ -1,20 +1,40 @@
-<div id="content" style="margin: 1em 10em">
-	<h2>Upload a tide file</h2>
+<div class="row justify-content-center pt-4">
+  <div class="col-md-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-header bg-info text-white p-3 d-flex justify-content-between align-items-center">
+        <h2 class="h4 mb-0"><i class="bi bi-file-earmark-arrow-up"></i> Upload Tide Schedule</h2>
+        <%= link_to tides_path, class: "btn btn-outline-light btn-sm" do %>
+          <i class="bi bi-calendar3"></i> View Schedule
+        <% end %>
+      </div>
+      <div class="card-body p-4">
+        <div class="alert alert-info border-info mb-4">
+          <h6 class="alert-heading"><i class="bi bi-info-circle"></i> Instructions</h6>
+          <p class="small mb-2">Please upload a tide file in <strong>CSV</strong> format or the <strong>text</strong> format produced by XTide.</p>
+          <div class="d-flex gap-2">
+            <%= link_to "#", class: "btn btn-sm btn-outline-info bg-white" do %><i class="bi bi-download"></i> CSV Example<% end %>
+            <%= link_to "#", class: "btn btn-sm btn-outline-info bg-white" do %><i class="bi bi-download"></i> Text Example<% end %>
+          </div>
+        </div>
 
-	<p>Please upload a tide file of csv format or the text format produced by xtide.  Examples of the formats are available below.</p>
+        <%= form_tag(import_tides_path, multipart: true) do %>
+          <div class="mb-4">
+            <%= label_tag :time_zone, "File Time Zone", class: "form-label fw-bold" %>
+            <%= time_zone_select :tz, :time_zone, ActiveSupport::TimeZone.us_zones, {}, { class: "form-select shadow-sm" } %>
+            <div class="form-text">Ensure this matches the time zone used when the file was generated.</div>
+          </div>
+          
+          <div class="mb-4">
+            <%= label_tag :tide, "Tide Data File", class: "form-label fw-bold" %>
+            <%= file_field_tag :tide, class: "form-control shadow-sm" %>
+          </div>
 
-	<ul>
-		<li><%= link_to "CSV Example", "/tide_files/tides.csv"  %></li>
-		<li><%= link_to "Text Example", "/tide_files/tides.txt" %></li>
-	</ul>
-	
-	<% form_tag({:action => "import"}, {:multipart => true}) do %>
-		<p><label for="time_zone">Time Zone used in file</label><br />
-		<%= time_zone_select :tz, :time_zone, ActiveSupport::TimeZone.us_zones %></p>
-		
-		<p>
-			<label for='tide'>Tide File</label><br />
-			<%= file_field_tag 'tide' %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= submit_tag "Upload", :onclick => "alert('This will take a while.');return true;" %>
-		</p>
-	<% end %>
+          <div class="mt-5 pt-3 border-top d-flex justify-content-between align-items-center">
+            <%= link_to 'Cancel', admin_path, class: "btn btn-outline-secondary" %>
+            <%= submit_tag "Import Tides", class: "btn btn-primary px-5 shadow-sm", data: { turbo_confirm: "This might take a moment. Proceed?" } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

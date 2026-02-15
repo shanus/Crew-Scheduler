@@ -1,28 +1,50 @@
-<table width="50%" cellspacing="0" class="list_items">
-	<tr class="header_row">
-		<th colspan="3">&nbsp;</th>
-		<th colspan="2" style="text-align: center">Required</th>
-  </tr>
-  <tr class="header_row">
-		<th width="40px"></th>
-		<th width="40px"></th>
-		<th>Name</th>
-		<th>Coxswain</th>
-		<th>Coach</th>
-  </tr>
-<% for team in @teams %>
-  <tr class="<%= cycle("even", "odd") %>">
-    <td>
-    	<% destroy_link("team", team) -%>
-			<%= render :partial => 'shared/destroy_link' %>
-    </td>
-    <td>
-    	<% edit_link("team", team) -%>
-			<%= render :partial => 'shared/edit_link' %>
-    </td>
-		<td><span<%= underline(team) %><%= (team.active) ? '' : ' class="inactive"' %>><%= h team.name %></span></td>
-		<td class="center"><%= (team.require_cox) ? image_tag("check_24.png") : ' ' %></td>
-		<td class="center"><%= (team.require_coach) ? image_tag("check_24.png") : ' ' %></td>
-  </tr>
-<% end %>
-</table>
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead class="table-light">
+      <tr>
+        <th rowspan="2">Name</th>
+        <th colspan="2" class="text-center border-start">Requirements</th>
+        <th rowspan="2" class="text-end">Actions</th>
+      </tr>
+      <tr>
+        <th class="text-center border-start small">Coxswain</th>
+        <th class="text-center small">Coach</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teams.each do |team| %>
+        <tr class="<%= 'table-light opacity-50' unless team.active %>">
+          <td>
+            <div class="d-flex align-items-center">
+              <span class="p-2 rounded-circle me-2" style="background-color: <%= team.color || '#6c757d' %>"></span>
+              <%= link_to team.name, team_path(team), class: "text-decoration-none fw-bold" %>
+              <% unless team.active %>
+                <span class="badge bg-secondary ms-2">Inactive</span>
+              <% end %>
+            </div>
+          </td>
+          <td class="text-center border-start">
+            <% if team.require_cox %>
+              <i class="bi bi-check-lg text-success fs-5"></i>
+            <% end %>
+          </td>
+          <td class="text-center">
+            <% if team.require_coach %>
+              <i class="bi bi-check-lg text-success fs-5"></i>
+            <% end %>
+          </td>
+          <td class="text-end">
+            <div class="d-flex justify-content-end gap-2">
+              <%= link_to edit_team_path(team), class: "btn btn-sm btn-outline-secondary", title: "Edit" do %>
+                <i class="bi bi-pencil"></i>
+              <% end %>
+              <%= link_to team_path(team), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", title: "Delete" do %>
+                <i class="bi bi-trash"></i>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

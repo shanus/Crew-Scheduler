@@ -1,0 +1,15 @@
+<div class="editform">
+	<h1>Edit bulletin</h1>
+
+	<%= error_messages_for :bulletin %>
+
+	<% form_for(@bulletin) do |f| %>
+		<%= render :partial => 'form' %>
+	  <p>
+	    <%= f.submit "Update", :class => "eventbutton" %>
+	  </p>
+	<% end %>
+
+	<%= link_to 'cancel', bulletins_path %>
+
+</div>
